@@ -1,0 +1,57 @@
+#tabhead {
+    background: #000;
+    border-bottom: 1px solid #000; /* tab border */
+    position: relative;
+}
+#tabhead .logo {
+    padding: 15px 30px 0px;
+    font-size: 24pt;
+    height: 50px;
+}
+#tabhead .logo a {
+    color: #FFF;
+    text-decoration: none;
+}
+
+#tabhead .account-bar {
+    position: absolute;
+    top: 6px;
+    right: 15px;
+    color: #FFF;
+}
+#tabhead .account-bar a, #tabhead .account-bar a:visited {
+    color: #DDD;
+}
+#tabhead .account-bar a:hover {
+    color: #FFF; /* login bar link hover colour */
+}
+
+
+#subnav {
+    margin: 0;
+    padding: 0;
+    background: #EEE; /* tab colour */
+    border-bottom: 1px solid #BBB;
+    font-weight: normal;
+}
+#subnav ul {
+    float: right;
+    margin: 0 50px;
+    padding: 0;
+}
+#subnav ul li {
+    display: inline;
+    list-style-type: none;
+    font-size: 12pt;
+}
+#subnav ul a:link, #subnav ul a:visited {
+    float: left;
+    font-weight: normal;
+    text-decoration: none;
+    color: #444;
+    padding: 6px 10px 2px;
+}
+#subnav ul a:hover {
+    color: #FFF;
+    background: #444;
+}

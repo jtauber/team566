@@ -153,7 +153,6 @@ INSTALLED_APPS = [
     "pinax.apps.signup_codes",
     
     # project
-    "about",
     "manoria",
 ]
 
@@ -174,7 +173,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 LOGIN_URL = "/account/login/" # @@@ any way this can be a url name?
-LOGIN_REDIRECT_URLNAME = "what_next"
+LOGIN_REDIRECT_URLNAME = "home"
 
 EMAIL_CONFIRMATION_DAYS = 2
 EMAIL_DEBUG = DEBUG
@@ -182,6 +181,8 @@ EMAIL_DEBUG = DEBUG
 DEBUG_TOOLBAR_CONFIG = {
     "INTERCEPT_REDIRECTS": False,
 }
+
+CONTACT_EMAIL = "jtauber@jtauber.com"
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.
