@@ -14,7 +14,7 @@ div.map {
     left: -650px;
 }
 
-div.building {
+div.building, div.terrain {
     position: absolute;
     width: 80px;
     height: 80px;
