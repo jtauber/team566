@@ -8,7 +8,7 @@
     
     <h1>Create a settlement</h1>
     
-    <form method="post" action="{% url settlement_create %}">
+    <form method="post" action="{% url settlement_create player.id %}">
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="create" />
