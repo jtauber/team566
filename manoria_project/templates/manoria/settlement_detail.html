@@ -30,6 +30,24 @@
         <p>No resources in this settlement.</p>
     {% endif %}
     
+    <h2>Terrain</h2>
+    
+    <p>This is really just listed here for debugging for now.</p>
+    
+    {% if settlement.terrain.all %}
+        <ul>
+            {% for terrain in settlement.terrain.all %}
+                <li>
+                    {{ terrain.kind.name }}
+                    {{ terrain.x }}-{{ terrain.y }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No terrain in this settlement (won't normally happen in gameplay)</p>
+    {% endif %}
+    
+    
     <h2>Buildings</h2>
     
     {% if settlement.buildings.all %}
