@@ -21,3 +21,15 @@ def map_building(building):
         "left": left,
         "top": top,
     }
+
+
+@register.inclusion_tag("manoria/_map_terrain.html")
+def map_terrain(terrain):
+    # terrain size + border + padding
+    left = terrain.x * 86
+    top = terrain.y * 86
+    return {
+        "terrain": terrain,
+        "left": left,
+        "top": top,
+    }

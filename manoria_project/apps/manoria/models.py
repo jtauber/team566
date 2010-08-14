@@ -90,11 +90,16 @@ class BaseResourceCount(models.Model):
     
     count = models.IntegerField(default=0)
     timestamp = models.DateTimeField(default=datetime.datetime.now)
-    rate = models.DecimalField(max_digits=7, decimal_places=1)
+    natural_rate = models.DecimalField(max_digits=7, decimal_places=1)
+    rate_adjustment = models.DecimalField(max_digits=7, decimal_places=1)
     limit = models.IntegerField(default=0)
     
     class Meta:
         abstract = True
+    
+    @property
+    def rate(self):
+        return self.natural_rate + self.rate_adjustment
     
     def current(self):
         change = datetime.datetime.now() - self.timestamp
@@ -171,3 +176,31 @@ class SettlementBuilding(models.Model):
         
         if commit:
             self.save()
+
+
+class SettlementTerrainKind(models.Model):
+    
+    name = models.CharField(max_length=50)
+    buildable_on = models.BooleanField(default=True)
+    
+    def __unicode__(self):
+        return self.name
+
+
+class SettlementTerrain(models.Model):
+    
+    kind = models.ForeignKey(SettlementTerrainKind)
+    settlement = models.ForeignKey(Settlement, related_name="terrain")
+    
+    # location in settlement
+    x = models.IntegerField()
+    y = models.IntegerField()
+    
+    def __unicode__(self):
+        return u"%s on %s" % (self.kind, self.settlement)
+
+
+class SettlementTerrainResourceCount(BaseResourceCount):
+    
+    kind = models.ForeignKey(ResourceKind)
+    terrain = models.ForeignKey(SettlementTerrain, related_name="resource_counts")

@@ -22,7 +22,8 @@
             {% for resource_count in settlement.resource_counts.all %}
                 <li>
                     {{ resource_count.kind.name }} = {{ resource_count.current|intcomma }}
-                    ({{ resource_count.rate|intcomma }})
+                    ({{ resource_count.rate|intcomma }}/hr;
+                        {% if resource_count.limit %}limit {{ resource_count.limit|intcomma }}{% else %}no limit{% endif %})
                 </li>
             {% endfor %}
         </ul>
@@ -30,11 +31,29 @@
         <p>No resources in this settlement.</p>
     {% endif %}
     
+    <h2>Terrain</h2>
+    
+    <p>This is really just listed here for debugging for now.</p>
+    
+    {% if settlement.terrain.all %}
+        <ul>
+            {% for terrain in settlement.terrain.all %}
+                <li>
+                    <a href="{% url terrain_detail terrain.pk %}">{{ terrain.kind.name }}</a>
+                    {{ terrain.x }}-{{ terrain.y }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No terrain in this settlement (won't normally happen in gameplay)</p>
+    {% endif %}
+    
+    
     <h2>Buildings</h2>
     
-    {% if settlement.buildings.all %}
+    {% if settlement.buildings %}
         <ul>
-            {% for building in settlement.buildings.all %}
+            {% for building in settlement.buildings %}
                 <li>
                     <a href="{% url building_detail building.pk %}">{{ building.kind.name }}</a>
                     {{ building.x }}-{{ building.y }}
@@ -47,9 +66,9 @@
     
     <h2>Build Queue</h2>
     
-    {% if settlement.build_queue.all %}
+    {% if settlement.build_queue %}
         <ul>
-            {% for building in settlement.build_queue.all %}
+            {% for building in settlement.build_queue %}
                 <li>
                     <a href="{% url building_detail building.pk %}">{{ building.kind.name }}</a>
                     {{ building.x }}-{{ building.y }}

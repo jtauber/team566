@@ -1,0 +1,117 @@
+[
+    {
+        "pk": 1, 
+        "model": "manoria.settlementterrainkind", 
+        "fields": {
+            "buildable_on": true, 
+            "name": "Forest"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "manoria.settlementterrainkind", 
+        "fields": {
+            "buildable_on": false, 
+            "name": "Lake"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "manoria.settlementterrain", 
+        "fields": {
+            "y": 1, 
+            "x": 1, 
+            "kind": 1, 
+            "settlement": 1
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "manoria.settlementterrain", 
+        "fields": {
+            "y": 1, 
+            "x": 2, 
+            "kind": 2, 
+            "settlement": 1
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "manoria.settlementterrain", 
+        "fields": {
+            "y": 5, 
+            "x": 5, 
+            "kind": 1, 
+            "settlement": 2
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "manoria.settlementterrain", 
+        "fields": {
+            "y": 14, 
+            "x": 13, 
+            "kind": 1, 
+            "settlement": 3
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "manoria.settlementterrain", 
+        "fields": {
+            "y": 20, 
+            "x": 17, 
+            "kind": 2, 
+            "settlement": 3
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "manoria.settlementterrain", 
+        "fields": {
+            "y": 8, 
+            "x": 6, 
+            "kind": 2, 
+            "settlement": 4
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "manoria.settlementterrainresourcecount", 
+        "fields": {
+            "count": 100, 
+            "timestamp": "2010-08-14 17:22:39", 
+            "rate_adjustment": "0", 
+            "terrain": 1, 
+            "kind": 1, 
+            "limit": 40000, 
+            "natural_rate": "1000"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "manoria.settlementterrainresourcecount", 
+        "fields": {
+            "count": 10, 
+            "timestamp": "2010-08-14 17:23:39", 
+            "rate_adjustment": "-100", 
+            "terrain": 3, 
+            "kind": 1, 
+            "limit": 0, 
+            "natural_rate": "500"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "manoria.settlementterrainresourcecount", 
+        "fields": {
+            "count": 100, 
+            "timestamp": "2010-08-14 17:24:10", 
+            "rate_adjustment": "0", 
+            "terrain": 4, 
+            "kind": 1, 
+            "limit": 4000, 
+            "natural_rate": "1000"
+        }
+    }
+]

@@ -13,3 +13,6 @@ admin.site.register(models.SettlementResourceCount,
 )
 admin.site.register(models.BuildingKind)
 admin.site.register(models.SettlementBuilding)
+admin.site.register(models.SettlementTerrainKind)
+admin.site.register(models.SettlementTerrain)
+admin.site.register(models.SettlementTerrainResourceCount)
