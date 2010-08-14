@@ -19,7 +19,7 @@
                 </li>
             {% endfor %}
         </ul>
-        <p><a href="{% url settlement_create player.id %}">Create another settlement</a></p>
+        <p><a href="{% url settlement_create player.id %}">Create another settlement</a> (will not normally be able to just do this)</p>
     {% else %}
         <p>{{ player.name }} has no settlements yet.</p>
         <p><a href="{% url settlement_create player.id %}">Create a settlement</a></p>
