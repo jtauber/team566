@@ -1,6 +1,6 @@
 from django import forms
 
-from manoria.models import Player, Settlement, SettlementBuilding
+from manoria.models import Player, Settlement, SettlementBuilding, SettlementTerrain
 
 
 class PlayerCreateForm(forms.ModelForm):
