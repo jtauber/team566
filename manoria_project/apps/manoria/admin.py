@@ -11,3 +11,5 @@ admin.site.register(models.PlayerResourceCount,
 admin.site.register(models.SettlementResourceCount,
     list_display = ["kind", "settlement", "count"]
 )
+admin.site.register(models.BuildingKind)
+admin.site.register(models.SettlementBuilding)

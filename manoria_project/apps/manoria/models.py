@@ -118,6 +118,9 @@ class SettlementResourceCount(BaseResourceCount):
 class BuildingKind(models.Model):
     
     name = models.CharField(max_length=30)
+    
+    def __unicode__(self):
+        return self.name
 
 
 class SettlementBuilding(models.Model):
@@ -132,3 +135,6 @@ class SettlementBuilding(models.Model):
     # build queue
     construction_start = models.DateTimeField(default=datetime.datetime.now)
     construction_end = models.DateTimeField(default=datetime.datetime.now)
+    
+    def __unicode__(self):
+        return u"%s on %s" % (self.kind, self.settlement)
