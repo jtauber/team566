@@ -105,7 +105,7 @@ def building_create(request, settlement_pk):
     settlement = get_object_or_404(Settlement, pk=settlement_pk)
     
     if request.method == "POST":
-        form = BuildingCreateForm(request.POST)
+        form = BuildingCreateForm(settlement, request.POST)
         
         if form.is_valid():
             building = form.save(commit=False)
@@ -121,7 +121,7 @@ def building_create(request, settlement_pk):
             
             return redirect("settlement_detail", settlement.pk)
     else:
-        form = BuildingCreateForm()
+        form = BuildingCreateForm(settlement)
     
     ctx = {
         "form": form,

@@ -23,12 +23,19 @@ class BuildingCreateForm(forms.ModelForm):
         model = SettlementBuilding
         fields = ["kind", "x", "y"]
     
+    def __init__(self, settlement, *args, **kwargs):
+        self.settlement = settlement
+        super(BuildingCreateForm, self).__init__(*args, **kwargs)
+    
     def clean(self):
         x = self.cleaned_data.get("x")
         y = self.cleaned_data.get("y")
         
-        if x and y:
+        if all([x, y]):
             if not 1 <= x <= 20 or not 1 <= y <= 20:
                 raise forms.ValidationError("Building is not within map range")
+            
+            if SettlementBuilding.objects.filter(settlement=self.settlement, x=x, y=y).exists():
+                raise forms.ValidationError("A building exists at this location")
         
         return self.cleaned_data
