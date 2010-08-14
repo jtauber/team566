@@ -16,8 +16,10 @@
                 <li>{{ settlement.kind }} of {{ settlement.name }}</li>
             {% endfor %}
         </ul>
+        <p><a href="{% url settlement_create %}">Create another settlement</a>.</p>
     {% else %}
         <p>{{ player.name }} has no settlements yet.</p>
+        <p><a href="{% url settlement_create %}">Create a settlement</a>.</p>
     {% endif %}
     
 {% endblock %}
