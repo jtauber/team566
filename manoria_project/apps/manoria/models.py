@@ -72,11 +72,11 @@ class BaseResourceCount(models.Model):
     
     def current(self):
         change = datetime.datetime.now() - self.timestamp
-        amount = count + rate * (change.days * 86400 + change.seconds) / 3600.0
-        if limit == 0:
+        amount = self.count + self.rate * (change.days * 86400 + change.seconds) / 3600.0
+        if self.limit == 0:
             return amount
         else:
-            return min(amount, limit)
+            return min(amount, self.limit)
     
     class Meta:
         abstract = True
