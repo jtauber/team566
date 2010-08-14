@@ -1,8 +1,12 @@
-div.grid {
-    position: relative;
+div.window {
     width: 500px;
     height: 500px;
     border: 1px solid #000;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+div.map {
+    position: relative;
 }
 
 div.building {

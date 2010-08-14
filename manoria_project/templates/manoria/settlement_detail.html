@@ -65,14 +65,23 @@
     
     <h2>Grid</h2>
     
-    <div class="grid">
-        <div class="building" style="top: 50px; left: 100px;">
-        </div>
-        <div class="building" style="top: 50px; left: 153px;">
-        </div>
-        <div class="building" style="top: 103px; left: 100px;">
+    <div class="window">
+        <div class="map">
+            <div class="building" style="top: 50px; left: 100px;">
+            </div>
+            <div class="building" style="top: 50px; left: 153px;">
+            </div>
+            <div class="building" style="top: 103px; left: 100px;">
+            </div>
+            <div class="building" style="top: 103px; left: 600px;">
+            </div>
         </div>
     </div>
-    
-    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
+    <script>
+        $(function() {
+            $("map").draggable();
+        });
+    </script>
 {% endblock %}
