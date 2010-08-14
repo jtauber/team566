@@ -70,7 +70,7 @@ class Settlement(models.Model):
     
     def buildings(self):
         return SettlementBuilding.objects.filter(
-            contruction_end__lte=datetime.datetime.now()
+            construction_end__lte=datetime.datetime.now()
         )
 
 
