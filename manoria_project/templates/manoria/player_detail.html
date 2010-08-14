@@ -25,4 +25,18 @@
         <p><a href="{% url settlement_create player.id %}">Create a settlement</a>.</p>
     {% endif %}
     
+    <h2>Resources</h2>
+    
+    {% if player.resource_counts.all %}
+        <p>These resources are attached to the player, not an individual settlement.</p>
+        
+        <ul>
+            {% for resource_count in player.resource_counts.all %}
+                <li>{{ resource_count.kind.name }} = {{ resource_count.current }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No player-level resources.</p>
+    {% endif %}
+    
 {% endblock %}

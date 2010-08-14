@@ -84,7 +84,7 @@ class BaseResourceCount(models.Model):
     
     def current(self):
         change = datetime.datetime.now() - self.timestamp
-        amount = self.count + self.rate * (change.days * 86400 + change.seconds) / 3600.0
+        amount = int(self.count + float(self.rate) * (change.days * 86400 + change.seconds) / 3600.0)
         if self.limit == 0:
             return max(0, amount)
         else:
@@ -94,7 +94,7 @@ class BaseResourceCount(models.Model):
 class PlayerResourceCount(BaseResourceCount):
     
     kind = models.ForeignKey(ResourceKind)
-    player = models.ForeignKey(Player)
+    player = models.ForeignKey(Player, related_name="resource_counts")
     
     def __unicode__(self):
         return u"%s (%s)" % (self.kind, self.player)
@@ -103,7 +103,7 @@ class PlayerResourceCount(BaseResourceCount):
 class SettlementResourceCount(BaseResourceCount):
     
     kind = models.ForeignKey(ResourceKind)
-    settlement = models.ForeignKey(Settlement)
+    settlement = models.ForeignKey(Settlement, related_name="resource_counts")
     
     def __unicode__(self):
         return u"%s (%s)" % (self.kind, self.settlement)
