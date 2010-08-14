@@ -9,7 +9,7 @@
     <p>
         <a href="{% url player_detail building.settlement.player.pk %}">{{ building.settlement.player.name }}</a>
         &gt;
-        <a href="{% url player_detail building.settlement.pk %}">{{ building.settlement.name }}</a>
+        <a href="{% url settlement_detail building.settlement.pk %}">{{ building.settlement.name }}</a>
     </p>
     
     <h1>{{ building.kind.name }}</h1>
