@@ -55,3 +55,31 @@ class Settlement(models.Model):
         self.y = y
         if commit:
             self.save()
+
+
+class ResourceKind(models.Model):
+    
+    name = models.CharField(max_length=25)
+
+
+class BaseResourceCount(models.Model):
+    
+    count = models.IntegerField(default=0)
+    timestamp = models.DateTimeField(default=datetime.datetime.now)
+    rate = models.DecimalField(max_digits=7, decimal_places=1)
+    limit = models.IntegerField(default=0)
+    
+    class Meta:
+        abstract = True
+
+
+class PlayerResourceCount(BaseResourceCount):
+    
+    kind = models.ForeignKey(ResourceKind)
+    player = models.ForeignKey(Player)
+
+
+class SettlementResourceCount(BaseResourceCount):
+    
+    kind = models.ForeignKey(ResourceKind)
+    settlement = models.ForeignKey(Settlement)
