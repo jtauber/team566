@@ -13,6 +13,6 @@ class PlayerCreateForm(forms.ModelForm):
     
     def clean_name(self):
         value = self.cleaned_data["name"]
-        if not re.match(r"^\w+$"):
+        if not re.match(r"^\w+$", value):
             raise forms.ValidationError("Name must match \\w")
         return value
