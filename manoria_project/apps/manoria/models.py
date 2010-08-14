@@ -96,6 +96,9 @@ class PlayerResourceCount(BaseResourceCount):
     kind = models.ForeignKey(ResourceKind)
     player = models.ForeignKey(Player, related_name="resource_counts")
     
+    class Meta:
+        unique_together = [("kind", "player")]
+    
     def __unicode__(self):
         return u"%s (%s)" % (self.kind, self.player)
 
@@ -104,6 +107,9 @@ class SettlementResourceCount(BaseResourceCount):
     
     kind = models.ForeignKey(ResourceKind)
     settlement = models.ForeignKey(Settlement, related_name="resource_counts")
+    
+    class Meta:
+        unique_together = [("kind", "settlement")]
     
     def __unicode__(self):
         return u"%s (%s)" % (self.kind, self.settlement)
