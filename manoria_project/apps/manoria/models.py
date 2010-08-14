@@ -29,7 +29,8 @@ class Settlement(models.Model):
             ("hamlet", "Hamlet"),
             ("village", "Village"),
             ("town", "Town"),
-        ]
+        ],
+        default="homestead",
     )
     player = models.ForeignKey(Player, related_name="settlements")
     continent = models.ForeignKey(Continent)
