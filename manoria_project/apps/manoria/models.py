@@ -23,7 +23,7 @@ class Settlement(models.Model):
     
     name = models.CharField(max_length=20)
     kind = models.CharField(
-        max_length=1,
+        max_length=15,
         choices=[
             ("homestead", "Homestead"),
             ("hamlet", "Hamlet"),
