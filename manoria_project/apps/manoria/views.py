@@ -88,7 +88,7 @@ def settlement_create(request, player_pk):
 def building_detail(request, pk):
     building = get_object_or_404(SettlementBuilding, pk=pk)
     
-    if request.user != buiding.settlement.player.user:
+    if request.user != building.settlement.player.user:
         raise Http404
     
     ctx = {
