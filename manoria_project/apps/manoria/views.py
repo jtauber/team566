@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.contrib.auth.decorators import login_required
 
 from manoria.forms import PlayerCreateForm, SettlementCreateForm
-from manoria.models import Continent, Player
+from manoria.models import Continent, Player, Settlement
 
 
 @login_required
@@ -45,7 +45,7 @@ def player_create(request):
 
 @login_required
 def settlement_detail(request, pk):
-    settlement = get_object_or_404(settlement, pk=pk)
+    settlement = get_object_or_404(Settlement, pk=pk)
     
     if request.user != settlement.player.user:
         raise Http404
