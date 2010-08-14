@@ -6,6 +6,9 @@ div.window {
     overflow-y: hidden;
 }
 div.map {
+    width: 1000px;
+    height: 1000px;
+    background: #EEE;
     position: relative;
 }
 
