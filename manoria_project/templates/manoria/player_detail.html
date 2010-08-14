@@ -36,7 +36,8 @@
             {% for resource_count in player.resource_counts.all %}
                 <li>
                     {{ resource_count.kind.name }} = {{ resource_count.current|intcomma }}
-                    ({{ resource_count.rate|intcomma }})
+                    ({{ resource_count.rate|intcomma }}/hr;
+                        {% if resource_count.limit %}limit {{ resource_count.limit|intcomma }}{% else %}no limit{% endif %})
                 </li>
             {% endfor %}
         </ul>
