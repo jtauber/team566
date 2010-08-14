@@ -1,0 +1,9 @@
+{% load manoria_tags %}
+<div class="map">
+    {% for building in settlement.build_queue %}
+        {% map_building building %}
+    {% endfor %}
+    {% for building in settlement.buildings %}
+        {% map_building building %}
+    {% endfor %}
+</div>

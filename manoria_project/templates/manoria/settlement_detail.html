@@ -1,6 +1,7 @@
 {% extends "site_base.html" %}
 
 {% load humanize %}
+{% load manoria_tags %}
 
 {% block head_title %}{{ settlement.name }}{% endblock %}
 
@@ -66,16 +67,7 @@
     <h2>Grid</h2>
     
     <div class="window">
-        <div class="map">
-            <div class="building" style="top: 50px; left: 100px;">
-            </div>
-            <div class="building" style="top: 50px; left: 153px;">
-            </div>
-            <div class="building" style="top: 103px; left: 100px;">
-            </div>
-            <div class="building" style="top: 103px; left: 600px;">
-            </div>
-        </div>
+        {% map settlement %}
     </div>
 {% endblock %}
 
