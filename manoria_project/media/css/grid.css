@@ -6,15 +6,19 @@ div.window {
     overflow-y: hidden;
 }
 div.map {
-    width: 2100px;
-    height: 2100px;
+    width: 1892px; /* (bulding width + border + padding) * 22 */
+    height: 1892px; /* (bulding width + border + padding) * 22 */
     background: #EEE;
     position: relative;
+    top: -308px;
+    left: -308px;
 }
 
 div.building {
     position: absolute;
-    width: 50px;
-    height: 50px;
+    width: 80px;
+    height: 80px;
     border: 1px solid #000;
+    font-size: 8pt;
+    padding: 2px;
 }
