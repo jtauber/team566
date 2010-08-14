@@ -8,6 +8,12 @@
 
 {% block body %}
     
+    <p>
+        <a href="{% url player_detail settlement.player.pk %}">{{ settlement.player.name }}</a>
+        &gt;
+        <a href="{% url settlement_detail settlement.pk %}">{{ settlement.name }}</a>
+    </p>
+    
     <h1>Create a building</h1>
     
     <form method="post" action="{% url building_create settlement.pk %}" class="uniForm">
