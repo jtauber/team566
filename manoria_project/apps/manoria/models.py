@@ -190,7 +190,7 @@ class SettlementTerrainKind(models.Model):
 class SettlementTerrain(models.Model):
     
     kind = models.ForeignKey(SettlementTerrainKind)
-    settlement = models.ForeignKey(Settlement)
+    settlement = models.ForeignKey(Settlement, related_name="terrain")
     
     # location in settlement
     x = models.IntegerField()
