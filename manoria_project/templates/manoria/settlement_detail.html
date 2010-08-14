@@ -24,4 +24,19 @@
         <p>No resources in this settlement.</p>
     {% endif %}
     
+    <h2>Buildings</h2>
+    
+    {% if settlement.buildings.all %}
+        <ul>
+            {% for building in settlement.buildings.all %}
+                <li>
+                    {{ building.kind.name }}
+                    {{ building.x }}-{{ building.y }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No buildings in this settlement.</p>
+    {% endif %}
+    
 {% endblock %}
