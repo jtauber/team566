@@ -10,4 +10,16 @@
     
     <p><b>Location</b>: {{ settlement.continent.name }} {{ settlement.x }}-{{ settlement.y }}</p>
     
+    <h2>Resources</h2>
+    
+    {% if settlement.resource_counts.all %}
+        <ul>
+            {% for resource_count in settlement.resource_counts.all %}
+                <li>{{ resource_count.kind.name }} = {{ resource_count.current }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No resources in this settlement.</p>
+    {% endif %}
+    
 {% endblock %}
