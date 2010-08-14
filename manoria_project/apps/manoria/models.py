@@ -97,10 +97,13 @@ class BaseResourceCount(models.Model):
     class Meta:
         abstract = True
     
+    @property
+    def rate(self):
+        return self.natural_rate + self.rate_adjustment
+    
     def current(self):
         change = datetime.datetime.now() - self.timestamp
-        rate = self.natural_rate + self.rate_adjustment
-        amount = int(self.count + float(rate) * (change.days * 86400 + change.seconds) / 3600.0)
+        amount = int(self.count + float(self.rate) * (change.days * 86400 + change.seconds) / 3600.0)
         if self.limit == 0:
             return max(0, amount)
         else:
