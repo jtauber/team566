@@ -187,6 +187,11 @@ class SettlementBuilding(models.Model):
             return "built"
 
 
+class SettlementBuildingResourceCount(BaseResourceCount):
+    
+    building = models.ForeignKey(SettlementBuilding)
+
+
 class SettlementTerrainKind(models.Model):
     
     name = models.CharField(max_length=50)
