@@ -176,6 +176,15 @@ class SettlementBuilding(models.Model):
         
         if commit:
             self.save()
+    
+    def status(self):
+        now = datetime.datetime.now()
+        if self.construction_start > now:
+            return "queued"
+        elif self.construction_end > now:
+            return "under construction"
+        else:
+            return "built"
 
 
 class SettlementTerrainKind(models.Model):

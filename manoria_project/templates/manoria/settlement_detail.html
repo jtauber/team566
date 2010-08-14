@@ -73,6 +73,10 @@
                     <a href="{% url building_detail building.pk %}">{{ building.kind.name }}</a>
                     {{ building.x }}-{{ building.y }}
                     <br />
+                    {% if building.status == "queued" %}
+                    starting in {{ building.construction_start|timeuntil }}
+                    <br />
+                    {% endif %}
                     finishing in {{ building.construction_end|timeuntil }}
                 </li>
             {% endfor %}
