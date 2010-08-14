@@ -18,6 +18,10 @@
                 {% for player in user.players.all %}
                     <li><a href="{% url player_detail player.name %}">{{ player.name }}</a></li>
                 {% endfor %}
+            </ul>
+            
+            <p>You can also <a href="{% url player_create %}">create another player</a>.</p>
+            
         {% else %}
             <p>To play Manoria, <a href="{% url player_create %}">create a player</a>.</p>
         {% endif %}
