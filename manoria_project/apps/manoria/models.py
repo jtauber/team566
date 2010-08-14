@@ -179,6 +179,9 @@ class SettlementTerrainKind(mdoels.Model):
     
     name = models.CharField(max_length=50)
     buildable_on = models.BooleanField(default=True)
+    
+    def __unicode__(self):
+        return self.name
 
 
 class SettlementTerrain(models.Model):
@@ -189,6 +192,9 @@ class SettlementTerrain(models.Model):
     # location in settlement
     x = models.IntegerField()
     y = models.IntegerField()
+    
+    def __unicode__(self):
+        return u"%s on %s" % (self.kind, self.settlement)
 
 
 class SettlementTerrainResourceCount(BaseResourceCount):
