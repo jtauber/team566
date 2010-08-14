@@ -50,9 +50,9 @@
     
     <h2>Buildings</h2>
     
-    {% if settlement.buildings.all %}
+    {% if settlement.buildings %}
         <ul>
-            {% for building in settlement.buildings.all %}
+            {% for building in settlement.buildings %}
                 <li>
                     <a href="{% url building_detail building.pk %}">{{ building.kind.name }}</a>
                     {{ building.x }}-{{ building.y }}
@@ -65,9 +65,9 @@
     
     <h2>Build Queue</h2>
     
-    {% if settlement.build_queue.all %}
+    {% if settlement.build_queue %}
         <ul>
-            {% for building in settlement.build_queue.all %}
+            {% for building in settlement.build_queue %}
                 <li>
                     <a href="{% url building_detail building.pk %}">{{ building.kind.name }}</a>
                     {{ building.x }}-{{ building.y }}
