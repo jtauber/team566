@@ -157,10 +157,16 @@ class SettlementBuilding(models.Model):
         return u"%s on %s" % (self.kind, self.settlement)
     
     def build(self, commit=True):
-        oldest = self.settlement.build_queue().reverse()[0]
+        try:
+            oldest = self.settlement.build_queue().reverse()[0]
+        except IndexError:
+            oldest = None
         
         # @@@ hard-coded two minute build times
-        self.construction_start = oldest.construction_end
+        if oldest:
+            self.construction_start = oldest.construction_end
+        else:
+            self.construction_start = datetime.datetime.now()
         self.construction_end = self.construction_start + datetime.timedelta(minutes=2)
         
         if commit:

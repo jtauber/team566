@@ -1,5 +1,8 @@
 {% extends "site_base.html" %}
 
+{% load humanize %}
+{% load manoria_tags %}
+
 {% block head_title %}{{ settlement.name }}{% endblock %}
 
 {% block body_class %}settlement{% endblock %}
@@ -17,7 +20,10 @@
     {% if settlement.resource_counts.all %}
         <ul>
             {% for resource_count in settlement.resource_counts.all %}
-                <li>{{ resource_count.kind.name }} = {{ resource_count.current }}</li>
+                <li>
+                    {{ resource_count.kind.name }} = {{ resource_count.current|intcomma }}
+                    ({{ resource_count.rate|intcomma }})
+                </li>
             {% endfor %}
         </ul>
     {% else %}
@@ -58,4 +64,17 @@
     
     <p><a href="{% url building_create settlement.pk %}">Create a building</a></p>
     
+    <h2>Grid</h2>
+    
+    <div class="window">
+        {% map settlement %}
+    </div>
+{% endblock %}
+
+{% block extra_body %}
+    <script>
+        $(function() {
+            $(".map").draggable();
+        });
+    </script>
 {% endblock %}
