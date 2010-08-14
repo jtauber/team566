@@ -13,7 +13,7 @@
     {% if player.settlements.all %}
         <ul>
             {% for settlement in player.settlements.all %}
-                <li>{{ settlement.kind }} of {{ settlement.name }}</li>
+                <li><a href="{% url settlement_detail settlement.id %}">{{ settlement.kind|title }} of {{ settlement.name }}</a></li>
             {% endfor %}
         </ul>
         <p><a href="{% url settlement_create player.id %}">Create another settlement</a>.</p>
