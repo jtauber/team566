@@ -34,7 +34,10 @@
         
         <ul>
             {% for resource_count in player.resource_counts.all %}
-                <li>{{ resource_count.kind.name }} = {{ resource_count.current|intcomma }}</li>
+                <li>
+                    {{ resource_count.kind.name }} = {{ resource_count.current|intcomma }}
+                    ({{ resource_count.rate|intcomma }})
+                </li>
             {% endfor %}
         </ul>
     {% else %}
