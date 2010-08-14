@@ -39,4 +39,21 @@
         <p>No buildings in this settlement.</p>
     {% endif %}
     
+    <h2>Build Queue</h2>
+    
+    {% if settlement.build_queue.all %}
+        <ul>
+            {% for building in settlement.build_queue.all %}
+                <li>
+                    <a href="{% url building_detail building.pk %}">{{ building.kind.name }}</a>
+                    {{ building.x }}-{{ building.y }}
+                    <br />
+                    finishing in {{ building.construction_end|timeuntil }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No buildings in the build queue for this settlement.</p>
+    {% endif %}
+    
 {% endblock %}
