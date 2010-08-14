@@ -6,7 +6,7 @@
 
 {% block body %}
     
-    <p><a href="{% url player_detail settlement.player.id %}">{{ settlement.player }}</a></p>
+    <p><a href="{% url player_detail settlement.player.pk %}">{{ settlement.player }}</a></p>
     
     <h1>{{ settlement.kind|title }} of {{ settlement.name }}</h1>
     

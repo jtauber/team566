@@ -16,7 +16,7 @@
             <p>Select a player:</p>
             <ul>
                 {% for player in user.players.all %}
-                    <li><a href="{% url player_detail player.name %}">{{ player.name }}</a></li>
+                    <li><a href="{% url player_detail player.pk %}">{{ player.name }}</a></li>
                 {% endfor %}
             </ul>
             
