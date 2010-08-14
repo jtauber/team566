@@ -70,6 +70,14 @@ class BaseResourceCount(models.Model):
     rate = models.DecimalField(max_digits=7, decimal_places=1)
     limit = models.IntegerField(default=0)
     
+    def current(self):
+        change = datetime.datetime.now() - self.timestamp
+        amount = count + rate * (change.days * 86400 + change.seconds) / 3600.0
+        if limit == 0:
+            return amount
+        else:
+            return min(amount, limit)
+    
     class Meta:
         abstract = True
 
