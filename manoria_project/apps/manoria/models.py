@@ -113,3 +113,22 @@ class SettlementResourceCount(BaseResourceCount):
     
     def __unicode__(self):
         return u"%s (%s)" % (self.kind, self.settlement)
+
+
+class BuildingKind(models.Model):
+    
+    name = models.CharField(max_length=30)
+
+
+class SettlementBuilding(models.Model):
+    
+    kind = models.ForeignKey(BuildingKind)
+    settlement = models.ForeignKey(Settlement, related_name="buildings")
+    
+    # location in settlement
+    x = models.IntegerField()
+    y = models.IntegerField()
+    
+    # build queue
+    construction_start = models.DateTimeField(default=datetime.datetime.now)
+    construction_end = models.DateTimeField(default=datetime.datetime.now)
