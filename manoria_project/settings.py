@@ -154,6 +154,7 @@ INSTALLED_APPS = [
     
     # project
     "about",
+    "manoria",
 ]
 
 FIXTURE_DIRS = [
