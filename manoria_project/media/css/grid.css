@@ -4,6 +4,7 @@ div.window {
     border: 1px solid #000;
     overflow-x: hidden;
     overflow-y: hidden;
+    background: #222;
 }
 div.map {
     width: 1892px; /* (bulding width + border + padding) * 22 */
