@@ -56,4 +56,6 @@
         <p>No buildings in the build queue for this settlement.</p>
     {% endif %}
     
+    <p><a href="{% url building_create settlement.pk %}">Create a building</a></p>
+    
 {% endblock %}

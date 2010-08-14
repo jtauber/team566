@@ -1,0 +1,18 @@
+{% extends "site_base.html" %}
+
+{% load uni_form_tags %}
+
+{% block head_title %}Create a building{% endblock %}
+
+{% block body_class %}building{% endblock %}
+
+{% block body %}
+    
+    <h1>Create a building</h1>
+    
+    <form method="post" action="{% url building_create settlement.pk %}" class="uniForm">
+        {% csrf_token %}
+        {{ form|as_uni_form }}
+        <input type="submit" value="create" />
+    </form>
+{% endblock %}
