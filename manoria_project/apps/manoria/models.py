@@ -12,6 +12,9 @@ class Player(models.Model):
     name = models.CharField(max_length=20, unique=True)
     
     # @@@ points
+    
+    def __unicode__(self):
+        return self.name
 
 
 class Continent(models.Model):
@@ -43,6 +46,9 @@ class Settlement(models.Model):
     
     # @@@ points
     
+    def __unicode__(self):
+        return u"%s (%s)" % (self.name, self.player)
+    
     def place(self, commit=True):
         # @@@ need to test if continent is full otherwise an infinite loop
         # will occur
@@ -61,6 +67,9 @@ class Settlement(models.Model):
 class ResourceKind(models.Model):
     
     name = models.CharField(max_length=25)
+    
+    def __unicode__(self):
+        return self.name
 
 
 class BaseResourceCount(models.Model):
@@ -86,9 +95,15 @@ class PlayerResourceCount(BaseResourceCount):
     
     kind = models.ForeignKey(ResourceKind)
     player = models.ForeignKey(Player)
+    
+    def __unicode__(self):
+        return u"%s (%s)" % (self.kind, self.player)
 
 
 class SettlementResourceCount(BaseResourceCount):
     
     kind = models.ForeignKey(ResourceKind)
     settlement = models.ForeignKey(Settlement)
+    
+    def __unicode__(self):
+        return u"%s (%s)" % (self.kind, self.settlement)
