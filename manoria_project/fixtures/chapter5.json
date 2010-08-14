@@ -111,7 +111,7 @@
             "terrain": 4, 
             "kind": 1, 
             "limit": 4000, 
-            "natural_rate": "1000",
+            "natural_rate": "1000"
         }
     }
 ]
