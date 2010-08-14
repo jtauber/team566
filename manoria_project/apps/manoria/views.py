@@ -112,12 +112,7 @@ def building_create(request, settlement_pk):
             
             building.settlement = settlement
             
-            # @@@ hard-coded two minute build times
-            now = datetime.datetime.now()
-            building.construction_start = now
-            building.construction_end = now + datetime.timedelta(minutes=2)
-            
-            building.save()
+            building.build()
             
             return redirect("settlement_detail", settlement.pk)
     else:
