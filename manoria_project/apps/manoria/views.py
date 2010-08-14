@@ -125,6 +125,7 @@ def building_create(request, settlement_pk):
     
     ctx = {
         "form": form,
+        "settlement": settlement,
     }
     ctx = RequestContext(request, ctx)
     return render_to_response("manoria/building_create.html", ctx)
