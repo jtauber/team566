@@ -1,16 +1,34 @@
+body {
+    background: url(/site_media/static/img/paper_texture2-512px.jpg) #CDBB89;
+    font-family: "rieven-uncial-1","rieven-uncial-2",sans-serif;
+    color: #000;
+}
+
+a, a:visited {
+    color: #900;
+}
+a:hover {
+    color: #C00;
+}
+
 #tabhead {
-    background: #000;
+    background: url(/site_media/static/img/paper_texture_1-512px.jpg) #7F6230;
     border-bottom: 1px solid #000; /* tab border */
     position: relative;
 }
 #tabhead .logo {
-    padding: 15px 30px 0px;
+    padding: 10px 30px 5px;
     font-size: 24pt;
     height: 50px;
 }
 #tabhead .logo a {
-    color: #FFF;
+    color: #210;
+    text-shadow: 1px 1px 0px #974;
     text-decoration: none;
+}
+#tabhead .logo a:hover {
+    color: #000;
+    text-shadow: 0px 0px 5px #333;
 }
 
 #tabhead .account-bar {
@@ -19,19 +37,21 @@
     right: 15px;
     color: #FFF;
 }
-#tabhead .account-bar a, #tabhead .account-bar a:visited {
-    color: #DDD;
+#tabhead .login, #tabhead .login a, #tabhead .login a:visited {
+    color: #210;
+    text-shadow: 1px 1px 0px #974;
 }
-#tabhead .account-bar a:hover {
-    color: #FFF; /* login bar link hover colour */
+#tabhead .login a:hover {
+    color: #000;
+    text-shadow: none;
 }
 
 
 #subnav {
     margin: 0;
     padding: 0;
-    background: #EEE; /* tab colour */
-    border-bottom: 1px solid #BBB;
+    background: url(/site_media/static/img/paper_texture4-512px.jpg) #876721;
+    border-bottom: 1px solid #000;
     font-weight: normal;
 }
 #subnav ul {
@@ -48,10 +68,41 @@
     float: left;
     font-weight: normal;
     text-decoration: none;
-    color: #444;
-    padding: 6px 10px 2px;
+    color: #210;
+    text-shadow: 1px 1px 0px #974;
+    padding: 3px 10px 2px;
 }
 #subnav ul a:hover {
     color: #FFF;
-    background: #444;
+    background: #974;
+}
+
+.uniForm {
+    background: url(/site_media/static/img/paper_texture_1-512px.jpg) #7F6230;
+}
+.uniForm .inlineLabels .formHint {
+    color: #FF9;
+    text-shadow: -1px -1px 0px #000;
+}
+.uniForm label {
+    color: #FF9;
+    text-shadow: -1px -1px 0px #000;
+}
+.uniForm .ctrlHolder.focused {
+    background: url(/site_media/static/img/paper_texture4-512px.jpg) #876721;
+}
+.legal {
+    color: #000;
+}
+input[type="text"], input[type="password"], textarea {
+    font-family: "rieven-uncial-1","rieven-uncial-2",sans-serif;
+    background: #FFF;
+}
+
+h1 {
+    margin-top: 50px;
+    text-shadow: 0px 0px 3px #321;
+}
+h2 {
+    text-shadow: 0px 0px 3px #321;
 }
