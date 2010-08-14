@@ -1,5 +1,7 @@
 {% extends "site_base.html" %}
 
+{% load humanize %}
+
 {% block head_title %}{{ player.name }}{% endblock %}
 
 {% block body_class %}player{% endblock %}
@@ -32,7 +34,7 @@
         
         <ul>
             {% for resource_count in player.resource_counts.all %}
-                <li>{{ resource_count.kind.name }} = {{ resource_count.current }}</li>
+                <li>{{ resource_count.kind.name }} = {{ resource_count.current|intcomma }}</li>
             {% endfor %}
         </ul>
     {% else %}
