@@ -70,11 +70,7 @@ def settlement_create(request, player_id):
             settlement.player = player
             settlement.continent = Continent.objects.get(pk=1)
             
-            # @@@ randomize and check for other settlement existence
-            settlement.x = 1
-            settlement.y = 1
-            
-            settlement.save()
+            settlement.place()
             
             return redirect("player_detail", player.name)
     else:

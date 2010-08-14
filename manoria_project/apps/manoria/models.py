@@ -1,3 +1,5 @@
+import random
+
 from django.db import models
 
 from django.contrib.auth.models import User
@@ -39,3 +41,17 @@ class Settlement(models.Model):
     y = models.IntegerField()
     
     # @@@ points
+    
+    def place(self, commit=True):
+        # @@@ need to test if continent is full otherwise an infinite loop
+        # will occur
+        y = None
+        while y is None:
+            x = random.randint(1, 10)
+            S = set(range(1, 11)) - set([s.y for s in Settlement.objects.filter(x=x)])
+            if S:
+                y = random.choice(list(S))
+        self.x = x
+        self.y = y
+        if commit:
+            self.save()
