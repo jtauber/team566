@@ -16,10 +16,10 @@
             <p>Select a player:</p>
             <ul>
                 {% for player in user.players.all %}
-                    <li><a href="#">{{ player.name }}</a></li>
+                    <li><a href="{% url player_detail player.name %}">{{ player.name }}</a></li>
                 {% endfor %}
         {% else %}
-            <p>To play Manoria, <a href="#">create a player</a>.</p>
+            <p>To play Manoria, <a href="{% url player_create %}">create a player</a>.</p>
         {% endif %}
     {% else %}
         <p>To play Manoria, first sign up and log in!</p>

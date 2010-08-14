@@ -10,7 +10,7 @@
     
     <h2>Settlements</h2>
     
-    {% if player.settlements %}
+    {% if player.settlements.all %}
         <ul>
             {% for settlement in player.settlements.all %}
                 <li>{{ settlement.kind }} of {{ settlement.name }}</li>

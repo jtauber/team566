@@ -8,7 +8,9 @@
     
     <h1>Create a player</h1>
     
-    <form>
+    <form method="post" action="{% url player_create %}">
+        {% csrf_token %}
         {{ form }}
+        <input type="submit" value="create" />
     </form>
 {% endblock %}
