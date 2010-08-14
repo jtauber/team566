@@ -19,10 +19,10 @@
                 </li>
             {% endfor %}
         </ul>
-        <p><a href="{% url settlement_create player.id %}">Create another settlement</a>.</p>
+        <p><a href="{% url settlement_create player.id %}">Create another settlement</a></p>
     {% else %}
         <p>{{ player.name }} has no settlements yet.</p>
-        <p><a href="{% url settlement_create player.id %}">Create a settlement</a>.</p>
+        <p><a href="{% url settlement_create player.id %}">Create a settlement</a></p>
     {% endif %}
     
     <h2>Resources</h2>
