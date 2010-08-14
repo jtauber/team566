@@ -64,10 +64,12 @@ class Settlement(models.Model):
             self.save()
     
     def build_queue(self):
-        return SettlementBuilding.objects.filter(
+        queue = SettlementBuilding.objects.filter(
             settlement=self,
             construction_end__gt=datetime.datetime.now()
         )
+        queue = queue.order_by("construction_start")
+        return queue
     
     def buildings(self):
         return SettlementBuilding.objects.filter(
