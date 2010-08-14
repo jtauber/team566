@@ -65,11 +65,13 @@ class Settlement(models.Model):
     
     def build_queue(self):
         return SettlementBuilding.objects.filter(
+            settlement=self,
             construction_end__gt=datetime.datetime.now()
         )
     
     def buildings(self):
         return SettlementBuilding.objects.filter(
+            settlement=self,
             construction_end__lte=datetime.datetime.now()
         )
 
