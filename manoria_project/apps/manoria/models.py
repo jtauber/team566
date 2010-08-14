@@ -62,6 +62,16 @@ class Settlement(models.Model):
         self.y = y
         if commit:
             self.save()
+    
+    def build_queue(self):
+        return SettlementBuilding.objects.filter(
+            construction_end__gt=datetime.datetime.now()
+        )
+    
+    def buildings(self):
+        return SettlementBuilding.objects.filter(
+            contruction_end__lte=datetime.datetime.now()
+        )
 
 
 class ResourceKind(models.Model):
@@ -126,7 +136,7 @@ class BuildingKind(models.Model):
 class SettlementBuilding(models.Model):
     
     kind = models.ForeignKey(BuildingKind)
-    settlement = models.ForeignKey(Settlement, related_name="buildings")
+    settlement = models.ForeignKey(Settlement)
     
     # location in settlement
     x = models.IntegerField()
