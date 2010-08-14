@@ -12,6 +12,7 @@ admin.site.register(models.SettlementResourceCount,
     list_display = ["kind", "settlement", "count"]
 )
 admin.site.register(models.BuildingKind)
+admin.site.register(models.BuildingKindProduct)
 admin.site.register(models.SettlementBuilding)
 admin.site.register(models.SettlementTerrainKind)
 admin.site.register(models.SettlementTerrain)
