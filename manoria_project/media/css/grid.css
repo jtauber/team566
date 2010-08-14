@@ -6,8 +6,8 @@ div.window {
     overflow-y: hidden;
 }
 div.map {
-    width: 1000px;
-    height: 1000px;
+    width: 2100px;
+    height: 2100px;
     background: #EEE;
     position: relative;
 }
