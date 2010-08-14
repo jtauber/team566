@@ -1,0 +1,23 @@
+{% extends "site_base.html" %}
+
+{% block head_title %}{{ player.name }}{% endblock %}
+
+{% block body_class %}player{% endblock %}
+
+{% block body %}
+    
+    <h1>{{ player.name }}</h1>
+    
+    <h2>Settlements</h2>
+    
+    {% if player.settlements %}
+        <ul>
+            {% for settlement in player.settlements.all %}
+                <li>{{ settlement.kind }} of {{ settlement.name }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>{{ player.name }} has no settlements yet.</p>
+    {% endif %}
+    
+{% endblock %}
