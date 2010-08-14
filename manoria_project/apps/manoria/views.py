@@ -9,8 +9,8 @@ from manoria.models import Continent, Player, Settlement
 
 
 @login_required
-def player_detail(request, name):
-    player = get_object_or_404(Player, name=name)
+def player_detail(request, pk):
+    player = get_object_or_404(Player, pk=pk)
     
     if request.user != player.user:
         raise Http404
@@ -58,8 +58,8 @@ def settlement_detail(request, pk):
 
 
 @login_required
-def settlement_create(request, player_id):
-    player = get_object_or_404(Player, id=player_id)
+def settlement_create(request, player_pk):
+    player = get_object_or_404(Player, pk=player_pk)
     
     if request.method == "POST":
         form = SettlementCreateForm(request.POST)
@@ -72,7 +72,7 @@ def settlement_create(request, player_id):
             
             settlement.place()
             
-            return redirect("player_detail", player.name)
+            return redirect("player_detail", player.pk)
     else:
         form = SettlementCreateForm()
     
