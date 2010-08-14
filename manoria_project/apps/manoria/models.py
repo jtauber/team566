@@ -142,6 +142,22 @@ class BuildingKind(models.Model):
         return self.name
 
 
+class BuildingKindProduct(models.Model):
+    
+    building_kind = models.ForeignKey(BuildingKind)
+    resource_kind = models.ForeignKey(ResourceKind)
+    source_terrain_kind = models.ForeignKey("SettlementTerrainKind", null=True)
+    base_rate = models.IntegerField()
+    
+    def __unicode__(self):
+        bits = []
+        bits.append("%s produces %s" % (self.building_kind, self.resource_kind))
+        if self.source_terrain_kind:
+            bits.append("from %s" % self.source_terrain_kind)
+        bits.append("at %d/hr" % self.base_rate)
+        return " ".join(bits)
+
+
 class SettlementBuilding(models.Model):
     
     kind = models.ForeignKey(BuildingKind)
