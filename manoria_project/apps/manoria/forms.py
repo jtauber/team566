@@ -39,7 +39,7 @@ class BuildingCreateForm(forms.ModelForm):
                 raise forms.ValidationError("A building exists at this location")
             
             non_buildable_terrain = SettlementTerrain.objects.filter(
-                settlement=self.settlement, x=x, y=y, buildable_on=False
+                settlement=self.settlement, x=x, y=y, kind__buildable_on=False
             )
             if non_buildable_terrain.exists():
                 raise forms.ValidationError("Building cannot be placed on non-buildable terrain")
