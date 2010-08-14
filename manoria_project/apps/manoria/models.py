@@ -175,7 +175,7 @@ class SettlementBuilding(models.Model):
             self.save()
 
 
-class SettlementTerrainKind(mdoels.Model):
+class SettlementTerrainKind(models.Model):
     
     name = models.CharField(max_length=50)
     buildable_on = models.BooleanField(default=True)
