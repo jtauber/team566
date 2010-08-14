@@ -148,5 +148,8 @@ class SettlementBuilding(models.Model):
     construction_start = models.DateTimeField(default=datetime.datetime.now)
     construction_end = models.DateTimeField(default=datetime.datetime.now)
     
+    class Meta:
+        unique_together = [("settlement", "x", "y")]
+    
     def __unicode__(self):
         return u"%s on %s" % (self.kind, self.settlement)

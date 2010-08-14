@@ -1,10 +1,12 @@
+import datetime
+
 from django.http import Http404
 from django.template import RequestContext
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 
 from django.contrib.auth.decorators import login_required
 
-from manoria.forms import PlayerCreateForm, SettlementCreateForm
+from manoria.forms import PlayerCreateForm, SettlementCreateForm, BuildingCreateForm
 from manoria.models import Continent, Player, Settlement, SettlementBuilding
 
 
@@ -96,3 +98,33 @@ def building_detail(request, pk):
     }
     ctx = RequestContext(request, ctx)
     return render_to_response("manoria/building_detail.html", ctx)
+
+
+@login_required
+def building_create(request, settlement_pk):
+    settlement = get_object_or_404(Settlement, pk=settlement_pk)
+    
+    if request.method == "POST":
+        form = BuildingCreateForm(request.POST)
+        
+        if form.is_valid():
+            building = form.save(commit=False)
+            
+            building.settlement = settlement
+            
+            # @@@ hard-coded two minute build times
+            now = datetime.datetime.now()
+            building.construction_start = now
+            building.construction_end = now + datetime.timedelta(minutes=2)
+            
+            building.save()
+            
+            return redirect("settlement_detail", settlement.pk)
+    else:
+        form = BuildingCreateForm()
+    
+    ctx = {
+        "form": form,
+    }
+    ctx = RequestContext(request, ctx)
+    return render_to_response("manoria/building_create.html", ctx)
