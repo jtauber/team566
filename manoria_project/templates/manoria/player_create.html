@@ -1,5 +1,7 @@
 {% extends "site_base.html" %}
 
+{% load uni_form_tags %}
+
 {% block head_title %}Create a player{% endblock %}
 
 {% block body_class %}player{% endblock %}
@@ -8,9 +10,9 @@
     
     <h1>Create a player</h1>
     
-    <form method="post" action="{% url player_create %}">
+    <form method="post" action="{% url player_create %}" class="uniForm">
         {% csrf_token %}
-        {{ form }}
+        {{ form|as_uni_form }}
         <input type="submit" value="create" />
     </form>
 {% endblock %}
