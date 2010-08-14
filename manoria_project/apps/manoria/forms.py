@@ -1,5 +1,3 @@
-import re
-
 from django import forms
 
 from manoria.models import Player, Settlement
