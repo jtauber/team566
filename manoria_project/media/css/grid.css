@@ -10,8 +10,8 @@ div.map {
     height: 1892px; /* (bulding width + border + padding) * 22 */
     background: #EEE;
     position: relative;
-    top: -308px;
-    left: -308px;
+    top: -650px;
+    left: -650px;
 }
 
 div.building {
