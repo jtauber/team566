@@ -1,5 +1,7 @@
 {% extends "site_base.html" %}
 
+{% load humanize %}
+
 {% block head_title %}{{ terrain.kind.name }}{% endblock %}
 
 {% block body_class %}terrain{% endblock %}
@@ -15,4 +17,21 @@
     <h1>{{ terrain.kind.name }}</h1>
     
     <p><b>Location</b>: {{ terrain.settlement.name }} {{ terrain.x }}-{{ terrain.y }}</p>
+    
+    <h2>Resources</h2>
+    
+    {% if terrain.resource_counts.all %}
+        <ul>
+            {% for resource_count in terrain.resource_counts.all %}
+                <li>
+                    {{ resource_count.kind.name }} = {{ resource_count.current|intcomma }}
+                    ({{ resource_count.rate|intcomma }}/hr;
+                        {% if resource_count.limit %}limit {{ resource_count.limit|intcomma }}{% else %}no limit{% endif %})
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No terrain resources.</p>
+    {% endif %}
+    
 {% endblock %}

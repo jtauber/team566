@@ -203,4 +203,4 @@ class SettlementTerrain(models.Model):
 class SettlementTerrainResourceCount(BaseResourceCount):
     
     kind = models.ForeignKey(ResourceKind)
-    terrain = models.ForeignKey(SettlementTerrain)
+    terrain = models.ForeignKey(SettlementTerrain, related_name="resource_counts")
