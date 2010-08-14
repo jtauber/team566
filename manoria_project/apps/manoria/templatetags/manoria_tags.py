@@ -13,8 +13,9 @@ def map(settlement):
 
 @register.inclusion_tag("manoria/_map_building.html")
 def map_building(building):
-    left = building.x * 53
-    top = building.y * 53
+    # building size + border + padding
+    left = building.x * 86
+    top = building.y * 86
     return {
         "building": building,
         "left": left,
