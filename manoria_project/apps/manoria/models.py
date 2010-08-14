@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 class Player(models.Model):
     
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, related_name="players")
     name = models.CharField(max_length=20)
     
     # @@@ points
@@ -31,7 +31,7 @@ class Settlement(models.Model):
             ("town", "Town"),
         ]
     )
-    player = models.ForeignKey(Player)
+    player = models.ForeignKey(Player, related_name="settlements")
     continent = models.ForeignKey(Continent)
     # location on continent
     x = models.IntegerField()
