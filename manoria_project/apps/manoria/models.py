@@ -77,9 +77,9 @@ class BaseResourceCount(models.Model):
         change = datetime.datetime.now() - self.timestamp
         amount = self.count + self.rate * (change.days * 86400 + change.seconds) / 3600.0
         if self.limit == 0:
-            return amount
+            return max(0, amount)
         else:
-            return min(amount, self.limit)
+            return min(max(0, amount), self.limit)
 
 
 class PlayerResourceCount(BaseResourceCount):
