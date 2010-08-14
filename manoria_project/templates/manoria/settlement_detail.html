@@ -38,7 +38,7 @@
         <ul>
             {% for terrain in settlement.terrain.all %}
                 <li>
-                    {{ terrain.kind.name }}
+                    <a href="{% url terrain_detail terrain.pk %}">{{ terrain.kind.name }}</a>
                     {{ terrain.x }}-{{ terrain.y }}
                 </li>
             {% endfor %}

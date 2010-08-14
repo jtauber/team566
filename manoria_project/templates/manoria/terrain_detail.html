@@ -1,0 +1,18 @@
+{% extends "site_base.html" %}
+
+{% block head_title %}{{ terrain.kind.name }}{% endblock %}
+
+{% block body_class %}terrain{% endblock %}
+
+{% block body %}
+    
+    <p>
+        <a href="{% url player_detail terrain.settlement.player.pk %}">{{ terrain.settlement.player.name }}</a>
+        &gt;
+        <a href="{% url settlement_detail terrain.settlement.pk %}">{{ terrain.settlement.name }}</a>
+    </p>
+    
+    <h1>{{ terrain.kind.name }}</h1>
+    
+    <p><b>Location</b>: {{ terrain.settlement.name }} {{ terrain.x }}-{{ terrain.y }}</p>
+{% endblock %}
