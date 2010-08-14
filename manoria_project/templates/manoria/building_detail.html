@@ -1,0 +1,19 @@
+{% extends "site_base.html" %}
+
+{% block head_title %}{{ building.kind.name }}{% endblock %}
+
+{% block body_class %}building{% endblock %}
+
+{% block body %}
+    
+    <p>
+        <a href="{% url player_detail building.settlement.player.pk %}">{{ building.settlement.player.name }}</a>
+        &gt;
+        <a href="{% url player_detail building.settlement.pk %}">{{ building.settlement.name }}</a>
+    </p>
+    
+    <h1>{{ building.kind.name }}</h1>
+    
+    <p><b>Location</b>: {{ building.settlement.name }} {{ building.x }}-{{ building.y }}</p>
+    
+{% endblock %}

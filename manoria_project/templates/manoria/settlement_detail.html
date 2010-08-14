@@ -30,7 +30,7 @@
         <ul>
             {% for building in settlement.buildings.all %}
                 <li>
-                    {{ building.kind.name }}
+                    <a href="{% url building_detail building.pk %}">{{ building.kind.name }}</a>
                     {{ building.x }}-{{ building.y }}
                 </li>
             {% endfor %}

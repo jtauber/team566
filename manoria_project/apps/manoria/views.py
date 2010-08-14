@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.contrib.auth.decorators import login_required
 
 from manoria.forms import PlayerCreateForm, SettlementCreateForm
-from manoria.models import Continent, Player, Settlement
+from manoria.models import Continent, Player, Settlement, SettlementBuilding
 
 
 @login_required
@@ -82,3 +82,17 @@ def settlement_create(request, player_pk):
     }
     ctx = RequestContext(request, ctx)
     return render_to_response("manoria/settlement_create.html", ctx)
+
+
+@login_required
+def building_detail(request, pk):
+    building = get_object_or_404(SettlementBuilding, pk=pk)
+    
+    if request.user != buiding.settlement.player.user:
+        raise Http404
+    
+    ctx = {
+        "building": building,
+    }
+    ctx = RequestContext(request, ctx)
+    return render_to_response("manoria/building_detail.html", ctx)
