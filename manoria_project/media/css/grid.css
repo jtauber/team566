@@ -37,3 +37,11 @@ div.terrain.lake a {
     background: #36C;
     color: #FFF;
 }
+div.terrain.hill a {
+    background: #363;
+    color: #FFF;
+}
+div.terrain.mountain a {
+    background: #CCC;
+    color: #000;
+}
