@@ -80,17 +80,15 @@
     <script>
         $(function() {
             $(".map").draggable();
-            jQuery.event.add(window, "load", resizeFrame);
-            jQuery.event.add(window, "resize", resizeFrame);
-            
-            function resizeFrame() 
-            {
+            function resizeFrame() {
                 var h = $(window).height();
                 var w = $(window).width();
                 $("div.left-panel").css("height", h - 123);
                 $("div.window").css("height", h - 83);
-                $("div.window").css("width", w - 327);
+                $("div.window").css("width", w - 341);
             }
+            $(window).load(resizeFrame);
+            $(window).resize(resizeFrame);
         });
     </script>
 {% endblock %}
