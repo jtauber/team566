@@ -27,7 +27,7 @@
         }
     }, 
     {
-        "pk": 3, 
+        "pk": 4, 
         "model": "manoria.settlementterrainkind", 
         "fields": {
             "buildable_on": false, 
