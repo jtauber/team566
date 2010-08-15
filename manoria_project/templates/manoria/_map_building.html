@@ -1,7 +1,8 @@
 <div class="building" style="top: {{ top }}px; left: {{ left }}px;">
-    <a href="{% url building_detail building.pk %}">{{ building.kind.name }}</a>
-    {% if building.status != "built" %}
-        ({{ building.status}})
-    {% endif %}
-    {{ building.x }} {{ building.y }}
+    <a href="{% url building_detail building.pk %}">{{ building.kind.name }}
+        {% if building.status != "built" %}
+            <br />
+            ({{ building.status}})
+        {% endif %}
+    </a>
 </div>
