@@ -184,6 +184,10 @@ DEBUG_TOOLBAR_CONFIG = {
 
 CONTACT_EMAIL = "jtauber@jtauber.com"
 
+CONTINENT_SIZE = (20, 20)
+SETTLEMENT_SIZE = (10, 10)
+SETTLEMENT_RESOURCE_COUNT = 20
+
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.
 try:

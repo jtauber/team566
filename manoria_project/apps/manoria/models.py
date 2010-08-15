@@ -3,6 +3,7 @@ import datetime
 import itertools
 import random
 
+from django.conf import settings
 from django.db import models
 
 from django.contrib.auth.models import User
@@ -63,12 +64,14 @@ class Settlement(models.Model):
         return u"%s (%s)" % (self.name, self.player)
     
     def place(self):
+        CX, CY = settings.CONTINENT_SIZE
+        SX, SY = settings.SETTLEMENT_SIZE
         # @@@ need to test if continent is full otherwise an infinite loop
         # will occur
         y = None
         while y is None:
-            x = random.randint(1, 10)
-            S = set(range(1, 11)) - set([s.y for s in Settlement.objects.filter(x=x)])
+            x = random.randint(1, CX)
+            S = set(range(1, CY+1)) - set([s.y for s in Settlement.objects.filter(x=x)])
             if S:
                 y = random.choice(list(S))
         self.x = x
@@ -86,7 +89,7 @@ class Settlement(models.Model):
             )
         
         def check_cell(settlement, x, y):
-            if not 1 <= x <= 20 or not 1 <= y <= 20:
+            if not 1 <= x <= SX or not 1 <= y <= SY:
                 terrain = None
             else:
                 try:
@@ -95,11 +98,11 @@ class Settlement(models.Model):
                     terrain = None
             return terrain
         
-        for i in range(50):
+        for i in range(settings.SETTLEMENT_RESOURCE_COUNT):
             occupied = True
             while occupied:
-                x = random.randint(1, 20)
-                y = random.randint(1, 20)
+                x = random.randint(1, SX)
+                y = random.randint(1, SY)
                 # check if the randomly chosen x, y is not already occupied
                 occupied = self.terrain.filter(x=x, y=y).exists()
                 if not occupied:

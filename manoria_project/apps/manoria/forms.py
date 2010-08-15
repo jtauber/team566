@@ -1,4 +1,5 @@
 from django import forms
+from django.conf import settings
 
 from manoria.models import Player, Settlement, SettlementBuilding, SettlementTerrain
 
@@ -28,11 +29,13 @@ class BuildingCreateForm(forms.ModelForm):
         super(BuildingCreateForm, self).__init__(*args, **kwargs)
     
     def clean(self):
+        SX, SY = settings.SETTLEMENT_SIZE
+        
         x = self.cleaned_data.get("x")
         y = self.cleaned_data.get("y")
         
         if all([x, y]):
-            if not 1 <= x <= 20 or not 1 <= y <= 20:
+            if not 1 <= x <= SX or not 1 <= y <= SY:
                 raise forms.ValidationError("Building is not within map range")
             
             if SettlementBuilding.objects.filter(settlement=self.settlement, x=x, y=y).exists():
