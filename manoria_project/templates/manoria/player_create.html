@@ -13,6 +13,8 @@
     <form method="post" action="{% url player_create %}" class="uniForm">
         {% csrf_token %}
         {{ form|as_uni_form }}
-        <input type="submit" value="create" />
+        <div class="form_block">
+            <input type="submit" value="create" />
+        </div>
     </form>
 {% endblock %}
