@@ -123,6 +123,17 @@ def building_detail(request, pk):
 def building_create(request, settlement_pk):
     settlement = get_object_or_404(Settlement, pk=settlement_pk)
     
+    def buildings():
+        resource_counts = {}
+        for resource_count in self.settlement.resource_counts():
+            resource_counts[resource_count.kind] = resource_count
+        for building_kind in BuildingKind.objects.all():
+            d = {"building_kind": building_kind, "costs": []}
+            for cost in building_kind.buildingcost_set.all():
+                cost.sufficient = resource_counts[cost.resource_kind].count >= cost.amount
+                d["costs"].append(cost)
+            yield d
+    
     if request.method == "POST":
         form = BuildingCreateForm(settlement, request.POST)
         
@@ -147,6 +158,7 @@ def building_create(request, settlement_pk):
     ctx = {
         "form": form,
         "settlement": settlement,
+        "buildings": buildings,
     }
     ctx = RequestContext(request, ctx)
     return render_to_response("manoria/building_create.html", ctx)
