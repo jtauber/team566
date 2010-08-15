@@ -55,3 +55,9 @@
     color: #FFF;
     background: #444;
 }
+
+.left-panel {
+    background: #CCC;
+    padding: 20px;
+    width: 300px;
+}
