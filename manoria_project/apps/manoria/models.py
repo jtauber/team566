@@ -296,7 +296,8 @@ class SettlementBuilding(models.Model):
                 closest.kind,
                 terrain=closest, when=self.construction_end
             )
-            if not hit_limit:
+            # if when is None the terrain will never run out or hit a limit
+            if when and not hit_limit:
                 current = SettlementResourceCount.current(
                     product.resource_kind,
                     settlement=self.settlement, when=when
