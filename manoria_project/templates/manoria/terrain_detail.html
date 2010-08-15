@@ -21,9 +21,9 @@
     
     <h2>Resources</h2>
     
-    {% if terrain.resource_counts.all %}
+    {% if terrain.resource_counts %}
         <ul>
-            {% for resource_count in terrain.resource_counts.all %}
+            {% for resource_count in terrain.resource_counts %}
                 <li>
                     {{ resource_count.kind.name }} = {{ resource_count.amount|intcomma }}
                     ({{ resource_count.rate|format_rate }}/hr;

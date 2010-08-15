@@ -350,9 +350,18 @@ class SettlementTerrain(models.Model):
     
     def __unicode__(self):
         return u"%s on %s" % (self.kind, self.settlement)
+    
+    def resource_counts(self):
+        # @@@ instance cache
+        counts = []
+        for row in self.settlementterrainresourcecount_set.distinct().values("kind"):
+            kind = ResourceKind.objects.get(id=row["kind"])
+            current = SettlementTerrainResourceCount.current(kind, terrain=self)
+            counts.append(current)
+        return counts
 
 
 class SettlementTerrainResourceCount(BaseResourceCount):
     
     kind = models.ForeignKey(ResourceKind)
-    terrain = models.ForeignKey(SettlementTerrain, related_name="resource_counts")
+    terrain = models.ForeignKey(SettlementTerrain)
