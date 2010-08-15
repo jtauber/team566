@@ -150,7 +150,7 @@ class BaseResourceCount(models.Model):
             limit = a.limit
             if a.rate < 0:
                 # when the count will hit zero
-                timestamp = start + datetime.timedelta(hours=(count / float(rate)))
+                timestamp = start + datetime.timedelta(hours=(count / -float(rate)))
                 if end is not None and timestamp > end:
                     continue
                 return timestamp, False
