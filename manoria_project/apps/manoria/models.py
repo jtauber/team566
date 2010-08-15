@@ -79,6 +79,7 @@ class Settlement(models.Model):
     def size(self):
         return settings.SETTLEMENT_SIZE
     
+    @transaction.commit_on_success
     def place(self):
         CX, CY = settings.CONTINENT_SIZE
         SX, SY = settings.SETTLEMENT_SIZE
