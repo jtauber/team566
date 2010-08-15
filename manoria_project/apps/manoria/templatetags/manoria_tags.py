@@ -2,21 +2,29 @@ import itertools
 
 from django import template
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
 from django.contrib.humanize.templatetags.humanize import intcomma
 
-from manoria.models import Settlement, SettlementBuilding, SettlementTerrain
+from manoria.models import Continent, Settlement, SettlementBuilding, SettlementTerrain
 
 
 register = template.Library()
 
 
 class EmptyCell(object):
-    def __init__(self, x, y):
+    def __init__(self, x, y, mapable):
         self.x = x
         self.y = y
+        self.mapable = mapable
+    
+    def create_url(self):
+        if isinstance(self.mapable, Continent):
+            return reverse("settlement_create")
+        elif isinstance(self.mapable, Settlement):
+            return reverse("building_create", args=(self.mapable.pk,))
 
 
 @register.inclusion_tag("manoria/_map.html")
@@ -27,7 +35,7 @@ def render_map(mapable):
         for y in range(1, mapable.size[1]+1):
             if (x, y) in allocation:
                 continue
-            empty_cells.append(EmptyCell(x, y))
+            empty_cells.append(EmptyCell(x, y, mapable))
     return {
         "mapable": mapable,
         "cells": itertools.chain(empty_cells, mapable.cells()),
@@ -59,6 +67,9 @@ class RenderMapCellNode(template.Node):
             SettlementBuilding: "_map_building.html",
             SettlementTerrain: "_map_terrain.html"
         }[type(cell)]
+        
+        if isinstance(cell, EmptyCell):
+            ctx["create_url"] = cell.create_url()
         
         return render_to_string("manoria/%s" % template, ctx)
 
