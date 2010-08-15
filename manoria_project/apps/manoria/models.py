@@ -4,7 +4,7 @@ import itertools
 import random
 
 from django.conf import settings
-from django.db import models
+from django.db import models, transaction
 
 from django.contrib.auth.models import User
 
@@ -350,6 +350,7 @@ class SettlementBuilding(models.Model):
     def __unicode__(self):
         return u"%s on %s" % (self.kind, self.settlement)
     
+    @transaction.commit_on_success
     def queue(self, commit=True):
         # look for most recently added building to queue (None if none)
         try:
