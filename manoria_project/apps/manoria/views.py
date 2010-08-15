@@ -23,8 +23,11 @@ def homepage(request):
 
 
 def _player_detail(request, player):
+    continent = get_object_or_404(Continent, pk=1)
+
     ctx = {
         "player": player,
+        "continent": continent,
     }
     ctx = RequestContext(request, ctx)
     return render_to_response("manoria/player_detail.html", ctx)
@@ -59,17 +62,6 @@ def player_create(request):
     }
     ctx = RequestContext(request, ctx)
     return render_to_response("manoria/player_create.html", ctx)
-
-
-@login_required
-def continent_detail(request, pk):
-    continent = get_object_or_404(Continent, pk=pk)
-    
-    ctx = {
-        "continent": continent,
-    }
-    ctx = RequestContext(request, ctx)
-    return render_to_response("manoria/continent_detail.html", ctx)
 
 
 @login_required

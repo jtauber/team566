@@ -3,47 +3,69 @@
 {% load humanize %}
 {% load manoria_tags %}
 
-{% block head_title %}{{ player.name }}{% endblock %}
+{% block head_title %}{{ continent.name }}{% endblock %}
 
-{% block body_class %}player{% endblock %}
+{% block body_class %}continent{% endblock %}
 
-{% block body %}
+{% block body_outer %}
     
-    <h1>{{ player.name }}</h1>
-    
-    <h2>Settlements</h2>
-    
-    {% if player.settlements.all %}
-        <ul>
-            {% for settlement in player.settlements.all %}
-                <li>
-                    <a href="{% url settlement_detail settlement.id %}">{{ settlement.kind|title }} of {{ settlement.name }}</a>
-                    {{ settlement.continent.name }} {{ settlement.x }}-{{ settlement.y }}
-                </li>
-            {% endfor %}
-        </ul>
-        <p><a href="{% url settlement_create %}">Create another settlement</a> (will not normally be able to just do this)</p>
-    {% else %}
-        <p>{{ player.name }} has no settlements yet.</p>
-        <p><a href="{% url settlement_create %}">Create a settlement</a></p>
-    {% endif %}
-    
-    <h2>Resources</h2>
-    
-    {% if player.resource_counts %}
-        <p>These resources are attached to the player, not an individual settlement.</p>
+    <div class="left-panel">
+        <h1>{{ player.name }}</h1>
         
-        <ul>
-            {% for resource_count in player.resource_counts %}
-                <li>
-                    {{ resource_count.kind.name }} = {{ resource_count.amount|intcomma }}
-                    ({{ resource_count.rate|format_rate }}/hr;
-                        {% if resource_count.limit %}limit {{ resource_count.limit|intcomma }}{% else %}no limit{% endif %})
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No player-level resources.</p>
-    {% endif %}
+        <h2>Settlements</h2>
+        
+        {% if player.settlements.all %}
+            <ul>
+                {% for settlement in player.settlements.all %}
+                    <li>
+                        <a href="{% url settlement_detail settlement.id %}">{{ settlement.kind|title }} of {{ settlement.name }}</a>
+                        {{ settlement.continent.name }} {{ settlement.x }}-{{ settlement.y }}
+                    </li>
+                {% endfor %}
+            </ul>
+            <p><a href="{% url settlement_create %}">Create another settlement</a> (will not normally be able to just do this)</p>
+        {% else %}
+            <p>{{ player.name }} has no settlements yet.</p>
+            <p><a href="{% url settlement_create %}">Create a settlement</a></p>
+        {% endif %}
+        
+        <h2>Resources</h2>
+        
+        {% if player.resource_counts %}
+            <p>These resources are attached to the player, not an individual settlement.</p>
+            
+            <ul>
+                {% for resource_count in player.resource_counts %}
+                    <li>
+                        {{ resource_count.kind.name }} = {{ resource_count.amount|intcomma }}
+                        ({{ resource_count.rate|format_rate }}/hr;
+                            {% if resource_count.limit %}limit {{ resource_count.limit|intcomma }}{% else %}no limit{% endif %})
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No player-level resources.</p>
+        {% endif %}
+    </div>
     
+    <div class="window">
+        {% render_map continent %}
+    </div>
+{% endblock %}
+
+{% block extra_body %}
+    <script>
+        $(function() {
+            $(".map").draggable();
+            function resizeFrame() {
+                var h = $(window).height();
+                var w = $(window).width();
+                $("div.left-panel").css("height", h - 106); // 123
+                $("div.window").css("height", h - 85); // 83
+                $("div.window").css("width", w - 341); // 341
+            }
+            $(window).load(resizeFrame);
+            $(window).resize(resizeFrame);
+        });
+    </script>
 {% endblock %}
