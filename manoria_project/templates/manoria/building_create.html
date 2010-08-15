@@ -16,9 +16,32 @@
     
     <h1>Create a building</h1>
     
-    <form method="post" action="{% url building_create settlement.pk %}" class="uniForm">
+    {% for building in buildings %}
+        <div class="resource-count">
+            <b>{{ building.building_kind }}</b>
+            <br />
+        {% for cost in building.costs %}
+            {% if cost.sufficient %}
+                <span class="cost-sufficient">
+            {% else %}
+                <span class="cost-insufficient">
+            {% endif %}
+                {{ cost.amount }}
+                {{ cost.resource_kind }}
+            </span>
+        {% endfor %}
+        </div>
+    {% endfor %}
+    
+    <form method="post" action="{% url building_create settlement.pk %}">
         {% csrf_token %}
-        {{ form|as_uni_form }}
-        <input type="submit" value="create" />
+        {{ form }}
     </form>
+{% endblock %}
+
+{% block extra_body %}
+    <script>
+        $(function() {
+        });
+    </script>
 {% endblock %}
