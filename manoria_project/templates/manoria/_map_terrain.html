@@ -1,4 +1,5 @@
-<div class="terrain" style="top: {{ top }}px; left: {{ left }}px;">
-    <a href="{% url terrain_detail terrain.pk %}">{{ terrain.kind.name }}</a>
-    {{ terrain.x }} {{ terrain.y }}
+<div class="terrain {{ terrain.kind.slug }}" style="top: {{ top }}px; left: {{ left }}px;">
+    <a href="{% url terrain_detail terrain.pk %}">
+        {{ terrain.kind.name }}
+    </a>
 </div>

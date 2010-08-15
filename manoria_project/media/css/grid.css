@@ -9,7 +9,7 @@ div.window {
 div.map {
     width: 1892px; /* (bulding width + border + padding) * 22 */
     height: 1892px; /* (bulding width + border + padding) * 22 */
-    background: #EEE;
+    background: #6C3;
     position: relative;
     top: -650px;
     left: -650px;
@@ -17,9 +17,21 @@ div.map {
 
 div.building, div.terrain {
     position: absolute;
+}
+div.terrain a {
+    display: block;
     width: 80px;
     height: 80px;
-    border: 1px solid #000;
     font-size: 8pt;
-    padding: 2px;
+    padding: 3px;
+    text-decoration: none;
+}
+
+div.terrain.forest a {
+    background: #030;
+    color: #FFF;
+}
+div.terrain.lake a {
+    background: #9CF;
+    color: #000;
 }
