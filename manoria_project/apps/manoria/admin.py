@@ -16,4 +16,6 @@ admin.site.register(models.BuildingKindProduct)
 admin.site.register(models.SettlementBuilding)
 admin.site.register(models.SettlementTerrainKind)
 admin.site.register(models.SettlementTerrain)
-admin.site.register(models.SettlementTerrainResourceCount)
+admin.site.register(models.SettlementTerrainResourceCount,
+    list_display = ["pk", "kind", "terrain", "count", "timestamp", "natural_rate", "rate_adjustment", "rate"]
+)
