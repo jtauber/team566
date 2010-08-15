@@ -22,7 +22,7 @@
             {% for resource_count in settlement.resource_counts %}
                 <li>
                     {{ resource_count.kind.name }} = {{ resource_count.amount|intcomma }}
-                    ({{ resource_count.rate|intcomma }}/hr;
+                    ({{ resource_count.rate|format_rate }}/hr;
                         {% if resource_count.limit %}limit {{ resource_count.limit|intcomma }}{% else %}no limit{% endif %})
                 </li>
             {% endfor %}
