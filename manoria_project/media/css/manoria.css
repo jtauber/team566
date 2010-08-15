@@ -111,3 +111,17 @@ h2 {
     padding: 10px;
     width: 320px;
 }
+
+::-webkit-scrollbar {
+    height: 13px;
+}
+::-webkit-scrollbar-track {
+    border: 1px solid #000;
+}
+::-webkit-scrollbar-track-piece {
+    background: url(/site_media/static/img/paper_texture_1-512px.jpg) #7F6230;
+}
+::-webkit-scrollbar-thumb {
+    background: url(/site_media/static/img/paper_texture4-512px.jpg) #876721;
+    border: 1px solid #000;
+}
