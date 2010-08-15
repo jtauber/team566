@@ -390,6 +390,8 @@ class SettlementBuilding(models.Model):
             
             # find the closest terrain which produces what the building needs
             # to be productive.
+            # @@@ change to work based on aadjacency instead of a single
+            # closest terrain
             terrain = SettlementTerrain.objects.filter(
                 settlement=self.settlement, kind=product.source_terrain_kind
             )
