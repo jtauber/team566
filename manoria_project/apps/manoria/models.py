@@ -373,22 +373,32 @@ class SettlementBuilding(models.Model):
         # iterate over what the building kind produces setting up the state
         # of resource counts when the building will be finished building
         for product in self.kind.products.all():
-            # adjust the settlement resource count based on what the building
+            # establish some common params used while creating resource counts
+            common_params = {}
+            if product.resource_kind.player:
+                ResourceCount = PlayerResourceCount
+                common_params["player"] = self.settlement.player
+            else:
+                ResourceCount = SettlementResourceCount
+                common_params["settlement"] = self.settlement
+            
+            # adjust the settlement/player resource count based on what the building
             # will produce in the best case scenario.
-            current = SettlementResourceCount.current(
-                product.resource_kind,
-                settlement=self.settlement, when=self.construction_end
-            )
-            amount = current.amount(self.construction_end)
-            SettlementResourceCount.objects.create(
-                kind=product.resource_kind,
-                settlement=self.settlement,
-                count=amount,
-                timestamp=self.construction_end,
-                natural_rate=current.natural_rate,
-                rate_adjustment=current.rate_adjustment + product.base_rate,
-                limit=0, # @@@ storage
-            )
+            lookup_params = {
+                "when": self.construction_end,
+            }
+            lookup_params.update(common_params)
+            current = ResourceCount.current(product.resource_kind, **lookup_params)
+            create_kwargs = {
+                "kind": product.resource_kind,
+                "count": current.amount(self.construction_end),
+                "timestamp": self.construction_end,
+                "natural_rate": current.natural_rate,
+                "rate_adjustment": current.rate_adjustment + product.base_rate,
+                "limit": 0, # @@@ storage
+            }
+            create_kwargs.update(common_params)
+            ResourceCount.objects.create(**create_kwargs)
             
             # find the closest terrain which produces what the building needs
             # to be productive.
@@ -408,11 +418,10 @@ class SettlementBuilding(models.Model):
                 product.resource_kind,
                 terrain=closest, when=self.construction_end
             )
-            amount = current.amount(self.construction_end)
             SettlementTerrainResourceCount.objects.create(
                 kind=product.resource_kind,
                 terrain=closest,
-                count=amount,
+                count=current.amount(self.construction_end),
                 timestamp=self.construction_end,
                 natural_rate=current.natural_rate,
                 rate_adjustment=current.rate_adjustment - product.base_rate,
@@ -429,20 +438,22 @@ class SettlementBuilding(models.Model):
             )
             # if when is None the terrain will never run out or hit a limit
             if when and not hit_limit:
-                current = SettlementResourceCount.current(
-                    product.resource_kind,
-                    settlement=self.settlement, when=when
-                )
-                amount = current.amount(when)
-                SettlementResourceCount.objects.create(
-                    kind=product.resource_kind,
-                    settlement=self.settlement,
-                    count=amount,
-                    timestamp=when,
-                    natural_rate=current.natural_rate,
-                    rate_adjustment=current.rate_adjustment - product.base_rate,
-                    limit=0, # @@@ storage
-                )
+                lookup_params = {
+                    "when": when,
+                }
+                lookup_params.update(common_params)
+                current = ResourceCount.current(product.resource_kind, **lookup_params)
+                create_kwargs = {
+                    "kind": product.resource_kind,
+                    "settlement": self.settlement,
+                    "count": current.amount(when),
+                    "timestamp": when,
+                    "natural_rate": current.natural_rate,
+                    "rate_adjustment": current.rate_adjustment - product.base_rate,
+                    "limit": 0, # @@@ storage
+                }
+                create_kwargs.update(common_params)
+                ResourceCount.objects.create(**create_kwargs)
         
         if commit:
             self.save()
