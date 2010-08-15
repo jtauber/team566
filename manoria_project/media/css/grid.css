@@ -9,12 +9,12 @@ div.window {
     left: 340px;
 }
 div.map {
-    width: 1892px; /* (bulding width + border + padding) * 22 */
-    height: 1892px; /* (bulding width + border + padding) * 22 */
+    width: 1032px; /* (building_width + border + padding) * (num_cells_x + 2) */
+    height: 1032px; /* (building_width + border + padding) * (num_cells_y + 2) */
     background: #6A3;
     position: relative;
-    top: -650px;
-    left: -650px;
+    top: 20px;
+    left: 20px;
 }
 
 div.building, div.terrain {
