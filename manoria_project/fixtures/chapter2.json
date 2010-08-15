@@ -30,8 +30,8 @@
         "pk": 4, 
         "model": "manoria.resourcekind", 
         "fields": {
-            "name": "Food",
-            "slug": "food",
+            "name": "Wheat",
+            "slug": "wheat",
             "player": false
         }
     }, 
