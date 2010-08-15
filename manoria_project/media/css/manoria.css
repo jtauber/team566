@@ -131,6 +131,21 @@ h2 {
     float: right;
     font-weight: bold;
 }
+.build-queue-item {
+    margin: 3px 0;
+    padding: 2px 5px;
+    color: #210;
+    text-shadow: 1px 1px 0px #974;
+    background: url(/site_media/static/img/paper_texture4-512px.jpg) #876721;
+    font-size: 12pt;
+    -webkit-box-shadow: 1px 1px 3px #000;
+}
+.build-queue-item a {
+    color: #600;
+}
+.build-queue-item .start, .build-queue-item .finish {
+    font-size: 9pt;
+}
 
 ::-webkit-scrollbar {
     height: 13px;

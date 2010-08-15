@@ -35,20 +35,18 @@
         <h2>Build Queue</h2>
         
         {% if settlement.build_queue %}
-            <ul>
-                {% for building in settlement.build_queue %}
-                    <li>
-                        <a href="{% url building_detail building.pk %}">{{ building.kind.name }}</a>
-                        {{ building.x }}-{{ building.y }}
-                        <br />
-                        {% if building.status == "queued" %}
-                        starting in {{ building.construction_start|timeuntil }}
-                        <br />
-                        {% endif %}
-                        finishing in {{ building.construction_end|timeuntil }}
-                    </li>
-                {% endfor %}
-            </ul>
+            {% for building in settlement.build_queue %}
+                <div class="build-queue-item">
+                    <a href="{% url building_detail building.pk %}">{{ building.kind.name }}</a>
+                    @{{ building.x }},{{ building.y }}
+                    <br />
+                    {% if building.status == "queued" %}
+                    <span class="start">starting in {{ building.construction_start|timeuntil }}</span>
+                    <br />
+                    {% endif %}
+                    <span class="finish">finishing in {{ building.construction_end|timeuntil }}</span>
+                </div>
+            {% endfor %}
         {% else %}
             <p>No buildings in the build queue for this settlement.</p>
         {% endif %}
