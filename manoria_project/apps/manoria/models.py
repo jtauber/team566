@@ -120,7 +120,7 @@ class Settlement(models.Model):
         for resource_kind in ResourceKind.objects.filter(player=False):
             self.settlementresourcecount_set.create(
                 kind=resource_kind,
-                count=0,
+                count=1000,
                 natural_rate=0,
                 rate_adjustment=0,
                 timestamp=datetime.datetime.now(),
