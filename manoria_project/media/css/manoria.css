@@ -112,6 +112,26 @@ h2 {
     width: 320px;
 }
 
+.resource-count {
+    margin: 3px 0;
+    padding: 2px 5px;
+    color: #210;
+    text-shadow: 1px 1px 0px #974;
+    background: url(/site_media/static/img/paper_texture4-512px.jpg) #876721;
+    font-size: 12pt;
+    -webkit-box-shadow: 1px 1px 3px #000;
+}
+.resource-count .resource {
+    font-weight: bold;
+}
+.resource-count .rate {
+    font-size: 9pt;
+}
+.resource-count .count {
+    float: right;
+    font-weight: bold;
+}
+
 ::-webkit-scrollbar {
     height: 13px;
 }

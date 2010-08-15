@@ -19,15 +19,15 @@
         <h2>Resources</h2>
         
         {% if settlement.resource_counts %}
-            <ul>
-                {% for resource_count in settlement.resource_counts %}
-                    <li>
-                        {{ resource_count.kind.name }} = {{ resource_count.amount|intcomma }}
-                        ({{ resource_count.rate|format_rate }}/hr;
-                            {% if resource_count.limit %}limit {{ resource_count.limit|intcomma }}{% else %}no limit{% endif %})
-                    </li>
-                {% endfor %}
-            </ul>
+            {% for resource_count in settlement.resource_counts %}
+                <div class="resource-count">
+                    <span class="resource">{{ resource_count.kind.name }}</span>
+                    <span class="rate">({{ resource_count.rate|format_rate }}/hr;
+                        {% if resource_count.limit %}limit {{ resource_count.limit|intcomma }}{% else %}no limit{% endif %})
+                    </span>
+                    <span class="count">{{ resource_count.amount|intcomma }}</span>
+                </div>
+            {% endfor %}
         {% else %}
             <p>No resources in this settlement.</p>
         {% endif %}
