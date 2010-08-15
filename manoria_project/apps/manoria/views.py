@@ -81,8 +81,8 @@ def settlement_detail(request, pk):
 
 
 @login_required
-def settlement_create(request, player_pk):
-    player = get_object_or_404(Player, pk=player_pk)
+def settlement_create(request):
+    player = request.user.player
     
     if request.method == "POST":
         form = SettlementCreateForm(request.POST)

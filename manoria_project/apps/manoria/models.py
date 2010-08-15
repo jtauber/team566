@@ -13,7 +13,7 @@ from manoria.utils import weighted_choices
 
 class Player(models.Model):
     
-    user = models.ForeignKey(User, related_name="players")
+    user = models.OneToOneField(User)
     name = models.CharField(max_length=20, unique=True)
     
     # @@@ points
