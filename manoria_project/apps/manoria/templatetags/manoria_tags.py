@@ -12,8 +12,8 @@ register = template.Library()
 def render_map(settlement):
     empty_cells = []
     allocation = [map(int, a.split(",")) for a in settlement.allocation.split()]
-    for x in range(settings.SETTLEMENT_SIZE[0]):
-        for y in range(settings.SETTLEMENT_SIZE[1]):
+    for x in range(1, settings.SETTLEMENT_SIZE[0]+1):
+        for y in range(1, settings.SETTLEMENT_SIZE[1]+1):
             if (x, y) in allocation:
                 continue
             empty_cells.append((x*86, y*86))
