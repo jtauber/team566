@@ -128,10 +128,13 @@ def building_create(request, settlement_pk):
         for resource_count in settlement.resource_counts():
             resource_counts[resource_count.kind] = resource_count
         for building_kind in BuildingKind.objects.all():
+            fully_sufficient = []
             d = {"building_kind": building_kind, "costs": []}
             for cost in building_kind.buildingcost_set.all():
                 cost.sufficient = resource_counts[cost.resource_kind].count >= cost.amount
+                fully_sufficient.append(cost.sufficient)
                 d["costs"].append(cost)
+            d["sufficient"] = all(fully_sufficient)
             yield d
     
     if request.method == "POST":
