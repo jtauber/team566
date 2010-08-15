@@ -8,5 +8,55 @@
             "source_terrain_kind": 1, 
             "base_rate": 500
         }
+    },
+    {
+        "pk": 2, 
+        "model": "manoria.buildingkindproduct", 
+        "fields": {
+            "resource_kind": 1, 
+            "building_kind": 3, 
+            "source_terrain_kind": 2, 
+            "base_rate": 500
+        }
+    },
+    {
+        "pk": 3, 
+        "model": "manoria.buildingkindproduct", 
+        "fields": {
+            "resource_kind": 3, 
+            "building_kind": 4, 
+            "source_terrain_kind": 3, 
+            "base_rate": 500
+        }
+    },
+    {
+        "pk": 4, 
+        "model": "manoria.buildingkindproduct", 
+        "fields": {
+            "resource_kind": 2, 
+            "building_kind": 5, 
+            "source_terrain_kind": 4, 
+            "base_rate": 500
+        }
+    },
+    {
+        "pk": 5, 
+        "model": "manoria.buildingkindproduct", 
+        "fields": {
+            "resource_kind": 4, 
+            "building_kind": 6, 
+            "source_terrain_kind": null, 
+            "base_rate": 500
+        }
+    },
+    {
+        "pk": 6, 
+        "model": "manoria.buildingkindproduct", 
+        "fields": {
+            "resource_kind": 5, 
+            "building_kind": 7, 
+            "source_terrain_kind": 3, 
+            "base_rate": 500
+        }
     }
 ]

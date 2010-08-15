@@ -26,7 +26,7 @@
             "buildable_on": false, 
             "name": "Hill",
             "slug": "hill",
-            "produces": [3]
+            "produces": [3, 5]
         }
     }, 
     {
