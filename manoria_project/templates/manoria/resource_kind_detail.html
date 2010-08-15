@@ -14,4 +14,17 @@
     </p>
     
     <h1>{{ resource_kind.name }}</h1>
+    
+    <h2>Produced By</h2>
+    
+    {% if resource_kind.produced_by.count %}
+        <ul>
+            {% for product in resource_kind.produced_by.all %}
+                <li>{{ product.building_kind.name }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No buildings produce this resource.</p>
+    {% endif %}
+        
 {% endblock %}

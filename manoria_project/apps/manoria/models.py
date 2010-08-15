@@ -208,7 +208,7 @@ class BuildingKind(models.Model):
 class BuildingKindProduct(models.Model):
     
     building_kind = models.ForeignKey(BuildingKind, related_name="products")
-    resource_kind = models.ForeignKey(ResourceKind)
+    resource_kind = models.ForeignKey(ResourceKind, related_name="produced_by")
     source_terrain_kind = models.ForeignKey("SettlementTerrainKind", null=True)
     base_rate = models.IntegerField()
     
