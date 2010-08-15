@@ -1,4 +1,5 @@
 import datetime
+import itertools
 import random
 
 from django.db import models
@@ -132,6 +133,7 @@ class BaseResourceCount(models.Model):
     @classmethod
     def calculate_extremum(cls, kind, **kwargs):
         current = cls.current(kind, **kwargs)
+        del kwargs["when"]
         lookup_params = {
             "kind": kind,
             "timestamp__gte": current.timestamp,
@@ -144,16 +146,17 @@ class BaseResourceCount(models.Model):
             else:
                 start, end = a.timestamp, b.timestamp
             count = a.count
+            rate = a.rate
             limit = a.limit
             if a.rate < 0:
                 # when the count will hit zero
-                timestamp = a.start + datetime.timedelta(hours=(count / rate))
+                timestamp = start + datetime.timedelta(hours=(count / float(rate)))
                 if end is not None and timestamp > end:
                     continue
                 return timestamp, False
             elif a.rate > 0:
                 # when the count will hit the limit
-                timestamp = a.start + datetime.timedelta(hours=((limit - count) / rate))
+                timestamp = start + datetime.timedelta(hours=((limit - count) / float(rate)))
                 if end is not None and timestamp > end:
                     continue
                 return timestamp, True
@@ -267,18 +270,18 @@ class SettlementBuilding(models.Model):
             )
             src.save()
             
-            current = SettlementTerrainResourceCount.current(
-                product.resource_kind,
-                settlement=self.settlement, when=self.construction_end
-            )
-            amount = current.amount(self.construction_end)
             terrain = SettlementTerrain.objects.filter(
                 settlement=self.settlement, kind=product.source_terrain_kind
             )
             closest = sorted([
                 (((self.x - t.x) ** 2) + ((self.y - t.y) ** 2), t)
                 for t in terrain
-            ])[0]
+            ])[0][1]
+            current = SettlementTerrainResourceCount.current(
+                product.resource_kind,
+                terrain=closest, when=self.construction_end
+            )
+            amount = current.amount(self.construction_end)
             strc = SettlementTerrainResourceCount(
                 kind=product.resource_kind,
                 terrain=closest,
