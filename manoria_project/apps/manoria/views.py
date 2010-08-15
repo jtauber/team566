@@ -112,7 +112,7 @@ def building_create(request, settlement_pk):
             
             building.settlement = settlement
             
-            building.build()
+            building.queue()
             
             return redirect("settlement_detail", settlement.pk)
     else:

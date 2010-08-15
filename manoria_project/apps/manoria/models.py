@@ -237,7 +237,7 @@ class SettlementBuilding(models.Model):
     def __unicode__(self):
         return u"%s on %s" % (self.kind, self.settlement)
     
-    def build(self, commit=True):
+    def queue(self, commit=True):
         try:
             oldest = self.settlement.build_queue().reverse()[0]
         except IndexError:
