@@ -17,7 +17,7 @@ div.map {
     left: 20px;
 }
 
-div.building, div.terrain {
+div.building, div.terrain, div.empty-cell {
     position: absolute;
 }
 div.terrain a {
@@ -44,4 +44,14 @@ div.terrain.hill a {
 div.terrain.mountain a {
     background: #CCC;
     color: #000;
+}
+
+div.empty-cell {
+    width: 80px;
+    height: 80px;
+    padding: 2px;
+    background: transparent;
+}
+div.empty-cell:hover {
+    border: 1px dotted yellow;
 }
