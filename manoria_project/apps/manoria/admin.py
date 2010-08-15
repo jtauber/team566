@@ -9,7 +9,7 @@ admin.site.register(models.PlayerResourceCount,
     list_display = ["kind", "player", "count"]
 )
 admin.site.register(models.SettlementResourceCount,
-    list_display = ["kind", "settlement", "count"]
+    list_display = ["pk", "kind", "settlement", "count", "timestamp", "natural_rate", "rate_adjustment", "rate"]
 )
 admin.site.register(models.BuildingKind)
 admin.site.register(models.BuildingKindProduct)
