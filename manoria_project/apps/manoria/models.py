@@ -371,6 +371,19 @@ class SettlementBuilding(models.Model):
         self.settlement.allocation += "%s%d,%d" % (" ", self.x, self.y)
         self.settlement.save()
         
+        SX, SY = settings.SETTLEMENT_SIZE
+        
+        def check_cell(settlement, x, y, **kwargs):
+            if not 1 <= x <= SX or not 1 <= y <= SY:
+                terrain = None
+            else:
+                try:
+                    terrain = settlement.terrain.filter(**kwargs).select_related("kind")
+                    terrain = terrain.get(x=x, y=y)
+                except SettlementTerrain.DoesNotExist:
+                    terrain = None
+            return terrain
+        
         # iterate over what the building kind produces setting up the state
         # of resource counts when the building will be finished building
         for product in self.kind.products.all():
@@ -402,60 +415,66 @@ class SettlementBuilding(models.Model):
             ResourceCount.objects.create(**create_kwargs)
             
             if product.source_terrain_kind:
-                # find the closest terrain which produces what the building needs
-                # to be productive.
-                # @@@ change to work based on aadjacency instead of a single
-                # closest terrain
-                terrain = SettlementTerrain.objects.filter(
-                    settlement=self.settlement, kind=product.source_terrain_kind
-                )
-                closest = sorted([
-                    (((self.x - t.x) ** 2) + ((self.y - t.y) ** 2), t)
-                    for t in terrain
-                ])[0][1]
                 
-                # when the building finishes set what affect it will have on the
-                # terrain resource count
-                current = SettlementTerrainResourceCount.current(
-                    product.resource_kind,
-                    terrain=closest, when=self.construction_end
-                )
-                SettlementTerrainResourceCount.objects.create(
-                    kind=product.resource_kind,
-                    terrain=closest,
-                    count=current.amount(self.construction_end),
-                    timestamp=self.construction_end,
-                    natural_rate=current.natural_rate,
-                    rate_adjustment=current.rate_adjustment - product.base_rate,
-                    limit=current.limit,
-                )
+                # look for terrains which are adjacent and of the correct
+                # kind and adjust rates of each
                 
-                # determine *when* the terrain will either run out or hit its
-                # limit based on its current rate and if the terrain will hit
-                # zero by the time the building finishes we need to adjust how
-                # it affects the settlement resource counts
-                when, hit_limit = SettlementTerrainResourceCount.calculate_extremum(
-                    product.resource_kind,
-                    terrain=closest, when=self.construction_end
-                )
-                # if when is None the terrain will never run out or hit a limit
-                if when and not hit_limit:
-                    lookup_params = {
-                        "when": when,
-                    }
-                    lookup_params.update(common_params)
-                    current = ResourceCount.current(product.resource_kind, **lookup_params)
-                    create_kwargs = {
-                        "kind": product.resource_kind,
-                        "settlement": self.settlement,
-                        "count": current.amount(when),
-                        "timestamp": when,
-                        "natural_rate": current.natural_rate,
-                        "rate_adjustment": current.rate_adjustment - product.base_rate,
-                        "limit": 0, # @@@ storage
-                    }
-                    create_kwargs.update(common_params)
-                    ResourceCount.objects.create(**create_kwargs)
+                x, y = self.x, self.y
+                
+                neighbors = filter(bool, [
+                    check_cell(self.settlement, x+1, y, kind=product.resource_kind),
+                    check_cell(self.settlement, x-1, y, kind=product.resource_kind),
+                    check_cell(self.settlement, x, y+1, kind=product.resource_kind),
+                    check_cell(self.settlement, x, y-1, kind=product.resource_kind),
+                    check_cell(self.settlement, x+1, y+1, kind=product.resource_kind),
+                    check_cell(self.settlement, x-1, y-1, kind=product.resource_kind),
+                    check_cell(self.settlement, x+1, y-1, kind=product.resource_kind),
+                    check_cell(self.settlement, x-1, y+1, kind=product.resource_kind),
+                ])
+                
+                for neighbor in neighbors:
+                    # when the building finishes set what affect it will have on the
+                    # terrain resource count
+                    current = SettlementTerrainResourceCount.current(
+                        product.resource_kind,
+                        terrain=neighbor, when=self.construction_end
+                    )
+                    SettlementTerrainResourceCount.objects.create(
+                        kind=product.resource_kind,
+                        terrain=neighbor,
+                        count=current.amount(self.construction_end),
+                        timestamp=self.construction_end,
+                        natural_rate=current.natural_rate,
+                        rate_adjustment=current.rate_adjustment - (product.base_rate / len(neighbors)),
+                        limit=current.limit,
+                    )
+                    
+                    # determine *when* the terrain will either run out or hit its
+                    # limit based on its current rate and if the terrain will hit
+                    # zero by the time the building finishes we need to adjust how
+                    # it affects the settlement resource counts
+                    when, hit_limit = SettlementTerrainResourceCount.calculate_extremum(
+                        product.resource_kind,
+                        terrain=neighbor, when=self.construction_end
+                    )
+                    # if when is None the terrain will never run out or hit a limit
+                    if when and not hit_limit:
+                        lookup_params = {
+                            "when": when,
+                        }
+                        lookup_params.update(common_params)
+                        current = ResourceCount.current(product.resource_kind, **lookup_params)
+                        create_kwargs = {
+                            "kind": product.resource_kind,
+                            "settlement": self.settlement,
+                            "count": current.amount(when),
+                            "timestamp": when,
+                            "natural_rate": current.natural_rate,
+                            "rate_adjustment": current.rate_adjustment - product.base_rate,
+                            "limit": 0, # @@@ storage
+                        }
+                        create_kwargs.update(common_params)
+                        ResourceCount.objects.create(**create_kwargs)
         
         if commit:
             self.save()
