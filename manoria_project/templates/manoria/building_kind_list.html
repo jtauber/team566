@@ -1,0 +1,39 @@
+{% extends "site_base.html" %}
+
+{% load humanize %}
+{% load manoria_tags %}
+
+{% block head_title %}Help : Buildings{% endblock %}
+
+{% block body_class %}help{% endblock %}
+
+{% block body %}
+    
+    <h1>Buildings</h1>
+    
+    {% for building_kind in building_kinds %}
+        <div id="{{ building_kind.slug }}">
+            <h2>{{ building_kind.name }}</h2>
+            
+            <h3>Cost to Build</h3>
+            
+            {% for cost in building_kind.buildingcost_set.all %}
+                {{ cost.amount }}
+                {{ cost.resource_kind.name }}
+            {% endfor %}
+            
+            <h3>Products</h3>
+            
+            {% if building_kind.products.count %}
+                <ul>
+                    {% for product in building_kind.products.all %}
+                        <li>{{ product }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No product.</p>
+            {% endif %}
+            
+        </div>
+    {% endfor %}
+{% endblock %}

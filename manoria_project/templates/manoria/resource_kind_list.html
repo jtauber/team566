@@ -3,19 +3,19 @@
 {% load humanize %}
 {% load manoria_tags %}
 
-{% block head_title %}Resource Kinds{% endblock %}
+{% block head_title %}Help : Resources{% endblock %}
 
-{% block body_class %}resource_kind{% endblock %}
+{% block body_class %}help{% endblock %}
 
 {% block body %}
     
-    <h1>Resource Kinds</h1>
+    <h1>Resources</h1>
     
     {% for resource_kind in resource_kinds %}
         <div id="{{ resource_kind.slug }}">
             <h2>{{ resource_kind.name }}</h2>
             
-            <h3>Produced By</h3>
+            <h3>Buildings that Produce This</h3>
             
             {% if resource_kind.produced_by.count %}
                 <ul>
@@ -25,6 +25,18 @@
                 </ul>
             {% else %}
                 <p>No buildings produce this resource.</p>
+            {% endif %}
+            
+            <h3>Terrain that Contains This</h3>
+            
+            {% if resource_kind.settlementterrainkind_set.count %}
+                <ul>
+                    {% for stk in resource_kind.settlementterrainkind_set.all %}
+                        <li>{{ stk }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No terrain contains this resource.</p>
             {% endif %}
         </div>
     {% endfor %}
