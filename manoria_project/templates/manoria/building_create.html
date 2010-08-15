@@ -9,7 +9,7 @@
 {% block body %}
     
     <p>
-        <a href="{% url player_detail settlement.player.pk %}">{{ settlement.player.name }}</a>
+        <a href="{% url home %}">{{ settlement.player.name }}</a>
         &gt;
         <a href="{% url settlement_detail settlement.pk %}">{{ settlement.name }}</a>
     </p>
