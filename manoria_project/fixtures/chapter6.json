@@ -1,0 +1,12 @@
+[
+    {
+        "pk": 1, 
+        "model": "manoria.buildingkindproduct", 
+        "fields": {
+            "resource_kind": 1, 
+            "building_kind": 2, 
+            "source_terrain_kind": 1, 
+            "base_rate": 500
+        }
+    }
+]

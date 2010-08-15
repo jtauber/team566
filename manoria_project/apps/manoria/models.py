@@ -1,4 +1,5 @@
 import datetime
+import itertools
 import random
 
 from django.db import models
@@ -76,14 +77,36 @@ class Settlement(models.Model):
             settlement=self,
             construction_end__lte=datetime.datetime.now()
         )
+    
+    def resource_counts(self):
+        # @@@ instance cache
+        counts = []
+        for row in self.settlementresourcecount_set.distinct().values("kind"):
+            kind = ResourceKind.objects.get(id=row["kind"])
+            current = SettlementResourceCount.current(kind, settlement=self)
+            counts.append(current)
+        return counts
 
 
 class ResourceKind(models.Model):
     
     name = models.CharField(max_length=25)
+    slug = models.SlugField()
     
     def __unicode__(self):
         return self.name
+
+
+def pairwise(iterable):
+    """
+    pulled from itertools recipes, but modified to return last item and None
+    s -> (s0,s1), (s1,s2), (s2, s3), (s3, None)
+    """
+    a, b = itertools.tee(iterable)
+    next(b, None)
+    for a, b in itertools.izip(a, b):
+        yield a, b
+    yield b, None
 
 
 class BaseResourceCount(models.Model):
@@ -97,26 +120,70 @@ class BaseResourceCount(models.Model):
     class Meta:
         abstract = True
     
+    @classmethod
+    def current(cls, kind, **kwargs):
+        when = kwargs.pop("when", datetime.datetime.now())
+        lookup_params = {
+            "kind": kind,
+            "timestamp__lt": when,
+        }
+        lookup_params.update(kwargs)
+        past = cls._default_manager.filter(**lookup_params).order_by("-timestamp")
+        return past[0]
+    
+    @classmethod
+    def calculate_extremum(cls, kind, **kwargs):
+        current = cls.current(kind, **kwargs)
+        del kwargs["when"]
+        lookup_params = {
+            "kind": kind,
+            "timestamp__gte": current.timestamp,
+        }
+        lookup_params.update(kwargs)
+        future_counts = cls._default_manager.filter(**lookup_params).order_by("timestamp")
+        for a, b in pairwise(future_counts):
+            if b is None:
+                start, end = a.timestamp, None
+            else:
+                start, end = a.timestamp, b.timestamp
+            count = a.count
+            rate = a.rate
+            limit = a.limit
+            if a.rate < 0:
+                # when the count will hit zero
+                timestamp = start + datetime.timedelta(hours=(count / -float(rate)))
+                if end is not None and timestamp > end:
+                    continue
+                return timestamp, False
+            elif a.rate > 0:
+                # when the count will hit the limit
+                timestamp = start + datetime.timedelta(hours=((limit - count) / float(rate)))
+                if end is not None and timestamp > end:
+                    continue
+                return timestamp, True
+            else:
+                continue
+        return None, None
+    
     @property
     def rate(self):
         return self.natural_rate + self.rate_adjustment
     
-    def current(self):
-        change = datetime.datetime.now() - self.timestamp
-        amount = int(self.count + float(self.rate) * (change.days * 86400 + change.seconds) / 3600.0)
+    def amount(self, when=None):
+        if when is None:
+            when = datetime.datetime.now()
+        change = when - self.timestamp
+        amt = int(self.count + float(self.rate) * (change.days * 86400 + change.seconds) / 3600.0)
         if self.limit == 0:
-            return max(0, amount)
+            return max(0, amt)
         else:
-            return min(max(0, amount), self.limit)
+            return min(max(0, amt), self.limit)
 
 
 class PlayerResourceCount(BaseResourceCount):
     
     kind = models.ForeignKey(ResourceKind)
     player = models.ForeignKey(Player, related_name="resource_counts")
-    
-    class Meta:
-        unique_together = [("kind", "player")]
     
     def __unicode__(self):
         return u"%s (%s)" % (self.kind, self.player)
@@ -125,10 +192,7 @@ class PlayerResourceCount(BaseResourceCount):
 class SettlementResourceCount(BaseResourceCount):
     
     kind = models.ForeignKey(ResourceKind)
-    settlement = models.ForeignKey(Settlement, related_name="resource_counts")
-    
-    class Meta:
-        unique_together = [("kind", "settlement")]
+    settlement = models.ForeignKey(Settlement)
     
     def __unicode__(self):
         return u"%s (%s)" % (self.kind, self.settlement)
@@ -137,9 +201,26 @@ class SettlementResourceCount(BaseResourceCount):
 class BuildingKind(models.Model):
     
     name = models.CharField(max_length=30)
+    slug = models.SlugField()
     
     def __unicode__(self):
         return self.name
+
+
+class BuildingKindProduct(models.Model):
+    
+    building_kind = models.ForeignKey(BuildingKind, related_name="products")
+    resource_kind = models.ForeignKey(ResourceKind, related_name="produced_by")
+    source_terrain_kind = models.ForeignKey("SettlementTerrainKind", null=True)
+    base_rate = models.IntegerField()
+    
+    def __unicode__(self):
+        bits = []
+        bits.append("%s produces %s" % (self.building_kind, self.resource_kind))
+        if self.source_terrain_kind:
+            bits.append("from %s" % self.source_terrain_kind)
+        bits.append("at %d/hr" % self.base_rate)
+        return " ".join(bits)
 
 
 class SettlementBuilding(models.Model):
@@ -161,7 +242,7 @@ class SettlementBuilding(models.Model):
     def __unicode__(self):
         return u"%s on %s" % (self.kind, self.settlement)
     
-    def build(self, commit=True):
+    def queue(self, commit=True):
         try:
             oldest = self.settlement.build_queue().reverse()[0]
         except IndexError:
@@ -174,13 +255,88 @@ class SettlementBuilding(models.Model):
             self.construction_start = datetime.datetime.now()
         self.construction_end = self.construction_start + datetime.timedelta(minutes=2)
         
+        for product in self.kind.products.all():
+            current = SettlementResourceCount.current(
+                product.resource_kind,
+                settlement=self.settlement, when=self.construction_end
+            )
+            amount = current.amount(self.construction_end)
+            src = SettlementResourceCount(
+                kind=product.resource_kind,
+                settlement=self.settlement,
+                count=amount,
+                timestamp=self.construction_end,
+                natural_rate=current.natural_rate,
+                rate_adjustment=current.rate_adjustment + product.base_rate,
+                limit=0, # @@@ storage
+            )
+            src.save()
+            
+            terrain = SettlementTerrain.objects.filter(
+                settlement=self.settlement, kind=product.source_terrain_kind
+            )
+            closest = sorted([
+                (((self.x - t.x) ** 2) + ((self.y - t.y) ** 2), t)
+                for t in terrain
+            ])[0][1]
+            current = SettlementTerrainResourceCount.current(
+                product.resource_kind,
+                terrain=closest, when=self.construction_end
+            )
+            amount = current.amount(self.construction_end)
+            strc = SettlementTerrainResourceCount(
+                kind=product.resource_kind,
+                terrain=closest,
+                count=amount,
+                timestamp=self.construction_end,
+                natural_rate=current.natural_rate,
+                rate_adjustment=current.rate_adjustment - product.base_rate,
+                limit=current.limit,
+            )
+            strc.save()
+            when, hit_limit = SettlementTerrainResourceCount.calculate_extremum(
+                closest.kind,
+                terrain=closest, when=self.construction_end
+            )
+            # if when is None the terrain will never run out or hit a limit
+            if when and not hit_limit:
+                current = SettlementResourceCount.current(
+                    product.resource_kind,
+                    settlement=self.settlement, when=when
+                )
+                amount = current.amount(when)
+                SettlementResourceCount(
+                    kind=product.resource_kind,
+                    settlement=self.settlement,
+                    count=amount,
+                    timestamp=when,
+                    natural_rate=current.natural_rate,
+                    rate_adjustment=current.rate_adjustment - product.base_rate,
+                    limit=0, # @@@ storage
+                ).save()
+        
         if commit:
             self.save()
+    
+    def status(self):
+        now = datetime.datetime.now()
+        if self.construction_start > now:
+            return "queued"
+        elif self.construction_end > now:
+            return "under construction"
+        else:
+            return "built"
+
+
+class SettlementBuildingResourceCount(BaseResourceCount):
+    
+    building = models.ForeignKey(SettlementBuilding)
 
 
 class SettlementTerrainKind(models.Model):
     
     name = models.CharField(max_length=50)
+    slug = models.SlugField()
     buildable_on = models.BooleanField(default=True)
     
     def __unicode__(self):
@@ -198,9 +354,18 @@ class SettlementTerrain(models.Model):
     
     def __unicode__(self):
         return u"%s on %s" % (self.kind, self.settlement)
+    
+    def resource_counts(self):
+        # @@@ instance cache
+        counts = []
+        for row in self.settlementterrainresourcecount_set.distinct().values("kind"):
+            kind = ResourceKind.objects.get(id=row["kind"])
+            current = SettlementTerrainResourceCount.current(kind, terrain=self)
+            counts.append(current)
+        return counts
 
 
 class SettlementTerrainResourceCount(BaseResourceCount):
     
     kind = models.ForeignKey(ResourceKind)
-    terrain = models.ForeignKey(SettlementTerrain, related_name="resource_counts")
+    terrain = models.ForeignKey(SettlementTerrain)

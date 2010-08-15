@@ -9,4 +9,8 @@ urlpatterns = patterns("",
     url(r"^buildings/building/(\d+)/$", "manoria.views.building_detail", name="building_detail"),
     url(r"^buildings/create/(\d+)/$", "manoria.views.building_create", name="building_create"),
     url(r"^terrain/terrain/(\d+)/$", "manoria.views.terrain_detail", name="terrain_detail"),
+    
+    url(r"^resource_kinds/$", "manoria.views.resource_kind_list", name="resource_kind_list"),
+    url(r"^resource_kinds/(\d+)/$", "manoria.views.resource_kind_detail", name="resource_kind_detail"),
+
 )

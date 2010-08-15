@@ -1,0 +1,19 @@
+{% extends "site_base.html" %}
+
+{% load humanize %}
+{% load manoria_tags %}
+
+{% block head_title %}Resource Kinds{% endblock %}
+
+{% block body_class %}resource_kind{% endblock %}
+
+{% block body %}
+    
+    <h1>Resource Kinds</h1>
+    
+    <ul>
+        {% for resource_kind in resource_kinds %}
+            <li><a href="{% url resource_kind_detail resource_kind.pk %}">{{ resource_kind.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,4 +1,7 @@
 from django import template
+from django.utils.safestring import mark_safe
+
+from django.contrib.humanize.templatetags.humanize import intcomma
 
 
 register = template.Library()
@@ -33,3 +36,14 @@ def map_terrain(terrain):
         "left": left,
         "top": top,
     }
+
+
+@register.filter
+def format_rate(i):
+    if i > 0:
+        ret = u"+%s" % intcomma(i)
+    elif i < 0:
+        ret = u"&minus;%s" % intcomma(abs(i))
+    else:
+        ret = "0"
+    return mark_safe(ret)

@@ -17,12 +17,12 @@
     
     <h2>Resources</h2>
     
-    {% if settlement.resource_counts.all %}
+    {% if settlement.resource_counts %}
         <ul>
-            {% for resource_count in settlement.resource_counts.all %}
+            {% for resource_count in settlement.resource_counts %}
                 <li>
-                    {{ resource_count.kind.name }} = {{ resource_count.current|intcomma }}
-                    ({{ resource_count.rate|intcomma }}/hr;
+                    {{ resource_count.kind.name }} = {{ resource_count.amount|intcomma }}
+                    ({{ resource_count.rate|format_rate }}/hr;
                         {% if resource_count.limit %}limit {{ resource_count.limit|intcomma }}{% else %}no limit{% endif %})
                 </li>
             {% endfor %}
@@ -73,6 +73,10 @@
                     <a href="{% url building_detail building.pk %}">{{ building.kind.name }}</a>
                     {{ building.x }}-{{ building.y }}
                     <br />
+                    {% if building.status == "queued" %}
+                    starting in {{ building.construction_start|timeuntil }}
+                    <br />
+                    {% endif %}
                     finishing in {{ building.construction_end|timeuntil }}
                 </li>
             {% endfor %}
