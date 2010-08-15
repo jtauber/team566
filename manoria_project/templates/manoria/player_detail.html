@@ -19,7 +19,6 @@
                 {% for settlement in player.settlements.all %}
                     <li>
                         <a href="{% url settlement_detail settlement.id %}">{{ settlement.kind|title }} of {{ settlement.name }}</a>
-                        {{ settlement.continent.name }} {{ settlement.x }}-{{ settlement.y }}
                     </li>
                 {% endfor %}
             </ul>
