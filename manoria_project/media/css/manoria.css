@@ -68,12 +68,13 @@ a:hover {
     float: left;
     font-weight: normal;
     text-decoration: none;
-    color: #210;
-    text-shadow: 1px 1px 0px #974;
+    color: #FFF;
+    text-shadow: 1px 1px 0px #000;
     padding: 3px 10px 2px;
 }
 #subnav ul a:hover {
-    color: #FFF;
+    color: #210;
+    text-shadow: 1px 1px 0px #974;
     background: #974;
 }
 
