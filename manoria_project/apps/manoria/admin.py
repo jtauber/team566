@@ -12,6 +12,9 @@ admin.site.register(models.SettlementResourceCount,
     list_display = ["pk", "kind", "settlement", "count", "timestamp", "natural_rate", "rate_adjustment", "rate"]
 )
 admin.site.register(models.BuildingKind)
+admin.site.register(models.BuildingCost,
+    list_display = ["pk", "building_kind", "resource_kind", "amount"]
+)
 admin.site.register(models.BuildingKindProduct)
 admin.site.register(models.SettlementBuilding)
 admin.site.register(models.SettlementTerrainKind)

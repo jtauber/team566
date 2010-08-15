@@ -204,6 +204,9 @@ class ResourceKind(models.Model):
     
     def __unicode__(self):
         return self.name
+    
+    def natural_key(self):
+        return self.slug
 
 
 def pairwise(iterable):
@@ -314,6 +317,19 @@ class BuildingKind(models.Model):
     
     def __unicode__(self):
         return self.name
+    
+    def natural_key(self):
+        return self.slug
+
+
+class BuildingCost(models.Model):
+    
+    building_kind = models.ForeignKey(BuildingKind)
+    resource_kind = models.ForeignKey(ResourceKind)
+    amount = models.IntegerField()
+    
+    def __unicode__(self):
+        return u"%s costs %d of %s" % (self.building_kind, self.amount, self.resource_kind)
 
 
 class BuildingKindProduct(models.Model):
@@ -504,6 +520,9 @@ class SettlementTerrainKind(models.Model):
     
     def __unicode__(self):
         return self.name
+    
+    def natural_key(self):
+        return self.slug
 
 
 class SettlementTerrain(models.Model):
