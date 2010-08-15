@@ -97,26 +97,35 @@ class BaseResourceCount(models.Model):
     class Meta:
         abstract = True
     
+    @classmethod
+    def current(cls, kind, **kwargs):
+        lookup_params = {
+            "kind": kind,
+            "timestamp__lt": datetime.datetime.now(),
+        }
+        lookup_params.update(kwargs)
+        past = cls._default_manager.filter(**lookup_params).order_by("-timestamp")
+        return past[0]
+    
     @property
     def rate(self):
         return self.natural_rate + self.rate_adjustment
     
-    def current(self):
-        change = datetime.datetime.now() - self.timestamp
-        amount = int(self.count + float(self.rate) * (change.days * 86400 + change.seconds) / 3600.0)
+    def amount(self, when=None):
+        if when is None:
+            when = datetime.datetime.now()
+        change = when - self.timestamp
+        amt = int(self.count + float(self.rate) * (change.days * 86400 + change.seconds) / 3600.0)
         if self.limit == 0:
-            return max(0, amount)
+            return max(0, amt)
         else:
-            return min(max(0, amount), self.limit)
+            return min(max(0, amt), self.limit)
 
 
 class PlayerResourceCount(BaseResourceCount):
     
     kind = models.ForeignKey(ResourceKind)
     player = models.ForeignKey(Player, related_name="resource_counts")
-    
-    class Meta:
-        unique_together = [("kind", "player")]
     
     def __unicode__(self):
         return u"%s (%s)" % (self.kind, self.player)
@@ -126,9 +135,6 @@ class SettlementResourceCount(BaseResourceCount):
     
     kind = models.ForeignKey(ResourceKind)
     settlement = models.ForeignKey(Settlement, related_name="resource_counts")
-    
-    class Meta:
-        unique_together = [("kind", "settlement")]
     
     def __unicode__(self):
         return u"%s (%s)" % (self.kind, self.settlement)
@@ -144,7 +150,7 @@ class BuildingKind(models.Model):
 
 class BuildingKindProduct(models.Model):
     
-    building_kind = models.ForeignKey(BuildingKind)
+    building_kind = models.ForeignKey(BuildingKind, related_name="products")
     resource_kind = models.ForeignKey(ResourceKind)
     source_terrain_kind = models.ForeignKey("SettlementTerrainKind", null=True)
     base_rate = models.IntegerField()
@@ -189,6 +195,21 @@ class SettlementBuilding(models.Model):
         else:
             self.construction_start = datetime.datetime.now()
         self.construction_end = self.construction_start + datetime.timedelta(minutes=2)
+        
+        for product in self.kind.products.all():
+            current = SettlementResourceCount.current(self.kind, settlement=self.settlement)
+            amount = current.amount(self.construction_end)
+            rate = product.base_rate # @@@ should be modified to use source_terrain_kind
+            src = SettlementResourceCount(
+                kind=current.kind,
+                settlement=current.settlement,
+                count=amount,
+                timestamp=self.construction_end,
+                natural_rate=current.natural_rate,
+                rate_adjustment=current.rate_adjustment + rate,
+                limit=0,
+            )
+            src.save()
         
         if commit:
             self.save()
