@@ -1,3 +1,7 @@
-<div class="empty-cell" style="top: {{ top }}px; left: {{ left }}px;">
-&nbsp;
+<div class="settlement" style="top: {{ top }}px; left: {{ left }}px;">
+    <a href="{% url settlement_detail cell.pk %}">
+        {{ cell.name }}
+        <br />
+        ({{ cell.player.name }})
+    </a>
 </div>

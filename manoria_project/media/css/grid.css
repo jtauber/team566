@@ -9,18 +9,26 @@ div.window {
     left: 340px;
 }
 div.map {
-    width: 1032px; /* (building_width + border + padding) * (num_cells_x + 2) */
-    height: 1032px; /* (building_width + border + padding) * (num_cells_y + 2) */
     background: #6A3;
     position: relative;
+}
+body.continent div.map {
+    width: 1892px; /* (building_width + border + padding) * (num_cells_x + 2) */
+    height: 1892px; /* (building_width + border + padding) * (num_cells_y + 2) */
+    top: -650px;
+    left: -650px;
+}
+body.settlement div.map {
+    width: 1032px; /* (building_width + border + padding) * (num_cells_x + 2) */
+    height: 1032px; /* (building_width + border + padding) * (num_cells_y + 2) */
     top: 20px;
     left: 20px;
 }
 
-div.building, div.terrain, div.empty-cell {
+div.building, div.terrain, div.empty-cell, div.settlement {
     position: absolute;
 }
-div.terrain a, div.building a {
+div.terrain a, div.building a, div.settlement a {
     display: block;
     width: 80px;
     height: 80px;
@@ -48,6 +56,11 @@ div.terrain.mountain a {
 
 div.building a {
     background: #663;
+    color: #FFF;
+}
+
+div.settlement a {
+    background: #336;
     color: #FFF;
 }
 
