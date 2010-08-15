@@ -172,13 +172,3 @@ def resource_kind_list(request):
     }
     ctx = RequestContext(request, ctx)
     return render_to_response("manoria/resource_kind_list.html", ctx)
-
-
-def resource_kind_detail(request, pk):
-    resource_kind = get_object_or_404(ResourceKind, pk=pk)
-    
-    ctx = {
-        "resource_kind": resource_kind,
-    }
-    ctx = RequestContext(request, ctx)
-    return render_to_response("manoria/resource_kind_detail.html", ctx)

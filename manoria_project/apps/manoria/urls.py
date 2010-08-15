@@ -15,6 +15,4 @@ urlpatterns = patterns("",
     url(r"^terrain/terrain/(\d+)/$", "manoria.views.terrain_detail", name="terrain_detail"),
     
     url(r"^resource_kinds/$", "manoria.views.resource_kind_list", name="resource_kind_list"),
-    url(r"^resource_kinds/(\d+)/$", "manoria.views.resource_kind_detail", name="resource_kind_detail"),
-
 )

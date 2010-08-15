@@ -11,9 +11,21 @@
     
     <h1>Resource Kinds</h1>
     
-    <ul>
-        {% for resource_kind in resource_kinds %}
-            <li><a href="{% url resource_kind_detail resource_kind.pk %}">{{ resource_kind.name }}</a></li>
-        {% endfor %}
-    </ul>
+    {% for resource_kind in resource_kinds %}
+        <div id="{{ resource_kind.slug }}">
+            <h2>{{ resource_kind.name }}</h2>
+            
+            <h3>Produced By</h3>
+            
+            {% if resource_kind.produced_by.count %}
+                <ul>
+                    {% for product in resource_kind.produced_by.all %}
+                        <li>{{ product.building_kind.name }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No buildings produce this resource.</p>
+            {% endif %}
+        </div>
+    {% endfor %}
 {% endblock %}
