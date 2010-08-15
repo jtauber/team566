@@ -160,6 +160,7 @@ h2 {
     font-weight: bold;
 }
 .resource-count .rate {
+    font-style: italic;
     font-size: 9pt;
 }
 .resource-count .count {
