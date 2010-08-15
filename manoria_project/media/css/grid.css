@@ -32,7 +32,7 @@ body.settlement div.map {
 div.building, div.terrain, div.empty-cell, div.settlement {
     position: absolute;
 }
-div.terrain a, div.building a, div.settlement a {
+div.terrain a, div.building a, div.settlement a, div.empty-cell a {
     display: block;
     width: 80px;
     height: 80px;
