@@ -10,8 +10,6 @@
 {% block body_outer %}
     
     <div class="left-panel">
-        <p><a href="{% url player_detail settlement.player.pk %}">{{ settlement.player }}</a></p>
-        
         <h1>{{ settlement.kind|title }} of {{ settlement.name }}</h1>
         
         <p><b>Location</b>: {{ settlement.continent.name }} {{ settlement.x }}-{{ settlement.y }}</p>

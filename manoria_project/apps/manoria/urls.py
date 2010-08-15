@@ -2,7 +2,8 @@ from django.conf.urls.defaults import *
 
 
 urlpatterns = patterns("",
-    url(r"^players/player/(\d+)/$", "manoria.views.player_detail", name="player_detail"),
+    url(r"^$", "manoria.views.homepage", name="home"),
+    
     url(r"^players/create/$", "manoria.views.player_create", name="player_create"),
     
     url(r"^continents/continent/(\d+)/$", "manoria.views.continent_detail", name="continent_detail"),

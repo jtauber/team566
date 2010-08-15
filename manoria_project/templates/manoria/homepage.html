@@ -12,7 +12,7 @@
     <h1>{% trans "Welcome to Manoria" %}</h1>
     
     {% if user.is_authenticated %}
-        {% if user.players.all %}
+        {% if user.player %}
             <p>Select a player:</p>
             <ul>
                 {% for player in user.players.all %}

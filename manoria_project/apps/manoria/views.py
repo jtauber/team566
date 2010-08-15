@@ -10,13 +10,19 @@ from manoria.forms import PlayerCreateForm, SettlementCreateForm, BuildingCreate
 from manoria.models import Continent, Player, Settlement, SettlementBuilding, SettlementTerrain, ResourceKind
 
 
-@login_required
-def player_detail(request, pk):
-    player = get_object_or_404(Player, pk=pk)
+def homepage(request):
+    if request.user.is_authenticated():
+        try:
+            player = request.user.player
+            return _player_detail(request, player)
+        except Player.DoesNotExist:
+            return player_create(request)
     
-    if request.user != player.user:
-        raise Http404
-    
+    ctx = RequestContext(request, {})
+    return render_to_response("manoria/homepage.html", ctx)
+
+
+def _player_detail(request, player):
     ctx = {
         "player": player,
     }
@@ -95,7 +101,7 @@ def settlement_create(request):
             
             settlement.place()
             
-            return redirect("player_detail", player.pk)
+            return redirect("settlement_detail", settlement.pk)
     else:
         form = SettlementCreateForm()
     
