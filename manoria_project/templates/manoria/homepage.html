@@ -11,22 +11,23 @@
     
     <h1>{% trans "Welcome to Manoria" %}</h1>
     
-    {% if user.is_authenticated %}
-        {% if user.player %}
-            <p>Select a player:</p>
-            <ul>
-                {% for player in user.players.all %}
-                    <li><a href="{% url home %}">{{ player.name }}</a></li>
-                {% endfor %}
-            </ul>
-            
-            <p>You can also <a href="{% url player_create %}">create another player</a>.</p>
-            
-        {% else %}
-            <p>To play Manoria, <a href="{% url player_create %}">create a player</a>.</p>
-        {% endif %}
-    {% else %}
-        <p>To play Manoria, first sign up and log in!</p>
-    {% endif %}
+    <div class="welcome">
     
+    <p>
+        <b>Manoria</b> is an open-source MMO city building / resource
+        management game written in 48 hours by Team 566 (James Tauber and
+        Brian Rosner) for Django Dash 2010.
+    </p>
+    
+    <p class="action">
+        To play Manoria, first<br />
+        <a href="{% url acct_signup %}">Sign Up</a><br />
+        and<br />
+        <a href="{% url acct_login %}">Log In</a>
+    </p>
+    
+    <p>
+        NOTE: the 48 hours aren't up yet so there's still lots going on and
+        there will be bugs and database wipes until 01:00 EDT 2010-08-16.
+    </p>
 {% endblock %}

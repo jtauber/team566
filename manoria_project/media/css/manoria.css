@@ -77,6 +77,14 @@ a:hover {
     background: #974;
 }
 
+.welcome p {
+    font-size: 16pt;
+}
+p.action {
+    margin: 60px 0;
+    text-align: center;
+}
+
 .uniForm {
     background: url(/site_media/static/img/paper_texture_1-512px.jpg) #7F6230;
 }
