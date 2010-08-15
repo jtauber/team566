@@ -76,6 +76,15 @@ class Settlement(models.Model):
             settlement=self,
             construction_end__lte=datetime.datetime.now()
         )
+    
+    def resource_counts(self):
+        # @@@ instance cache
+        counts = []
+        for row in self.settlementresourcecount_set.distinct().values("kind"):
+            kind = ResourceKind.objects.get(id=row["kind"])
+            current = SettlementResourceCount.current(kind, settlement=self)
+            counts.append(current)
+        return counts
 
 
 class ResourceKind(models.Model):
@@ -134,7 +143,7 @@ class PlayerResourceCount(BaseResourceCount):
 class SettlementResourceCount(BaseResourceCount):
     
     kind = models.ForeignKey(ResourceKind)
-    settlement = models.ForeignKey(Settlement, related_name="resource_counts")
+    settlement = models.ForeignKey(Settlement)
     
     def __unicode__(self):
         return u"%s (%s)" % (self.kind, self.settlement)
