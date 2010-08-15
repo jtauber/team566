@@ -8,6 +8,7 @@ from django.db import models, transaction
 
 from django.contrib.auth.models import User
 
+from manoria.managers import KindManager
 from manoria.utils import weighted_choices
 
 
@@ -46,6 +47,23 @@ class Continent(models.Model):
     def cells(self):
         for cell in self.settlement_set.all():
             yield cell
+
+
+class BaseKind(models.Model):
+    
+    name = models.CharField(max_length=50)
+    slug = models.SlugField()
+    
+    objects = KindManager()
+    
+    class Meta:
+        abstract = True
+    
+    def __unicode__(self):
+        return self.name
+    
+    def natural_key(self):
+        return (self.slug,)
 
 
 class Settlement(models.Model):
@@ -196,17 +214,9 @@ class Settlement(models.Model):
         return counts
 
 
-class ResourceKind(models.Model):
+class ResourceKind(BaseKind):
     
-    name = models.CharField(max_length=25)
-    slug = models.SlugField()
     player = models.BooleanField()
-    
-    def __unicode__(self):
-        return self.name
-    
-    def natural_key(self):
-        return self.slug
 
 
 def pairwise(iterable):
@@ -310,16 +320,9 @@ class SettlementResourceCount(BaseResourceCount):
         return u"%s (%s)" % (self.kind, self.settlement)
 
 
-class BuildingKind(models.Model):
+class BuildingKind(BaseKind):
     
-    name = models.CharField(max_length=30)
-    slug = models.SlugField()
-    
-    def __unicode__(self):
-        return self.name
-    
-    def natural_key(self):
-        return self.slug
+    pass
 
 
 class BuildingCost(models.Model):
@@ -511,18 +514,10 @@ class SettlementBuildingResourceCount(BaseResourceCount):
     building = models.ForeignKey(SettlementBuilding)
 
 
-class SettlementTerrainKind(models.Model):
+class SettlementTerrainKind(BaseKind):
     
-    name = models.CharField(max_length=50)
-    slug = models.SlugField()
     buildable_on = models.BooleanField(default=True)
     produces = models.ManyToManyField(ResourceKind)
-    
-    def __unicode__(self):
-        return self.name
-    
-    def natural_key(self):
-        return self.slug
 
 
 class SettlementTerrain(models.Model):

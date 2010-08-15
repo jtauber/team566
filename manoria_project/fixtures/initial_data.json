@@ -50,7 +50,7 @@
             "email": "brosner@gmail.com", 
             "date_joined": "2010-08-14 03:16:24"
         }
-    },
+    }, 
     {
         "pk": 1, 
         "model": "manoria.continent", 
@@ -173,99 +173,143 @@
         "pk": 1, 
         "model": "manoria.buildingcost", 
         "fields": {
-            "resource_kind": "wood", 
+            "resource_kind": [
+                "wood"
+            ], 
             "amount": 500, 
-            "building_kind": "cottage"
+            "building_kind": [
+                "cottage"
+            ]
         }
     }, 
     {
         "pk": 2, 
         "model": "manoria.buildingcost", 
         "fields": {
-            "resource_kind": "wood", 
+            "resource_kind": [
+                "wood"
+            ], 
             "amount": 500, 
-            "building_kind": "woodcutter-hut"
+            "building_kind": [
+                "woodcutter-hut"
+            ]
         }
     }, 
     {
         "pk": 3, 
         "model": "manoria.buildingcost", 
         "fields": {
-            "resource_kind": "wood", 
+            "resource_kind": [
+                "wood"
+            ], 
             "amount": 500, 
-            "building_kind": "fishing-hut"
+            "building_kind": [
+                "fishing-hut"
+            ]
         }
     }, 
     {
         "pk": 4, 
         "model": "manoria.buildingcost", 
         "fields": {
-            "resource_kind": "wood", 
+            "resource_kind": [
+                "wood"
+            ], 
             "amount": 500, 
-            "building_kind": "iron-mine"
+            "building_kind": [
+                "iron-mine"
+            ]
         }
     }, 
     {
         "pk": 5, 
         "model": "manoria.buildingcost", 
         "fields": {
-            "resource_kind": "stone", 
+            "resource_kind": [
+                "stone"
+            ], 
             "amount": 500, 
-            "building_kind": "iron-mine"
+            "building_kind": [
+                "iron-mine"
+            ]
         }
     }, 
     {
         "pk": 6, 
         "model": "manoria.buildingcost", 
         "fields": {
-            "resource_kind": "wood", 
+            "resource_kind": [
+                "wood"
+            ], 
             "amount": 500, 
-            "building_kind": "quarry"
+            "building_kind": [
+                "quarry"
+            ]
         }
     }, 
     {
         "pk": 7, 
         "model": "manoria.buildingcost", 
         "fields": {
-            "resource_kind": "wood", 
+            "resource_kind": [
+                "wood"
+            ], 
             "amount": 500, 
-            "building_kind": "farm"
+            "building_kind": [
+                "farm"
+            ]
         }
     }, 
     {
         "pk": 8, 
         "model": "manoria.buildingcost", 
         "fields": {
-            "resource_kind": "stone", 
+            "resource_kind": [
+                "stone"
+            ], 
             "amount": 500, 
-            "building_kind": "farm"
+            "building_kind": [
+                "farm"
+            ]
         }
     }, 
     {
         "pk": 9, 
         "model": "manoria.buildingcost", 
         "fields": {
-            "resource_kind": "wood", 
+            "resource_kind": [
+                "wood"
+            ], 
             "amount": 500, 
-            "building_kind": "gold-mine"
+            "building_kind": [
+                "gold-mine"
+            ]
         }
     }, 
     {
         "pk": 10, 
         "model": "manoria.buildingcost", 
         "fields": {
-            "resource_kind": "stone", 
+            "resource_kind": [
+                "stone"
+            ], 
             "amount": 500, 
-            "building_kind": "gold-mine"
+            "building_kind": [
+                "gold-mine"
+            ]
         }
     }, 
     {
         "pk": 11, 
         "model": "manoria.buildingcost", 
         "fields": {
-            "resource_kind": "iron", 
+            "resource_kind": [
+                "iron"
+            ], 
             "amount": 500, 
-            "building_kind": "gold-mine"
+            "building_kind": [
+                "gold-mine"
+            ]
         }
     }, 
     {
@@ -273,7 +317,9 @@
         "model": "manoria.settlementterrainkind", 
         "fields": {
             "produces": [
-                "wood"
+                [
+                    "wood"
+                ]
             ], 
             "buildable_on": false, 
             "name": "Forest", 
@@ -285,7 +331,9 @@
         "model": "manoria.settlementterrainkind", 
         "fields": {
             "produces": [
-                "fish"
+                [
+                    "fish"
+                ]
             ], 
             "buildable_on": false, 
             "name": "Lake", 
@@ -297,8 +345,12 @@
         "model": "manoria.settlementterrainkind", 
         "fields": {
             "produces": [
-                "iron", 
-                "gold"
+                [
+                    "iron"
+                ], 
+                [
+                    "gold"
+                ]
             ], 
             "buildable_on": false, 
             "name": "Hill", 
@@ -310,7 +362,9 @@
         "model": "manoria.settlementterrainkind", 
         "fields": {
             "produces": [
-                "stone"
+                [
+                    "stone"
+                ]
             ], 
             "buildable_on": false, 
             "name": "Mountain", 
@@ -321,9 +375,15 @@
         "pk": 1, 
         "model": "manoria.buildingkindproduct", 
         "fields": {
-            "resource_kind": "wood", 
-            "building_kind": "woodcutter-hut", 
-            "source_terrain_kind": "forest", 
+            "resource_kind": [
+                "wood"
+            ], 
+            "building_kind": [
+                "woodcutter-hut"
+            ], 
+            "source_terrain_kind": [
+                "forest"
+            ], 
             "base_rate": 500
         }
     }, 
@@ -331,9 +391,15 @@
         "pk": 2, 
         "model": "manoria.buildingkindproduct", 
         "fields": {
-            "resource_kind": "fish", 
-            "building_kind": "fishing-hut", 
-            "source_terrain_kind": "lake", 
+            "resource_kind": [
+                "fish"
+            ], 
+            "building_kind": [
+                "fishing-hut"
+            ], 
+            "source_terrain_kind": [
+                "lake"
+            ], 
             "base_rate": 500
         }
     }, 
@@ -341,9 +407,15 @@
         "pk": 3, 
         "model": "manoria.buildingkindproduct", 
         "fields": {
-            "resource_kind": "iron", 
-            "building_kind": "iron-mine", 
-            "source_terrain_kind": "hill", 
+            "resource_kind": [
+                "iron"
+            ], 
+            "building_kind": [
+                "iron-mine"
+            ], 
+            "source_terrain_kind": [
+                "hill"
+            ], 
             "base_rate": 500
         }
     }, 
@@ -351,9 +423,15 @@
         "pk": 4, 
         "model": "manoria.buildingkindproduct", 
         "fields": {
-            "resource_kind": "stone", 
-            "building_kind": "quarry", 
-            "source_terrain_kind": "mountain", 
+            "resource_kind": [
+                "stone"
+            ], 
+            "building_kind": [
+                "quarry"
+            ], 
+            "source_terrain_kind": [
+                "mountain"
+            ], 
             "base_rate": 500
         }
     }, 
@@ -361,8 +439,12 @@
         "pk": 5, 
         "model": "manoria.buildingkindproduct", 
         "fields": {
-            "resource_kind": "wheat", 
-            "building_kind": "farm", 
+            "resource_kind": [
+                "wheat"
+            ], 
+            "building_kind": [
+                "farm"
+            ], 
             "source_terrain_kind": null, 
             "base_rate": 500
         }
@@ -371,9 +453,15 @@
         "pk": 6, 
         "model": "manoria.buildingkindproduct", 
         "fields": {
-            "resource_kind": "gold", 
-            "building_kind": "gold-mine", 
-            "source_terrain_kind": "hill", 
+            "resource_kind": [
+                "gold"
+            ], 
+            "building_kind": [
+                "gold-mine"
+            ], 
+            "source_terrain_kind": [
+                "hill"
+            ], 
             "base_rate": 500
         }
     }
