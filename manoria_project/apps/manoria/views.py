@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.contrib.auth.decorators import login_required
 
 from manoria.forms import PlayerCreateForm, SettlementCreateForm, BuildingCreateForm
-from manoria.models import Continent, Player, Settlement, SettlementBuilding, SettlementTerrain
+from manoria.models import Continent, Player, Settlement, SettlementBuilding, SettlementTerrain, ResourceKind
 
 
 @login_required
@@ -138,3 +138,21 @@ def terrain_detail(request, pk):
     }
     ctx = RequestContext(request, ctx)
     return render_to_response("manoria/terrain_detail.html", ctx)
+
+
+def resource_kind_list(request):
+    ctx = {
+        "resource_kinds": ResourceKind.objects.all(),
+    }
+    ctx = RequestContext(request, ctx)
+    return render_to_response("manoria/resource_kind_list.html", ctx)
+
+
+def resource_kind_detail(request, pk):
+    resource_kind = get_object_or_404(ResourceKind, pk=pk)
+    
+    ctx = {
+        "resource_kind": resource_kind,
+    }
+    ctx = RequestContext(request, ctx)
+    return render_to_response("manoria/resource_kind_detail.html", ctx)
