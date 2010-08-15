@@ -373,6 +373,8 @@ class SettlementBuilding(models.Model):
         # iterate over what the building kind produces setting up the state
         # of resource counts when the building will be finished building
         for product in self.kind.products.all():
+            # adjust the settlement resource count based on what the building
+            # will produce in the best case scenario.
             current = SettlementResourceCount.current(
                 product.resource_kind,
                 settlement=self.settlement, when=self.construction_end
