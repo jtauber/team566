@@ -11,7 +11,7 @@ div.window {
 div.map {
     width: 1892px; /* (bulding width + border + padding) * 22 */
     height: 1892px; /* (bulding width + border + padding) * 22 */
-    background: #6C3;
+    background: #6A3;
     position: relative;
     top: -650px;
     left: -650px;
