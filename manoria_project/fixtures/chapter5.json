@@ -4,7 +4,8 @@
         "model": "manoria.settlementterrainkind", 
         "fields": {
             "buildable_on": true, 
-            "name": "Forest"
+            "name": "Forest",
+            "slug": "forest"
         }
     }, 
     {
@@ -12,7 +13,8 @@
         "model": "manoria.settlementterrainkind", 
         "fields": {
             "buildable_on": false, 
-            "name": "Lake"
+            "name": "Lake",
+            "slug": "lake"
         }
     }, 
     {

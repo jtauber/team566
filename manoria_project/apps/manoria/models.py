@@ -91,6 +91,7 @@ class Settlement(models.Model):
 class ResourceKind(models.Model):
     
     name = models.CharField(max_length=25)
+    slug = models.SlugField()
     
     def __unicode__(self):
         return self.name
@@ -200,6 +201,7 @@ class SettlementResourceCount(BaseResourceCount):
 class BuildingKind(models.Model):
     
     name = models.CharField(max_length=30)
+    slug = models.SlugField()
     
     def __unicode__(self):
         return self.name
@@ -334,6 +336,7 @@ class SettlementBuildingResourceCount(BaseResourceCount):
 class SettlementTerrainKind(models.Model):
     
     name = models.CharField(max_length=50)
+    slug = models.SlugField()
     buildable_on = models.BooleanField(default=True)
     
     def __unicode__(self):

@@ -3,35 +3,40 @@
         "pk": 1, 
         "model": "manoria.resourcekind", 
         "fields": {
-            "name": "Wood"
+            "name": "Wood",
+            "slug": "wood"
         }
     }, 
     {
         "pk": 2, 
         "model": "manoria.resourcekind", 
         "fields": {
-            "name": "Stone"
+            "name": "Stone",
+            "slug": "stone"
         }
     }, 
     {
         "pk": 3, 
         "model": "manoria.resourcekind", 
         "fields": {
-            "name": "Iron"
+            "name": "Iron",
+            "slug": "iron"
         }
     }, 
     {
         "pk": 4, 
         "model": "manoria.resourcekind", 
         "fields": {
-            "name": "Food"
+            "name": "Food",
+            "slug": "food"
         }
     }, 
     {
         "pk": 5, 
         "model": "manoria.resourcekind", 
         "fields": {
-            "name": "Gold"
+            "name": "Gold",
+            "slug": "gold"
         }
     }, 
     {

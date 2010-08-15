@@ -3,14 +3,16 @@
         "pk": 1, 
         "model": "manoria.buildingkind", 
         "fields": {
-            "name": "Cottage"
+            "name": "Cottage",
+            "slug": "cottage"
         }
     }, 
     {
         "pk": 2, 
         "model": "manoria.buildingkind", 
         "fields": {
-            "name": "Woodcutter's Hut"
+            "name": "Woodcutter's Hut",
+            "slug": "woodcutter-hut"
         }
     }
 ]
