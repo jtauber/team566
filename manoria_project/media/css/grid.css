@@ -86,3 +86,14 @@ div.empty-cell {
 div.empty-cell:hover {
     border: 1px dotted yellow;
 }
+
+span.details {
+    color: transparent;
+    font-family: Helvetica;
+}
+div.terrain a:hover span.details {
+    color: #FFF;
+}
+div.terrain.mountain a:hover span.details {
+    color: #000;
+}

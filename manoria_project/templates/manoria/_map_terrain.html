@@ -2,6 +2,17 @@
 <div class="terrain {{ terrain.kind.slug }}" style="top: {{ top }}px; left: {{ left }}px;">
     <a href="{% url terrain_detail terrain.pk %}">
         {{ terrain.kind.name }}
+        <span class="details">
+        <br />
+        {% for x in terrain.resource_counts %}
+            <br />
+            {{ x.kind.name }}
+            <br />
+            {{ x.amount }}
+            /
+            {{ x.limit }}
+        {% endfor %}
+        </span>
     </a>
 </div>
 {% endwith %}
