@@ -95,6 +95,18 @@ class ResourceKind(models.Model):
         return self.name
 
 
+def pairwise(iterable):
+    """
+    pulled from itertools recipes, but modified to return last item and None
+    s -> (s0,s1), (s1,s2), (s2, s3), (s3, None)
+    """
+    a, b = itertools.tee(iterable)
+    next(b, None)
+    for a, b in itertools.izip(a, b):
+        yield a, b
+    yield b, None
+
+
 class BaseResourceCount(models.Model):
     
     count = models.IntegerField(default=0)
@@ -116,6 +128,38 @@ class BaseResourceCount(models.Model):
         lookup_params.update(kwargs)
         past = cls._default_manager.filter(**lookup_params).order_by("-timestamp")
         return past[0]
+    
+    @classmethod
+    def calculate_extremum(cls, kind, **kwargs):
+        current = cls.current(kind, **kwargs)
+        lookup_params = {
+            "kind": kind,
+            "timestamp__gte": current.timestamp,
+        }
+        lookup_params.update(kwargs)
+        future_counts = cls._default_manager.filter(**lookup_params).order_by("timestamp")
+        for a, b in pairwise(future_counts):
+            if b is None:
+                start, end = a.timestamp, None
+            else:
+                start, end = a.timestamp, b.timestamp
+            count = a.count
+            limit = a.limit
+            if a.rate < 0:
+                # when the count will hit zero
+                timestamp = a.start + datetime.timedelta(hours=(count / rate))
+                if end is not None and timestamp > end:
+                    continue
+                return timestamp, False
+            elif a.rate > 0:
+                # when the count will hit the limit
+                timestamp = a.start + datetime.timedelta(hours=((limit - count) / rate))
+                if end is not None and timestamp > end:
+                    continue
+                return timestamp, True
+            else:
+                continue
+        return None, None
     
     @property
     def rate(self):
@@ -207,19 +251,63 @@ class SettlementBuilding(models.Model):
         self.construction_end = self.construction_start + datetime.timedelta(minutes=2)
         
         for product in self.kind.products.all():
-            current = SettlementResourceCount.current(product.resource_kind, settlement=self.settlement, when=self.construction_end)
+            current = SettlementResourceCount.current(
+                product.resource_kind,
+                settlement=self.settlement, when=self.construction_end
+            )
             amount = current.amount(self.construction_end)
-            rate = product.base_rate # @@@ should be modified to use source_terrain_kind
             src = SettlementResourceCount(
-                kind=current.kind,
-                settlement=current.settlement,
+                kind=product.resource_kind,
+                settlement=self.settlement,
                 count=amount,
                 timestamp=self.construction_end,
                 natural_rate=current.natural_rate,
-                rate_adjustment=current.rate_adjustment + rate,
-                limit=0,
+                rate_adjustment=current.rate_adjustment + product.base_rate,
+                limit=0, # @@@ storage
             )
             src.save()
+            
+            current = SettlementTerrainResourceCount.current(
+                product.resource_kind,
+                settlement=self.settlement, when=self.construction_end
+            )
+            amount = current.amount(self.construction_end)
+            terrain = SettlementTerrain.objects.filter(
+                settlement=self.settlement, kind=product.source_terrain_kind
+            )
+            closest = sorted([
+                (((self.x - t.x) ** 2) + ((self.y - t.y) ** 2), t)
+                for t in terrain
+            ])[0]
+            strc = SettlementTerrainResourceCount(
+                kind=product.resource_kind,
+                terrain=closest,
+                count=amount,
+                timestamp=self.construction_end,
+                natural_rate=current.natural_rate,
+                rate_adjustment=current.rate_adjustment - product.base_rate,
+                limit=0, # @@@ terrain kind may set a limit
+            )
+            strc.save()
+            when, hit_limit = SettlementTerrainResourceCount.calculate_extremum(
+                closest.kind,
+                terrain=closest, when=self.construction_end
+            )
+            if not hit_limit:
+                current = SettlementResourceCount.current(
+                    product.resource_kind,
+                    settlement=self.settlement, when=when
+                )
+                amount = current.amount(when)
+                SettlementResourceCount(
+                    kind=product.resource_kind,
+                    settlement=self.settlement,
+                    count=amount,
+                    timestamp=when,
+                    natural_rate=current.natural_rate,
+                    rate_adjustment=current.rate_adjustment - product.base_rate,
+                    limit=0, # @@@ storage
+                ).save()
         
         if commit:
             self.save()
