@@ -197,7 +197,7 @@ class SettlementBuilding(models.Model):
         self.construction_end = self.construction_start + datetime.timedelta(minutes=2)
         
         for product in self.kind.products.all():
-            current = SettlementResourceCount.current(self.kind, settlement=self.settlement)
+            current = SettlementResourceCount.current(product.resource_kind, settlement=self.settlement)
             amount = current.amount(self.construction_end)
             rate = product.base_rate # @@@ should be modified to use source_terrain_kind
             src = SettlementResourceCount(
