@@ -38,6 +38,14 @@ class Continent(models.Model):
     
     def __unicode__(self):
         return self.name
+    
+    @property
+    def size(self):
+        return settings.CONTINENT_SIZE
+    
+    def cells(self):
+        for cell in self.settlement_set.all():
+            yield cell
 
 
 class Settlement(models.Model):
@@ -66,6 +74,10 @@ class Settlement(models.Model):
     
     def __unicode__(self):
         return u"%s (%s)" % (self.name, self.player)
+    
+    @property
+    def size(self):
+        return settings.SETTLEMENT_SIZE
     
     def place(self):
         CX, CY = settings.CONTINENT_SIZE
@@ -151,6 +163,13 @@ class Settlement(models.Model):
         self.allocation = " ".join(("%d,%d" % (x, y) for x, y in allocation))
         # for updating the allocation table
         self.save()
+    
+    def cells(self):
+        cells = itertools.chain(
+            self.build_queue(), self.buildings(), self.terrain.all()
+        )
+        for cell in cells:
+            yield cell
     
     def build_queue(self):
         queue = SettlementBuilding.objects.filter(

@@ -1,3 +1,4 @@
+{% with cell as building %}
 <div class="building" style="top: {{ top }}px; left: {{ left }}px;">
     <a href="{% url building_detail building.pk %}">{{ building.kind.name }}
         {% if building.status != "built" %}
@@ -6,3 +7,4 @@
         {% endif %}
     </a>
 </div>
+{% endwith %}

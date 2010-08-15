@@ -1,58 +1,71 @@
+import itertools
+
 from django import template
 from django.conf import settings
+from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
 
 from django.contrib.humanize.templatetags.humanize import intcomma
+
+from manoria.models import Settlement, SettlementBuilding, SettlementTerrain
 
 
 register = template.Library()
 
 
+class EmptyCell(object):
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+
 @register.inclusion_tag("manoria/_map.html")
-def render_map(settlement):
+def render_map(mapable):
     empty_cells = []
-    allocation = [map(int, a.split(",")) for a in settlement.allocation.split()]
-    for x in range(1, settings.SETTLEMENT_SIZE[0]+1):
-        for y in range(1, settings.SETTLEMENT_SIZE[1]+1):
+    allocation = [map(int, a.split(",")) for a in mapable.allocation.split()]
+    for x in range(1, mapable.size[0]+1):
+        for y in range(1, mapable.size[1]+1):
             if (x, y) in allocation:
                 continue
-            empty_cells.append((x*86, y*86))
+            empty_cells.append(EmptyCell(x, y))
     return {
-        "settlement": settlement,
-        "empty_cells": empty_cells,
+        "mapable": mapable,
+        "cells": itertools.chain(empty_cells, mapable.cells()),
     }
 
 
-@register.inclusion_tag("manoria/_map_building.html")
-def render_map_building(building):
-    # building size + border + padding
-    left = building.x * 86
-    top = building.y * 86
-    return {
-        "building": building,
-        "left": left,
-        "top": top,
-    }
+class RenderMapCellNode(template.Node):
+    
+    @classmethod
+    def handle_token(cls, parser, token):
+        bits = token.split_contents()
+        return cls(bits[1])
+    
+    def __init__(self, cell):
+        self.cell = template.Variable(cell)
+    
+    def render(self, context):
+        cell = self.cell.resolve(context)
+        
+        ctx = {
+            "cell": cell,
+            # building size + border + padding
+            "left": cell.x * 86,
+            "top": cell.y * 86,
+        }
+        template = {
+            EmptyCell: "_map_empty_cell.html",
+            Settlement: "_map_settlement.html",
+            SettlementBuilding: "_map_building.html",
+            SettlementTerrain: "_map_terrain.html"
+        }[type(cell)]
+        
+        return render_to_string("manoria/%s" % template, ctx)
 
 
-@register.inclusion_tag("manoria/_map_terrain.html")
-def render_map_terrain(terrain):
-    # terrain size + border + padding
-    left = terrain.x * 86
-    top = terrain.y * 86
-    return {
-        "terrain": terrain,
-        "left": left,
-        "top": top,
-    }
-
-
-@register.inclusion_tag("manoria/_map_empty_cell.html")
-def render_map_empty_cell(cell):
-    return {
-        "left": cell[0],
-        "top": cell[1],
-    }
+@register.tag
+def render_map_cell(parser, token):
+    return RenderMapCellNode.handle_token(parser, token)
 
 
 @register.filter

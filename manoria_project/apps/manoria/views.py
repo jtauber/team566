@@ -56,6 +56,17 @@ def player_create(request):
 
 
 @login_required
+def continent_detail(request, pk):
+    continent = get_object_or_404(Continent, pk=pk)
+    
+    ctx = {
+        "continent": continent,
+    }
+    ctx = RequestContext(request, ctx)
+    return render_to_response("manoria/continent_detail.html", ctx)
+
+
+@login_required
 def settlement_detail(request, pk):
     settlement = get_object_or_404(Settlement, pk=pk)
     

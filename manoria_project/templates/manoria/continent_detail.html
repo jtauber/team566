@@ -1,0 +1,36 @@
+{% extends "site_base.html" %}
+
+{% load humanize %}
+{% load manoria_tags %}
+
+{% block head_title %}{{ continent.name }}{% endblock %}
+
+{% block body_class %}continent{% endblock %}
+
+{% block body_outer %}
+    
+    <div class="left-panel">
+        &nbsp;
+    </div>
+    
+    <div class="window">
+        {% render_map continent %}
+    </div>
+{% endblock %}
+
+{% block extra_body %}
+    <script>
+        $(function() {
+            $(".map").draggable();
+            function resizeFrame() {
+                var h = $(window).height();
+                var w = $(window).width();
+                $("div.left-panel").css("height", h - 106); // 123
+                $("div.window").css("height", h - 85); // 83
+                $("div.window").css("width", w - 341); // 341
+            }
+            $(window).load(resizeFrame);
+            $(window).resize(resizeFrame);
+        });
+    </script>
+{% endblock %}
