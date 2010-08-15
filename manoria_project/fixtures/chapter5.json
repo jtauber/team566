@@ -5,7 +5,8 @@
         "fields": {
             "buildable_on": false, 
             "name": "Forest",
-            "slug": "forest"
+            "slug": "forest",
+            "produces": [1]
         }
     }, 
     {
@@ -14,7 +15,8 @@
         "fields": {
             "buildable_on": false, 
             "name": "Lake",
-            "slug": "lake"
+            "slug": "lake",
+            "produces": [6]
         }
     }, 
     {
@@ -23,7 +25,8 @@
         "fields": {
             "buildable_on": false, 
             "name": "Hill",
-            "slug": "hill"
+            "slug": "hill",
+            "produces": [3]
         }
     }, 
     {
@@ -32,7 +35,8 @@
         "fields": {
             "buildable_on": false, 
             "name": "Mountain",
-            "slug": "mountain"
+            "slug": "mountain",
+            "produces": [2]
         }
     }, 
     {

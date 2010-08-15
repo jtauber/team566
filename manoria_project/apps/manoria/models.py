@@ -103,7 +103,8 @@ class Settlement(models.Model):
             for kind in SettlementTerrainKind.objects.all():
                 population.append((kind, counts.get(kind.slug, 0) + 1))
             kind = weighted_choices(population, 1)[0]
-            self.terrain.create(kind=kind, x=x, y=y)
+            terrain = self.terrain.create(kind=kind, x=x, y=y)
+            terrain.settlementterrainresourcecount_set.create()
     
     def build_queue(self):
         queue = SettlementBuilding.objects.filter(
@@ -379,6 +380,7 @@ class SettlementTerrainKind(models.Model):
     name = models.CharField(max_length=50)
     slug = models.SlugField()
     buildable_on = models.BooleanField(default=True)
+    produces = models.ManyToManyField(ResourceKind)
     
     def __unicode__(self):
         return self.name
