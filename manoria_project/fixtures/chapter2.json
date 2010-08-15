@@ -52,31 +52,5 @@
             "slug": "fish",
             "player": false
         }
-    }, 
-    {
-        "pk": 1, 
-        "model": "manoria.playerresourcecount", 
-        "fields": {
-            "count": 40000, 
-            "kind": 5, 
-            "timestamp": "2010-08-14 03:56:46", 
-            "player": 1, 
-            "natural_rate": "2000", 
-            "rate_adjustment": "0", 
-            "limit": 0
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "manoria.playerresourcecount", 
-        "fields": {
-            "count": 4000, 
-            "kind": 5, 
-            "timestamp": "2010-08-20 03:56:46", 
-            "player": 2, 
-            "natural_rate": "1000", 
-            "rate_adjustment": "0", 
-            "limit": 0
-        }
     }
 ]
