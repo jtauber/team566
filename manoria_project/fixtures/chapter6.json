@@ -13,7 +13,7 @@
         "pk": 2, 
         "model": "manoria.buildingkindproduct", 
         "fields": {
-            "resource_kind": 1, 
+            "resource_kind": 6, 
             "building_kind": 3, 
             "source_terrain_kind": 2, 
             "base_rate": 500
