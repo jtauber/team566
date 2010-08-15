@@ -1,3 +1,4 @@
+import collections
 import datetime
 import itertools
 import random
@@ -5,6 +6,8 @@ import random
 from django.db import models
 
 from django.contrib.auth.models import User
+
+from manoria.utils import weighted_choices
 
 
 class Player(models.Model):
@@ -50,7 +53,7 @@ class Settlement(models.Model):
     def __unicode__(self):
         return u"%s (%s)" % (self.name, self.player)
     
-    def place(self, commit=True):
+    def place(self):
         # @@@ need to test if continent is full otherwise an infinite loop
         # will occur
         y = None
@@ -61,8 +64,46 @@ class Settlement(models.Model):
                 y = random.choice(list(S))
         self.x = x
         self.y = y
-        if commit:
-            self.save()
+        self.save()
+        
+        def check_cell(settlement, x, y):
+            if not 1 <= x <= 20 or not 1 <= y <= 20:
+                terrain = None
+            else:
+                try:
+                    terrain = settlement.terrain.select_related("kind").get(x=x, y=y)
+                except SettlementTerrain.DoesNotExist:
+                    terrain = None
+            return terrain
+        
+        for i in range(50):
+            occupied = True
+            while occupied:
+                x = random.randint(1, 20)
+                y = random.randint(1, 20)
+                # check if the randomly chosen x, y is not already occupied
+                occupied = self.terrain.filter(x=x, y=y).exists()
+                if not occupied:
+                    break
+            # check surrounding cells
+            neighbors = [
+                check_cell(self, x+1, y),
+                check_cell(self, x-1, y),
+                check_cell(self, x, y+1),
+                check_cell(self, x, y-1),
+                check_cell(self, x+1, y+1),
+                check_cell(self, x-1, y-1),
+                check_cell(self, x+1, y-1),
+                check_cell(self, x-1, y+1),
+            ]
+            counts = collections.defaultdict(int)
+            for neighbor in filter(bool, neighbors):
+                counts[neighbor.kind.slug] += 1
+            population = []
+            for kind in SettlementTerrainKind.objects.all():
+                population.append((kind, counts.get(kind.slug, 0) + 1))
+            kind = weighted_choices(population, 1)[0]
+            self.terrain.create(kind=kind, x=x, y=y)
     
     def build_queue(self):
         queue = SettlementBuilding.objects.filter(

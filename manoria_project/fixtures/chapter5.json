@@ -3,7 +3,7 @@
         "pk": 1, 
         "model": "manoria.settlementterrainkind", 
         "fields": {
-            "buildable_on": true, 
+            "buildable_on": false, 
             "name": "Forest",
             "slug": "forest"
         }
@@ -15,6 +15,24 @@
             "buildable_on": false, 
             "name": "Lake",
             "slug": "lake"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "manoria.settlementterrainkind", 
+        "fields": {
+            "buildable_on": false, 
+            "name": "Hill",
+            "slug": "hill"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "manoria.settlementterrainkind", 
+        "fields": {
+            "buildable_on": false, 
+            "name": "Mountain",
+            "slug": "mountain"
         }
     }, 
     {
