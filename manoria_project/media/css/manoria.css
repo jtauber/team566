@@ -89,15 +89,40 @@ p.action {
     background: url(/site_media/static/img/paper_texture_1-512px.jpg) #7F6230;
 }
 .uniForm .inlineLabels .formHint {
-    color: #FF9;
-    text-shadow: -1px -1px 0px #000;
+    color: #210;
+    text-shadow: 1px 1px 0px #974;
 }
 .uniForm label {
-    color: #FF9;
-    text-shadow: -1px -1px 0px #000;
+    color: #210;
+    font-size: 14pt;
+    text-shadow: 1px 1px 0px #974;
 }
 .uniForm .ctrlHolder.focused {
+    background: transparent;
+}
+.uniForm .ctrlHolder.focused label {
+    color: #FC6;
+    font-size: 14pt;
+    text-shadow: -1px -1px 0px #000;
+}
+.uniForm .ctrlHolder.focused .formHint {
+    color: #210;
+    text-shadow: 1px 1px 0px #974;
+}
+.uniForm .form_block {
+    padding: 5px 20px;
+}
+input[type="submit"] {
     background: url(/site_media/static/img/paper_texture4-512px.jpg) #876721;
+    border: 2px solid black;
+    color: #210;
+    font-size: 14pt;
+    text-shadow: 1px 1px 0px #974;
+    font-family: "rieven-uncial-1","rieven-uncial-2",sans-serif;
+}
+input[type="submit"]:hover {
+    color: #000;
+    text-shadow: 0px 0px 5px #333;
 }
 .legal {
     color: #000;
