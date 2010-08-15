@@ -12,53 +12,5 @@
         "fields": {
             "name": "Woodcutter's Hut"
         }
-    }, 
-    {
-        "pk": 1, 
-        "model": "manoria.settlementbuilding", 
-        "fields": {
-            "construction_end": "2010-08-14 04:40:07", 
-            "kind": 1, 
-            "construction_start": "2010-08-14 04:40:07", 
-            "y": 10, 
-            "x": 10, 
-            "settlement": 1
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "manoria.settlementbuilding", 
-        "fields": {
-            "construction_end": "2010-08-14 08:40:42", 
-            "kind": 2, 
-            "construction_start": "2010-08-14 04:40:42", 
-            "y": 10, 
-            "x": 20, 
-            "settlement": 1
-        }
-    }, 
-    {
-        "pk": 3, 
-        "model": "manoria.settlementbuilding", 
-        "fields": {
-            "construction_end": "2010-08-14 04:41:58", 
-            "kind": 2, 
-            "construction_start": "2010-08-14 04:41:58", 
-            "y": 20, 
-            "x": 15, 
-            "settlement": 3
-        }
-    }, 
-    {
-        "pk": 4, 
-        "model": "manoria.settlementbuilding", 
-        "fields": {
-            "construction_end": "2010-08-14 10:42:16", 
-            "kind": 1, 
-            "construction_start": "2010-08-14 04:42:16", 
-            "y": 10, 
-            "x": 1, 
-            "settlement": 3
-        }
     }
 ]

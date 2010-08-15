@@ -90,10 +90,10 @@
         "pk": 3, 
         "model": "manoria.settlementresourcecount", 
         "fields": {
-            "count": -100, 
+            "count": 0, 
             "kind": 3, 
             "timestamp": "2010-08-14 03:52:10", 
-            "natural_rate": "10", 
+            "natural_rate": "0", 
             "rate_adjustment": "0", 
             "limit": 0, 
             "settlement": 1
@@ -106,7 +106,7 @@
             "count": 1000, 
             "kind": 4, 
             "timestamp": "2010-08-14 03:53:30", 
-            "natural_rate": "-1000", 
+            "natural_rate": "0", 
             "rate_adjustment": "0", 
             "limit": 0, 
             "settlement": 1
@@ -119,7 +119,7 @@
             "count": 300, 
             "kind": 1, 
             "timestamp": "2010-08-14 03:43:36", 
-            "natural_rate": "300", 
+            "natural_rate": "0", 
             "rate_adjustment": "0", 
             "limit": 0, 
             "settlement": 2
@@ -142,10 +142,10 @@
         "pk": 7, 
         "model": "manoria.settlementresourcecount", 
         "fields": {
-            "count": -100, 
+            "count": 0, 
             "kind": 3, 
             "timestamp": "2010-08-14 03:52:10", 
-            "natural_rate": "10", 
+            "natural_rate": "0", 
             "rate_adjustment": "0", 
             "limit": 0, 
             "settlement": 2
@@ -158,7 +158,7 @@
             "count": 1000, 
             "kind": 4, 
             "timestamp": "2010-08-14 03:53:30", 
-            "natural_rate": "-1000", 
+            "natural_rate": "0", 
             "rate_adjustment": "0", 
             "limit": 0, 
             "settlement": 2
@@ -171,7 +171,7 @@
             "count": 300, 
             "kind": 1, 
             "timestamp": "2010-08-14 03:43:36", 
-            "natural_rate": "300", 
+            "natural_rate": "0", 
             "rate_adjustment": "0", 
             "limit": 0, 
             "settlement": 3
@@ -194,10 +194,10 @@
         "pk": 11, 
         "model": "manoria.settlementresourcecount", 
         "fields": {
-            "count": -100, 
+            "count": 0, 
             "kind": 3, 
             "timestamp": "2010-08-14 03:52:10", 
-            "natural_rate": "10", 
+            "natural_rate": "0", 
             "rate_adjustment": "0", 
             "limit": 0, 
             "settlement": 3
@@ -210,7 +210,7 @@
             "count": 1000, 
             "kind": 4, 
             "timestamp": "2010-08-14 03:53:30", 
-            "natural_rate": "-1000", 
+            "natural_rate": "0", 
             "rate_adjustment": "0", 
             "limit": 0, 
             "settlement": 3
@@ -223,7 +223,7 @@
             "count": 300, 
             "kind": 1, 
             "timestamp": "2010-08-14 03:43:36", 
-            "natural_rate": "300", 
+            "natural_rate": "0", 
             "rate_adjustment": "0", 
             "limit": 0, 
             "settlement": 4
@@ -246,10 +246,10 @@
         "pk": 15, 
         "model": "manoria.settlementresourcecount", 
         "fields": {
-            "count": -100, 
+            "count": 0, 
             "kind": 3, 
             "timestamp": "2010-08-14 03:52:10", 
-            "natural_rate": "10", 
+            "natural_rate": "0", 
             "rate_adjustment": "0", 
             "limit": 0, 
             "settlement": 4
@@ -262,7 +262,7 @@
             "count": 1000, 
             "kind": 4, 
             "timestamp": "2010-08-14 03:53:30", 
-            "natural_rate": "-1000", 
+            "natural_rate": "0", 
             "rate_adjustment": "0", 
             "limit": 0, 
             "settlement": 4
