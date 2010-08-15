@@ -24,6 +24,7 @@ class BuildingCreateForm(forms.ModelForm):
         model = SettlementBuilding
         fields = ["kind", "x", "y"]
         widgets = {
+            "kind": forms.HiddenInput,
             "x": forms.HiddenInput,
             "y": forms.HiddenInput,
         }
