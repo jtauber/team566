@@ -391,6 +391,18 @@ class SettlementBuilding(models.Model):
         self.settlement.allocation += "%s%d,%d" % (" ", self.x, self.y)
         self.settlement.save()
         
+        # deduct what the building costs
+        for cost in self.kind.buildingcost_set.all():
+            current = SettlementResourceCount.current(cost.resource_kind, settlement=self.settlement)
+            future = SettlementResourceCount.objects.filter(
+                kind=cost.resource_kind,
+                settlement=self.settlement,
+                timestamp__gt=datetime.datetime.now()
+            )
+            SettlementResourceCount.objects.filter(
+                id__in=[rc.id for rc in itertools.chain([current], future)]
+            ).update(count=models.F("count") - cost.amount)
+        
         SX, SY = settings.SETTLEMENT_SIZE
         
         def check_cell(settlement, x, y, **kwargs):

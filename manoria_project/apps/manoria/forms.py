@@ -52,3 +52,16 @@ class BuildingCreateForm(forms.ModelForm):
                 raise forms.ValidationError("Building cannot be placed on non-buildable terrain")
         
         return self.cleaned_data
+    
+    def clean_kind(self):
+        building_kind = self.cleaned_data["kind"]
+        resource_counts = {}
+        for resource_count in self.settlement.resource_counts():
+            resource_counts[resource_count.kind] = resource_count
+        failed = []
+        for cost in building_kind.buildingcost_set.all():
+            if resource_counts[cost.resource_kind].count < cost.amount:
+                failed.append(cost.resource_kind)
+        if failed:
+            raise forms.ValidationError("Insufficient resources: %s" % ", ".join([k.name for k in failed]))
+        return building_kind
