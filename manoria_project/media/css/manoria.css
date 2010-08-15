@@ -13,7 +13,7 @@ a:hover {
 
 #tabhead {
     background: url(/site_media/static/img/paper_texture_1-512px.jpg) #7F6230;
-    border-bottom: 1px solid #000; /* tab border */
+    border-bottom: 1px solid transparent; /* tab border */
     position: relative;
 }
 #tabhead .logo {
@@ -50,8 +50,8 @@ a:hover {
 #subnav {
     margin: 0;
     padding: 0;
-    background: url(/site_media/static/img/paper_texture4-512px.jpg) #876721;
-    border-bottom: 1px solid #000;
+    background: url(/site_media/static/img/stone2_tileable_1024.jpg) #928972;
+    border-bottom: 1px solid transparent;
     font-weight: normal;
 }
 #subnav ul {
@@ -189,7 +189,7 @@ h2 {
     border: 1px solid #000;
 }
 ::-webkit-scrollbar-track-piece {
-    background: url(/site_media/static/img/paper_texture_1-512px.jpg) #7F6230;
+    background: url(/site_media/static/img/stone2_tileable_1024.jpg) #928972;
 }
 ::-webkit-scrollbar-thumb {
     background: url(/site_media/static/img/paper_texture4-512px.jpg) #876721;
