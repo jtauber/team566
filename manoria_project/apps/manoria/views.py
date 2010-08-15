@@ -34,6 +34,16 @@ def player_create(request):
             player.user = request.user
             player.save()
             
+            for resource_kind in ResourceKind.objects.filter(player=True):
+                player.playerresourcecount_set.create(
+                    kind=resource_kind,
+                    count=0,
+                    natural_rate=0,
+                    rate_adjustment=0,
+                    limit=0,
+                    timestamp=datetime.datetime.now(),
+                )
+            
             return redirect("home")
     else:
         form = PlayerCreateForm()

@@ -19,6 +19,15 @@ class Player(models.Model):
     
     def __unicode__(self):
         return self.name
+    
+    def resource_counts(self):
+        # @@@ instance cache
+        counts = []
+        for row in self.playerresourcecount_set.distinct().values("kind"):
+            kind = ResourceKind.objects.get(id=row["kind"])
+            current = PlayerResourceCount.current(kind, player=self)
+            counts.append(current)
+        return counts
 
 
 class Continent(models.Model):
@@ -66,6 +75,16 @@ class Settlement(models.Model):
         self.y = y
         self.save()
         
+        for resource_kind in ResourceKind.objects.filter(player=False):
+            self.settlementresourcecount_set.create(
+                kind=resource_kind,
+                count=0,
+                natural_rate=0,
+                rate_adjustment=0,
+                timestamp=datetime.datetime.now(),
+                limit=0,
+            )
+        
         def check_cell(settlement, x, y):
             if not 1 <= x <= 20 or not 1 <= y <= 20:
                 terrain = None
@@ -104,6 +123,17 @@ class Settlement(models.Model):
                 population.append((kind, counts.get(kind.slug, 0) + 1))
             kind = weighted_choices(population, 1)[0]
             terrain = self.terrain.create(kind=kind, x=x, y=y)
+            # create resource counts for what the terrain kind produces
+            for resource_kind in kind.produces.all():
+                count = random.randint(1, 50000)
+                terrain.settlementterrainresourcecount_set.create(
+                    kind=resource_kind,
+                    count=count,
+                    natural_rate=count / 100,
+                    rate_adjustment=0,
+                    timestamp=datetime.datetime.now(),
+                    limit=count
+                )
     
     def build_queue(self):
         queue = SettlementBuilding.objects.filter(
@@ -133,6 +163,7 @@ class ResourceKind(models.Model):
     
     name = models.CharField(max_length=25)
     slug = models.SlugField()
+    player = models.BooleanField()
     
     def __unicode__(self):
         return self.name
@@ -224,7 +255,7 @@ class BaseResourceCount(models.Model):
 class PlayerResourceCount(BaseResourceCount):
     
     kind = models.ForeignKey(ResourceKind)
-    player = models.ForeignKey(Player, related_name="resource_counts")
+    player = models.ForeignKey(Player)
     
     def __unicode__(self):
         return u"%s (%s)" % (self.kind, self.player)

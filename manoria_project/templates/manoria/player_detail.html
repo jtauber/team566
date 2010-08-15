@@ -30,11 +30,11 @@
     
     <h2>Resources</h2>
     
-    {% if player.resource_counts.all %}
+    {% if player.resource_counts %}
         <p>These resources are attached to the player, not an individual settlement.</p>
         
         <ul>
-            {% for resource_count in player.resource_counts.all %}
+            {% for resource_count in player.resource_counts %}
                 <li>
                     {{ resource_count.kind.name }} = {{ resource_count.amount|intcomma }}
                     ({{ resource_count.rate|format_rate }}/hr;

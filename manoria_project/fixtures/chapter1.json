@@ -37,73 +37,9 @@
     },
     {
         "pk": 1, 
-        "model": "manoria.player", 
-        "fields": {
-            "user": 1, 
-            "name": "Yret"
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "manoria.player", 
-        "fields": {
-            "user": 2, 
-            "name": "oebfare"
-        }
-    }, 
-    {
-        "pk": 1, 
         "model": "manoria.continent", 
         "fields": {
             "name": "Manoria"
-        }
-    }, 
-    {
-        "pk": 1, 
-        "model": "manoria.settlement", 
-        "fields": {
-            "kind": "homestead", 
-            "name": "Fornost", 
-            "player": 1, 
-            "y": 5, 
-            "x": 5, 
-            "continent": 1
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "manoria.settlement", 
-        "fields": {
-            "kind": "homestead", 
-            "name": "Dolindir", 
-            "player": 1, 
-            "y": 5, 
-            "x": 6, 
-            "continent": 1
-        }
-    }, 
-    {
-        "pk": 3, 
-        "model": "manoria.settlement", 
-        "fields": {
-            "kind": "homestead", 
-            "name": "oebfare", 
-            "player": 2, 
-            "y": 10, 
-            "x": 8, 
-            "continent": 1
-        }
-    }, 
-    {
-        "pk": 4, 
-        "model": "manoria.settlement", 
-        "fields": {
-            "kind": "homestead", 
-            "name": "oebfront", 
-            "player": 2, 
-            "y": 1, 
-            "x": 7, 
-            "continent": 1
         }
     }
 ]

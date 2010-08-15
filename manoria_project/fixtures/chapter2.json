@@ -4,7 +4,8 @@
         "model": "manoria.resourcekind", 
         "fields": {
             "name": "Wood",
-            "slug": "wood"
+            "slug": "wood",
+            "player": false
         }
     }, 
     {
@@ -12,7 +13,8 @@
         "model": "manoria.resourcekind", 
         "fields": {
             "name": "Stone",
-            "slug": "stone"
+            "slug": "stone",
+            "player": false
         }
     }, 
     {
@@ -20,7 +22,8 @@
         "model": "manoria.resourcekind", 
         "fields": {
             "name": "Iron",
-            "slug": "iron"
+            "slug": "iron",
+            "player": false
         }
     }, 
     {
@@ -28,7 +31,8 @@
         "model": "manoria.resourcekind", 
         "fields": {
             "name": "Food",
-            "slug": "food"
+            "slug": "food",
+            "player": false
         }
     }, 
     {
@@ -36,7 +40,8 @@
         "model": "manoria.resourcekind", 
         "fields": {
             "name": "Gold",
-            "slug": "gold"
+            "slug": "gold",
+            "player": true
         }
     }, 
     {
@@ -44,7 +49,8 @@
         "model": "manoria.resourcekind", 
         "fields": {
             "name": "Fish",
-            "slug": "fish"
+            "slug": "fish",
+            "player": false
         }
     }, 
     {
@@ -71,214 +77,6 @@
             "natural_rate": "1000", 
             "rate_adjustment": "0", 
             "limit": 0
-        }
-    }, 
-    {
-        "pk": 1, 
-        "model": "manoria.settlementresourcecount", 
-        "fields": {
-            "count": 300, 
-            "kind": 1, 
-            "timestamp": "2010-08-14 03:43:36", 
-            "natural_rate": "300", 
-            "rate_adjustment": "0", 
-            "limit": 0, 
-            "settlement": 1
-        }
-    }, 
-    {
-        "pk": 2, 
-        "model": "manoria.settlementresourcecount", 
-        "fields": {
-            "count": 0, 
-            "kind": 2, 
-            "timestamp": "2010-08-14 03:51:47", 
-            "natural_rate": "0", 
-            "rate_adjustment": "0", 
-            "limit": 0, 
-            "settlement": 1
-        }
-    }, 
-    {
-        "pk": 3, 
-        "model": "manoria.settlementresourcecount", 
-        "fields": {
-            "count": 0, 
-            "kind": 3, 
-            "timestamp": "2010-08-14 03:52:10", 
-            "natural_rate": "0", 
-            "rate_adjustment": "0", 
-            "limit": 0, 
-            "settlement": 1
-        }
-    }, 
-    {
-        "pk": 4, 
-        "model": "manoria.settlementresourcecount", 
-        "fields": {
-            "count": 1000, 
-            "kind": 4, 
-            "timestamp": "2010-08-14 03:53:30", 
-            "natural_rate": "0", 
-            "rate_adjustment": "0", 
-            "limit": 0, 
-            "settlement": 1
-        }
-    },
-    {
-        "pk": 5, 
-        "model": "manoria.settlementresourcecount", 
-        "fields": {
-            "count": 300, 
-            "kind": 1, 
-            "timestamp": "2010-08-14 03:43:36", 
-            "natural_rate": "0", 
-            "rate_adjustment": "0", 
-            "limit": 0, 
-            "settlement": 2
-        }
-    }, 
-    {
-        "pk": 6, 
-        "model": "manoria.settlementresourcecount", 
-        "fields": {
-            "count": 0, 
-            "kind": 2, 
-            "timestamp": "2010-08-14 03:51:47", 
-            "natural_rate": "0", 
-            "rate_adjustment": "0", 
-            "limit": 0, 
-            "settlement": 2
-        }
-    }, 
-    {
-        "pk": 7, 
-        "model": "manoria.settlementresourcecount", 
-        "fields": {
-            "count": 0, 
-            "kind": 3, 
-            "timestamp": "2010-08-14 03:52:10", 
-            "natural_rate": "0", 
-            "rate_adjustment": "0", 
-            "limit": 0, 
-            "settlement": 2
-        }
-    }, 
-    {
-        "pk": 8, 
-        "model": "manoria.settlementresourcecount", 
-        "fields": {
-            "count": 1000, 
-            "kind": 4, 
-            "timestamp": "2010-08-14 03:53:30", 
-            "natural_rate": "0", 
-            "rate_adjustment": "0", 
-            "limit": 0, 
-            "settlement": 2
-        }
-    },
-    {
-        "pk": 9, 
-        "model": "manoria.settlementresourcecount", 
-        "fields": {
-            "count": 300, 
-            "kind": 1, 
-            "timestamp": "2010-08-14 03:43:36", 
-            "natural_rate": "0", 
-            "rate_adjustment": "0", 
-            "limit": 0, 
-            "settlement": 3
-        }
-    }, 
-    {
-        "pk": 10, 
-        "model": "manoria.settlementresourcecount", 
-        "fields": {
-            "count": 0, 
-            "kind": 2, 
-            "timestamp": "2010-08-14 03:51:47", 
-            "natural_rate": "0", 
-            "rate_adjustment": "0", 
-            "limit": 0, 
-            "settlement": 3
-        }
-    }, 
-    {
-        "pk": 11, 
-        "model": "manoria.settlementresourcecount", 
-        "fields": {
-            "count": 0, 
-            "kind": 3, 
-            "timestamp": "2010-08-14 03:52:10", 
-            "natural_rate": "0", 
-            "rate_adjustment": "0", 
-            "limit": 0, 
-            "settlement": 3
-        }
-    }, 
-    {
-        "pk": 12, 
-        "model": "manoria.settlementresourcecount", 
-        "fields": {
-            "count": 1000, 
-            "kind": 4, 
-            "timestamp": "2010-08-14 03:53:30", 
-            "natural_rate": "0", 
-            "rate_adjustment": "0", 
-            "limit": 0, 
-            "settlement": 3
-        }
-    },
-    {
-        "pk": 13, 
-        "model": "manoria.settlementresourcecount", 
-        "fields": {
-            "count": 300, 
-            "kind": 1, 
-            "timestamp": "2010-08-14 03:43:36", 
-            "natural_rate": "0", 
-            "rate_adjustment": "0", 
-            "limit": 0, 
-            "settlement": 4
-        }
-    }, 
-    {
-        "pk": 14, 
-        "model": "manoria.settlementresourcecount", 
-        "fields": {
-            "count": 0, 
-            "kind": 2, 
-            "timestamp": "2010-08-14 03:51:47", 
-            "natural_rate": "0", 
-            "rate_adjustment": "0", 
-            "limit": 0, 
-            "settlement": 4
-        }
-    }, 
-    {
-        "pk": 15, 
-        "model": "manoria.settlementresourcecount", 
-        "fields": {
-            "count": 0, 
-            "kind": 3, 
-            "timestamp": "2010-08-14 03:52:10", 
-            "natural_rate": "0", 
-            "rate_adjustment": "0", 
-            "limit": 0, 
-            "settlement": 4
-        }
-    }, 
-    {
-        "pk": 16, 
-        "model": "manoria.settlementresourcecount", 
-        "fields": {
-            "count": 1000, 
-            "kind": 4, 
-            "timestamp": "2010-08-14 03:53:30", 
-            "natural_rate": "0", 
-            "rate_adjustment": "0", 
-            "limit": 0, 
-            "settlement": 4
         }
     }
 ]
