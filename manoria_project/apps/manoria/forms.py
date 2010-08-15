@@ -23,6 +23,10 @@ class BuildingCreateForm(forms.ModelForm):
     class Meta:
         model = SettlementBuilding
         fields = ["kind", "x", "y"]
+        widgets = {
+            "x": forms.HiddenInput,
+            "y": forms.HiddenInput,
+        }
     
     def __init__(self, settlement, *args, **kwargs):
         self.settlement = settlement
