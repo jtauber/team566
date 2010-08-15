@@ -125,7 +125,7 @@ def building_create(request, settlement_pk):
     
     def buildings():
         resource_counts = {}
-        for resource_count in self.settlement.resource_counts():
+        for resource_count in settlement.resource_counts():
             resource_counts[resource_count.kind] = resource_count
         for building_kind in BuildingKind.objects.all():
             d = {"building_kind": building_kind, "costs": []}
