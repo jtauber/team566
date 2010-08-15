@@ -289,7 +289,7 @@ class SettlementBuilding(models.Model):
                 timestamp=self.construction_end,
                 natural_rate=current.natural_rate,
                 rate_adjustment=current.rate_adjustment - product.base_rate,
-                limit=0, # @@@ terrain kind may set a limit
+                limit=current.limit,
             )
             strc.save()
             when, hit_limit = SettlementTerrainResourceCount.calculate_extremum(
