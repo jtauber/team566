@@ -126,7 +126,14 @@ def building_create(request, settlement_pk):
             
             return redirect("settlement_detail", settlement.pk)
     else:
-        form = BuildingCreateForm(settlement)
+        x = request.GET.get("x")
+        y = request.GET.get("y")
+        initial = {}
+        if x:
+            initial["x"] = x
+        if y:
+            initial["y"] = y
+        form = BuildingCreateForm(settlement, initial=initial)
     
     ctx = {
         "form": form,
