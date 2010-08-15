@@ -1,12 +1,15 @@
 {% load manoria_tags %}
 <div class="map">
+    {% for cell in empty_cells %}
+        {% render_map_empty_cell cell %}
+    {% endfor %}
     {% for terrain in settlement.terrain.all %}
-        {% map_terrain terrain %}
+        {% render_map_terrain terrain %}
     {% endfor %}
     {% for building in settlement.build_queue %}
-        {% map_building building %}
+        {% render_map_building building %}
     {% endfor %}
     {% for building in settlement.buildings %}
-        {% map_building building %}
+        {% render_map_building building %}
     {% endfor %}
 </div>
