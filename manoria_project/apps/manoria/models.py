@@ -351,11 +351,14 @@ class SettlementBuilding(models.Model):
         return u"%s on %s" % (self.kind, self.settlement)
     
     def queue(self, commit=True):
+        # look for most recently added building to queue (None if none)
         try:
             oldest = self.settlement.build_queue().reverse()[0]
         except IndexError:
             oldest = None
         
+        # set when construction starts based on the most recently added
+        # building to the queue (if None use now)
         # @@@ hard-coded two minute build times
         if oldest:
             self.construction_start = oldest.construction_end
@@ -363,9 +366,12 @@ class SettlementBuilding(models.Model):
             self.construction_start = datetime.datetime.now()
         self.construction_end = self.construction_start + datetime.timedelta(minutes=2)
         
+        # allocate space on the map using settlement allocation table
         self.settlement.allocation += "%s%d,%d" % (" ", self.x, self.y)
         self.settlement.save()
         
+        # iterate over what the building kind produces setting up the state
+        # of resource counts when the building will be finished building
         for product in self.kind.products.all():
             current = SettlementResourceCount.current(
                 product.resource_kind,
