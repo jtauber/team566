@@ -54,9 +54,12 @@ class Settlement(models.Model):
     )
     player = models.ForeignKey(Player, related_name="settlements")
     continent = models.ForeignKey(Continent)
+    
     # location on continent
     x = models.IntegerField()
     y = models.IntegerField()
+    
+    allocation = models.TextField()
     
     # @@@ points
     
@@ -98,15 +101,17 @@ class Settlement(models.Model):
                     terrain = None
             return terrain
         
+        allocation = []
+        
         for i in range(settings.SETTLEMENT_RESOURCE_COUNT):
             occupied = True
             while occupied:
                 x = random.randint(1, SX)
                 y = random.randint(1, SY)
                 # check if the randomly chosen x, y is not already occupied
-                occupied = self.terrain.filter(x=x, y=y).exists()
-                if not occupied:
+                if not (x, y) in allocation:
                     break
+            allocation.append((x, y))
             # check surrounding cells
             neighbors = [
                 check_cell(self, x+1, y),
@@ -137,6 +142,10 @@ class Settlement(models.Model):
                     timestamp=datetime.datetime.now(),
                     limit=count
                 )
+        
+        self.allocation = " ".join(("%d,%d" % (x, y) for x, y in allocation))
+        # for updating the allocation table
+        self.save()
     
     def build_queue(self):
         queue = SettlementBuilding.objects.filter(
@@ -329,6 +338,9 @@ class SettlementBuilding(models.Model):
         else:
             self.construction_start = datetime.datetime.now()
         self.construction_end = self.construction_start + datetime.timedelta(minutes=2)
+        
+        self.settlement.allocation += "%s%d,%d" % (" ", self.x, self.y)
+        self.settlement.save()
         
         for product in self.kind.products.all():
             current = SettlementResourceCount.current(
