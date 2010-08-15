@@ -13,10 +13,14 @@ div.map {
     position: relative;
 }
 body.continent div.map {
-    width: 1892px; /* (building_width + border + padding) * (num_cells_x + 2) */
-    height: 1892px; /* (building_width + border + padding) * (num_cells_y + 2) */
+    width: 1032px; /* (building_width + border + padding) * (num_cells_x + 2) */
+    height: 1032px; /* (building_width + border + padding) * (num_cells_y + 2) */
+    top: 20px;
+    left: 20px;
+/*  width: 1892px;
+    height: 1892px;
     top: -650px;
-    left: -650px;
+    left: -650px; */
 }
 body.settlement div.map {
     width: 1032px; /* (building_width + border + padding) * (num_cells_x + 2) */
