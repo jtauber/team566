@@ -57,6 +57,7 @@
 }
 
 .left-panel {
+    overflow-y: scroll;
     background: #CCC;
     padding: 20px;
     width: 300px;

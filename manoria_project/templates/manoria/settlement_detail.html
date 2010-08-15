@@ -7,7 +7,7 @@
 
 {% block body_class %}settlement{% endblock %}
 
-{% block body %}
+{% block body_outer %}
     
     <div class="left-panel">
         <p><a href="{% url player_detail settlement.player.pk %}">{{ settlement.player }}</a></p>
@@ -105,9 +105,9 @@
             {
                 var h = $(window).height();
                 var w = $(window).width();
-                $("div.window").css("height", h - 83);
                 $("div.left-panel").css("height", h - 123);
-                $("div.window").css("width", w - 342);
+                $("div.window").css("height", h - 83);
+                $("div.window").css("width", w - 327);
             }
         });
     </script>
