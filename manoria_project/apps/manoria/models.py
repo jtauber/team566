@@ -378,7 +378,7 @@ class SettlementBuilding(models.Model):
                 settlement=self.settlement, when=self.construction_end
             )
             amount = current.amount(self.construction_end)
-            src = SettlementResourceCount(
+            SettlementResourceCount.objects.create(
                 kind=product.resource_kind,
                 settlement=self.settlement,
                 count=amount,
@@ -387,8 +387,9 @@ class SettlementBuilding(models.Model):
                 rate_adjustment=current.rate_adjustment + product.base_rate,
                 limit=0, # @@@ storage
             )
-            src.save()
             
+            # find the closest terrain which produces what the building needs
+            # to be productive.
             terrain = SettlementTerrain.objects.filter(
                 settlement=self.settlement, kind=product.source_terrain_kind
             )
@@ -396,12 +397,15 @@ class SettlementBuilding(models.Model):
                 (((self.x - t.x) ** 2) + ((self.y - t.y) ** 2), t)
                 for t in terrain
             ])[0][1]
+            
+            # when the building finishes set what affect it will have on the
+            # terrain resource count
             current = SettlementTerrainResourceCount.current(
                 product.resource_kind,
                 terrain=closest, when=self.construction_end
             )
             amount = current.amount(self.construction_end)
-            strc = SettlementTerrainResourceCount(
+            SettlementTerrainResourceCount.objects.create(
                 kind=product.resource_kind,
                 terrain=closest,
                 count=amount,
@@ -410,7 +414,11 @@ class SettlementBuilding(models.Model):
                 rate_adjustment=current.rate_adjustment - product.base_rate,
                 limit=current.limit,
             )
-            strc.save()
+            
+            # determine *when* the terrain will either run out or hit its
+            # limit based on its current rate and if the terrain will hit
+            # zero by the time the building finishes we need to adjust how
+            # it affects the settlement resource counts
             when, hit_limit = SettlementTerrainResourceCount.calculate_extremum(
                 product.resource_kind,
                 terrain=closest, when=self.construction_end
@@ -422,7 +430,7 @@ class SettlementBuilding(models.Model):
                     settlement=self.settlement, when=when
                 )
                 amount = current.amount(when)
-                SettlementResourceCount(
+                SettlementResourceCount.objects.create(
                     kind=product.resource_kind,
                     settlement=self.settlement,
                     count=amount,
@@ -430,7 +438,7 @@ class SettlementBuilding(models.Model):
                     natural_rate=current.natural_rate,
                     rate_adjustment=current.rate_adjustment - product.base_rate,
                     limit=0, # @@@ storage
-                ).save()
+                )
         
         if commit:
             self.save()
