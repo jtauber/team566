@@ -104,7 +104,6 @@ class Settlement(models.Model):
                 population.append((kind, counts.get(kind.slug, 0) + 1))
             kind = weighted_choices(population, 1)[0]
             terrain = self.terrain.create(kind=kind, x=x, y=y)
-            terrain.settlementterrainresourcecount_set.create()
     
     def build_queue(self):
         queue = SettlementBuilding.objects.filter(
