@@ -34,6 +34,7 @@ class Player(models.Model):
 class Continent(models.Model):
     
     name = models.CharField(max_length=20)
+    allocation = models.TextField()
     
     def __unicode__(self):
         return self.name
@@ -80,6 +81,10 @@ class Settlement(models.Model):
         self.x = x
         self.y = y
         self.save()
+        
+        # mark x,y used on the continent
+        self.continent.allocation += "%s%d,%d" % (" ", x, y)
+        self.continent.save()
         
         for resource_kind in ResourceKind.objects.filter(player=False):
             self.settlementresourcecount_set.create(
