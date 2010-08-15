@@ -2,6 +2,7 @@
 <div class="terrain {{ terrain.kind.slug }}" style="top: {{ top }}px; left: {{ left }}px;">
     <a href="{% url terrain_detail terrain.pk %}">
         {{ terrain.kind.name }}
+        {% comment %}
         <span class="details">
         <br />
         {% for x in terrain.resource_counts %}
@@ -13,6 +14,7 @@
             {{ x.limit }}
         {% endfor %}
         </span>
+        {% endcomment %}
     </a>
 </div>
 {% endwith %}
