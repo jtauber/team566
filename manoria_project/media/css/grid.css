@@ -42,7 +42,7 @@ div.terrain a, div.settlement a, div.empty-cell a {
 }
 div.building a {
     display: block;
-    border: 1px solid #000;
+    border: 1px solid #6A3;
     width: 74px;
     height: 80px;
     font-size: 7pt;
