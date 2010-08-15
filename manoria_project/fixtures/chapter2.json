@@ -40,6 +40,14 @@
         }
     }, 
     {
+        "pk": 6, 
+        "model": "manoria.resourcekind", 
+        "fields": {
+            "name": "Fish",
+            "slug": "fish"
+        }
+    }, 
+    {
         "pk": 1, 
         "model": "manoria.playerresourcecount", 
         "fields": {
