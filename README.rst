@@ -71,7 +71,7 @@ Run::
 
     (manoria)$ python manage.py runserver 8006
 
-We used port 8806 and the initial data fixtures rely on it. Not sure if it
+We used port 8006 and the initial data fixtures rely on it. Not sure if it
 really matters, but worth pointing out.
 
 Also, we ran using Safari 5 and did not test other browsers. Would be best to
