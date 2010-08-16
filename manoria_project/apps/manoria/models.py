@@ -335,6 +335,13 @@ class BuildingCost(models.Model):
         return u"%s costs %d of %s" % (self.building_kind, self.amount, self.resource_kind)
 
 
+class BuildingRunningCost(models.Model):
+    
+    building_kind = models.ForeignKey(BuildingKind)
+    resource_kind = models.ForeignKey(ResourceKind)
+    rate = models.DecimalField(max_digits=7, decimal_places=1)
+
+
 class BuildingKindProduct(models.Model):
     
     building_kind = models.ForeignKey(BuildingKind, related_name="products")
@@ -402,6 +409,27 @@ class SettlementBuilding(models.Model):
             SettlementResourceCount.objects.filter(
                 id__in=[rc.id for rc in itertools.chain([current], future)]
             ).update(count=models.F("count") - cost.amount)
+        
+        for running_cost in self.kind.buildingrunningcost_set.all():
+            current = SettlementResourceCount.current(running_cost.resource_kind,
+                settlement=self.settlement, when=self.construction_end
+            )
+            SettlementResourceCount.objects.create(
+                kind=running_cost.resource_kind,
+                settlement=self.settlement,
+                timestamp=self.construction_end,
+                natural_rate=current.natural_rate,
+                rate_adjustment=current.rate_adjustment - running_cost.rate,
+                count=current.amount(when=self.construction_end)
+            )
+            future = SettlementResourceCount.objects.filter(
+                kind=running_cost.resource_kind,
+                settlement=self.settlement,
+                timestamp__gt=self.construction_end
+            )
+            SettlementResourceCount.objects.filter(
+                id__in=[rc.id for rc in future]
+            ).update(rate_adjustment=models.F("rate_adjustment") - running_cost.rate)
         
         SX, SY = settings.SETTLEMENT_SIZE
         
