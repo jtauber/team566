@@ -4,6 +4,11 @@ body {
     color: #000;
 }
 
+/*
+#facebox .body {
+    background: url(/site_media/static/img/paper_texture2-512px.jpg) #CDBB89;
+}
+*/
 a, a:visited {
     color: #900;
 }
