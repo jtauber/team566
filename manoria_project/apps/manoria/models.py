@@ -97,6 +97,19 @@ class Settlement(models.Model):
     def size(self):
         return settings.SETTLEMENT_SIZE
     
+    def update_kind(self, commit=True):
+        total = self.build_queue().count() + self.buildings().count()
+        if total < 3:
+            self.kind = "homestead"
+        elif total < 10:
+            self.kind = "hamlet"
+        elif total < 20:
+            self.kind = "village"
+        else:
+            self.kind = "town"
+        if commit:
+            self.save()
+    
     @transaction.commit_on_success
     def place(self):
         CX, CY = settings.CONTINENT_SIZE
@@ -378,7 +391,7 @@ class SettlementBuilding(models.Model):
         return u"%s on %s" % (self.kind, self.settlement)
     
     @transaction.commit_on_success
-    def queue(self, commit=True):
+    def queue(self):
         # look for most recently added building to queue (None if none)
         try:
             oldest = self.settlement.build_queue().reverse()[0]
@@ -393,6 +406,10 @@ class SettlementBuilding(models.Model):
         else:
             self.construction_start = datetime.datetime.now()
         self.construction_end = self.construction_start + datetime.timedelta(seconds=self.kind.build_time)
+        
+        self.save()
+        
+        self.settlement.update_kind(commit=False)
         
         # allocate space on the map using settlement allocation table
         self.settlement.allocation += "%s%d,%d" % (" ", self.x, self.y)
@@ -535,9 +552,6 @@ class SettlementBuilding(models.Model):
                         }
                         create_kwargs.update(common_params)
                         ResourceCount.objects.create(**create_kwargs)
-        
-        if commit:
-            self.save()
     
     def status(self):
         now = datetime.datetime.now()
