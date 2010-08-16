@@ -322,7 +322,7 @@ class SettlementResourceCount(BaseResourceCount):
 
 class BuildingKind(BaseKind):
     
-    pass
+    build_time = models.IntegerField()
 
 
 class BuildingCost(models.Model):
@@ -385,7 +385,7 @@ class SettlementBuilding(models.Model):
             self.construction_start = oldest.construction_end
         else:
             self.construction_start = datetime.datetime.now()
-        self.construction_end = self.construction_start + datetime.timedelta(minutes=2)
+        self.construction_end = self.construction_start + datetime.timedelta(seconds=self.kind.build_time)
         
         # allocate space on the map using settlement allocation table
         self.settlement.allocation += "%s%d,%d" % (" ", self.x, self.y)

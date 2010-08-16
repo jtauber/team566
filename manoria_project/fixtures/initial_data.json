@@ -126,7 +126,8 @@
         "model": "manoria.buildingkind", 
         "fields": {
             "name": "Woodcutter's Hut", 
-            "slug": "woodcutter-hut"
+            "slug": "woodcutter-hut",
+            "build_time": 10
         }
     }, 
     {
@@ -134,7 +135,8 @@
         "model": "manoria.buildingkind", 
         "fields": {
             "name": "Fishing Hut", 
-            "slug": "fishing-hut"
+            "slug": "fishing-hut",
+            "build_time": 30
         }
     }, 
     {
@@ -142,7 +144,8 @@
         "model": "manoria.buildingkind", 
         "fields": {
             "name": "Iron Mine", 
-            "slug": "iron-mine"
+            "slug": "iron-mine",
+            "build_time": 120
         }
     }, 
     {
@@ -150,7 +153,8 @@
         "model": "manoria.buildingkind", 
         "fields": {
             "name": "Quarry", 
-            "slug": "quarry"
+            "slug": "quarry",
+            "build_time": 30
         }
     }, 
     {
@@ -158,7 +162,8 @@
         "model": "manoria.buildingkind", 
         "fields": {
             "name": "Farm", 
-            "slug": "farm"
+            "slug": "farm",
+            "build_time": 60
         }
     }, 
     {
@@ -166,7 +171,8 @@
         "model": "manoria.buildingkind", 
         "fields": {
             "name": "Gold Mine", 
-            "slug": "gold-mine"
+            "slug": "gold-mine",
+            "build_time": 300
         }
     }, 
     {
