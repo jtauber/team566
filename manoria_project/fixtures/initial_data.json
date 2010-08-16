@@ -189,7 +189,7 @@
             "resource_kind": [
                 "wood"
             ], 
-            "amount": 500, 
+            "amount": 100, 
             "building_kind": [
                 "woodcutter-hut"
             ]
@@ -202,7 +202,7 @@
             "resource_kind": [
                 "wood"
             ], 
-            "amount": 500, 
+            "amount": 200, 
             "building_kind": [
                 "fishing-hut"
             ]
@@ -215,7 +215,7 @@
             "resource_kind": [
                 "wood"
             ], 
-            "amount": 500, 
+            "amount": 2000, 
             "building_kind": [
                 "iron-mine"
             ]
@@ -280,7 +280,7 @@
             "resource_kind": [
                 "wood"
             ], 
-            "amount": 500, 
+            "amount": 2000, 
             "building_kind": [
                 "gold-mine"
             ]
@@ -293,7 +293,7 @@
             "resource_kind": [
                 "stone"
             ], 
-            "amount": 500, 
+            "amount": 2000, 
             "building_kind": [
                 "gold-mine"
             ]
@@ -306,7 +306,7 @@
             "resource_kind": [
                 "iron"
             ], 
-            "amount": 500, 
+            "amount": 2000, 
             "building_kind": [
                 "gold-mine"
             ]
