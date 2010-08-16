@@ -75,8 +75,8 @@
                         $("#debug").text("no more changes");
                     }
                     var time_retrieved = new Date().getTime();
-                    for (var i=0; i < data.resources.length; i++ ) {
-                        var resource = data.resources[0];
+                    function setup_timer(resource) {
+                        var resource = data.resources[i];
                         var slug = resource.slug;
                         var limit = resource.limit;
                         var rate = resource.rate;
@@ -92,6 +92,9 @@
                             // }
                             $("#" + slug + "-count").text(Math.round(new_amount));
                         }, 1000);
+                    }
+                    for (var i=0; i < data.resources.length; i++ ) {
+                        setup_timer(data.resources[i])
                     }
                 });
             }
