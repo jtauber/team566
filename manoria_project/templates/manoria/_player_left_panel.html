@@ -1,0 +1,50 @@
+{% load humanize %}
+{% load manoria_tags %}
+
+<p>
+    <a href="{% url home %}">Home</a>
+    |
+    <a href="{% url leaderboard %}">Leaderboard</a>
+    |
+    <a href="{% url help_index %}">Help</a>
+</p>
+
+{% if player %}
+    
+    <h1>{{ player.name }}</h1>
+    
+    <h2>Settlements</h2>
+    
+    {% if player.settlements.all %}
+        <ul>
+            {% for settlement in player.settlements.all %}
+                <li>
+                    <a href="{% url settlement_detail settlement.id %}">{{ settlement.kind|title }} of {{ settlement.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+        {# <p><a href="{% url settlement_create %}">Create another settlement</a> (will not normally be able to just do this)</p> #}
+    {% else %}
+        <p>{{ player.name }} has no settlements yet.</p>
+        <p><a href="{% url settlement_create %}">Create a settlement</a></p>
+    {% endif %}
+    
+    <h2>Resources</h2>
+    
+    {% if player.resource_counts %}
+        <p>These resources are attached to the player, not an individual settlement.</p>
+        
+        {% for resource_count in player.resource_counts %}
+            <div class="resource-count">
+                <span class="resource">{{ resource_count.kind.name }}</span>
+                <span class="rate">({{ resource_count.rate|format_rate }}/hr;
+                    {% if resource_count.limit %}limit {{ resource_count.limit|intcomma }}{% else %}no limit{% endif %})
+                </span>
+                <span class="count">{{ resource_count.amount|intcomma }}</span>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No player-level resources.</p>
+    {% endif %}
+    
+{% endif %}

@@ -1,0 +1,46 @@
+{% extends "site_base.html" %}
+
+{% load humanize %}
+{% load manoria_tags %}
+
+{% block head_title %}Help : Terrain{% endblock %}
+
+{% block body_class %}help{% endblock %}
+
+{% block body_outer %}
+    
+    <div class="left-panel">
+        {% include "manoria/_player_left_panel.html" %}
+    </div>
+    
+    <div class="main-panel">
+        
+        <p>
+            <a href="{% url help_resources %}">Resources</a>
+            |
+            <a href="{% url help_buildings %}">Buildings</a>
+            |
+            <a href="{% url help_terrain %}">Terrain</a>
+        </p>
+        
+        <h1>Terrain</h1>
+        
+        {% for terrain_kind in terrain_kinds %}
+            <div id="{{ terrain_kind.slug }}">
+                <h2>{{ terrain_kind.name }}</h2>
+                
+                <h3>Resources Contained</h3>
+                
+                {% if terrain_kind.produces.count %}
+                    <ul>
+                        {% for resource_kind in terrain_kind.produces.all %}
+                            <li>{{ resource_kind }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No resources contained by this terrain.</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

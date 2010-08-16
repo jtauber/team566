@@ -147,9 +147,15 @@ h3 {
     overflow-y: scroll;
     padding: 10px;
     width: 320px;
+    min-height: 400px;
 }
 .left-panel h1 {
     margin-top: 10px;
+}
+div.main-panel {
+    position: absolute;
+    top: 95px;
+    left: 400px;
 }
 .resource-count {
     margin: 3px 0;

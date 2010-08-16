@@ -1,32 +1,37 @@
 {% extends "site_base.html" %}
 
-{% load i18n %}
-{% load ifsetting_tag %}
+{% load humanize %}
+{% load manoria_tags %}
 
 {% block head_title %}Leaderboard{% endblock %}
 
 {% block body_class %}leaderboard{% endblock %}
 
-{% block body %}
+{% block body_outer %}
     
-    <h1>Leaderboard</h1>
+    <div class="left-panel">
+        {% include "manoria/_player_left_panel.html" %}
+    </div>
     
-    <h2>Building Count Leaders</h2>
-    {% if leaders_building_count %}
-        <ul>
-            {% for count, leader in leaders_building_count %}
-                <li>{{ leader }} &mdash; {{ count }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    
-    <h2>Gold Leaders</h2>
-    {% if leaders_gold %}
-        <ul>
-            {% for count, leader in leaders_gold %}
-                <li>{{ leader }} &mdash; {{ count }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-
+    <div class="main-panel">
+        <h1>Leaderboard</h1>
+        
+        <h2>Building Count Leaders</h2>
+        {% if leaders_building_count %}
+            <ul>
+                {% for count, leader in leaders_building_count %}
+                    <li>{{ leader }} &mdash; {{ count }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        
+        <h2>Gold Leaders</h2>
+        {% if leaders_gold %}
+            <ul>
+                {% for count, leader in leaders_gold %}
+                    <li>{{ leader }} &mdash; {{ count }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
 {% endblock %}

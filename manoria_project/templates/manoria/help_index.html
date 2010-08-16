@@ -1,0 +1,29 @@
+
+
+{% extends "site_base.html" %}
+
+{% load humanize %}
+{% load manoria_tags %}
+
+{% block head_title %}Help{% endblock %}
+
+{% block body_class %}help{% endblock %}
+
+{% block body_outer %}
+    
+    <div class="left-panel">
+        {% include "manoria/_player_left_panel.html" %}
+    </div>
+    
+    <div class="main-panel">
+        <h1>Help</h1>
+        
+        <p>Find out more about:</p>
+        
+        <ul>
+            <li><a href="{% url help_resources %}">Resources</a></li>
+            <li><a href="{% url help_buildings %}">Buildings</a></li>
+            <li><a href="{% url help_terrain %}">Terrain</a></li>
+        </ul>
+    </div>
+{% endblock %}

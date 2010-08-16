@@ -8,7 +8,7 @@ from django.utils import simplejson as json
 from django.contrib.auth.decorators import login_required
 
 from manoria.forms import PlayerCreateForm, SettlementCreateForm, BuildingCreateForm
-from manoria.models import Continent, Player, Settlement, SettlementBuilding, SettlementTerrain, ResourceKind, BuildingKind
+from manoria.models import Continent, Player, Settlement, SettlementBuilding, SettlementTerrain, ResourceKind, BuildingKind, SettlementTerrainKind
 from manoria.models import SettlementResourceCount, PlayerResourceCount
 
 
@@ -201,7 +201,7 @@ def building_kind_list(request):
 
 def terrain_kind_list(request):
     ctx = {
-        "terrain_kinds": TerrainKind.objects.all(),
+        "terrain_kinds": SettlementTerrainKind.objects.all(),
     }
     ctx = RequestContext(request, ctx)
     return render_to_response("manoria/terrain_kind_list.html", ctx)
