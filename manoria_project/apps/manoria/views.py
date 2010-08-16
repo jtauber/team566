@@ -266,3 +266,11 @@ def fragment_resource_count(request, settlement_pk):
     ctx = RequestContext(request, ctx)
     return render_to_response("manoria/_resource_counts.html", ctx)
     
+def fragment_build_queue(request, settlement_pk):
+    settlement = get_object_or_404(Settlement, pk=settlement_pk)
+    
+    ctx = {
+        "settlement": settlement,
+    }
+    ctx = RequestContext(request, ctx)
+    return render_to_response("manoria/_build_queue.html", ctx)

@@ -25,22 +25,8 @@
         
         <h2>Build Queue</h2>
         
-        {% if settlement.build_queue %}
-            {% for building in settlement.build_queue %}
-                <div class="build-queue-item">
-                    <a href="{% url building_detail building.pk %}">{{ building.kind.name }}</a>
-                    @{{ building.x }},{{ building.y }}
-                    <br />
-                    {% if building.status == "queued" %}
-                    <span class="start">starting in {{ building.construction_start|timeuntil }}</span>
-                    <br />
-                    {% endif %}
-                    <span class="finish">finishing in {{ building.construction_end|timeuntil }}</span>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>No buildings in the build queue for this settlement.</p>
-        {% endif %}
+        <div id="build-queue">loading...</div>
+        
     </div>
     
     <div class="window">
@@ -77,6 +63,7 @@
             
             function update_resource_count() {
                 $("#resources").load("{% url fragment_resource_count settlement.pk %}");
+                $("#build-queue").load("{% url fragment_build_queue settlement.pk %}");
                 $.get("{% url ajax_resource_count settlement.pk %}", function(data) {
                     if (data.next_change) {
                         setTimeout(update_resource_count, data.next_change);
