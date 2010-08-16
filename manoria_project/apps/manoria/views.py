@@ -260,17 +260,37 @@ def ajax_resource_count(request, settlement_pk):
 def fragment_resource_count(request, settlement_pk):
     settlement = get_object_or_404(Settlement, pk=settlement_pk)
     
+    if request.user != settlement.player.user:
+        raise Http404
+    
     ctx = {
         "settlement": settlement,
     }
     ctx = RequestContext(request, ctx)
     return render_to_response("manoria/_resource_counts.html", ctx)
-    
+
+
 def fragment_build_queue(request, settlement_pk):
     settlement = get_object_or_404(Settlement, pk=settlement_pk)
+    
+    if request.user != settlement.player.user:
+        raise Http404
     
     ctx = {
         "settlement": settlement,
     }
     ctx = RequestContext(request, ctx)
     return render_to_response("manoria/_build_queue.html", ctx)
+
+
+def fragment_settlement_map(request, settlement_pk):
+    settlement = get_object_or_404(Settlement, pk=settlement_pk)
+    
+    if request.user != settlement.player.user:
+        raise Http404
+    
+    ctx = {
+        "settlement": settlement,
+    }
+    ctx = RequestContext(request, ctx)
+    return render_to_response("manoria/_settlement_map.html", ctx)

@@ -29,27 +29,14 @@
         
     </div>
     
-    <div class="window">
-        {% render_map settlement %}
-    </div>
+    <div id="settlement-map">loading...</div>
+    
 {% endblock %}
 
 {% block extra_body %}
     <script>
         $(function() {
-            $(".map").draggable();
-            function resizeFrame() {
-                var h = $(window).height();
-                var w = $(window).width();
-                $("div.left-panel").css("height", h - 106); // 123
-                $("div.window").css("height", h - 85); // 83
-                $("div.window").css("width", w - 341); // 341
-            }
-            $(window).load(resizeFrame);
-            $(window).resize(resizeFrame);
-            
-            function addCommas(nStr)
-            {
+            function addCommas(nStr) {
                 nStr += '';
                 x = nStr.split('.');
                 x1 = x[0];
@@ -60,22 +47,65 @@
                 }
                 return x1 + x2;
             }
+            function resizeFrame() {
+                var h = $(window).height();
+                var w = $(window).width();
+                $("div.left-panel").css("height", h - 106); // 123
+                $("div.window").css("height", h - 85); // 83
+                $("div.window").css("width", w - 341); // 341
+            }
+            $(window).load(resizeFrame);
+            $(window).resize(resizeFrame);
+            
+            var timers = [];
             
             function update_resource_count() {
                 $("#resources").load("{% url fragment_resource_count settlement.pk %}");
                 $("#build-queue").load("{% url fragment_build_queue settlement.pk %}");
+                $("#settlement-map").load("{% url fragment_settlement_map settlement.pk %}", function() {
+                    $('a[rel*=facebox]').facebox({
+                        loadingImage: '{{ STATIC_URL }}pinax/img/facebox/loading.gif',
+                        closeImage: '{{ STATIC_URL }}pinax/img/facebox/closelabel.gif'
+                    });
+                    $(document).bind('reveal.facebox', function() {
+                        $("form.in_facebox").submit(function() {
+                            form = this;
+                            jQuery.facebox(function($) {
+                                fields = jQuery(form).find("input[type='text']").filter(":enabled");
+                                params = {}
+                                fields.each(function() {
+                                    params[this.name] = this.value;
+                                });
+                                jQuery.post(form.action, params,
+                                    function(data, textStatus) {
+                                        jQuery.facebox(data);
+                                    }
+                                );
+                            });
+                            return false;
+                        });
+                    });
+                    resizeFrame();
+                    $(".map").draggable();
+                });
+                
                 $.get("{% url ajax_resource_count settlement.pk %}", function(data) {
                     if (data.next_change) {
                         setTimeout(update_resource_count, data.next_change);
                     }
                     var time_retrieved = new Date().getTime();
+                    if (timers) {
+                        for (var i=0; i < timers.length; i++) {
+                            clearInterval(timers[i]);
+                        }
+                        timers = [];
+                    }
                     function setup_timer(resource) {
-                        var resource = data.resources[i];
                         var slug = resource.slug;
                         var limit = resource.limit;
                         var rate = resource.rate;
                         var amount = resource.amount;
-                        setInterval(function() {
+                        return setInterval(function() {
                             var time_now = new Date().getTime();
                             var change = time_now - time_retrieved;
                             var new_amount = amount + (rate * change / 3600000);
@@ -88,7 +118,7 @@
                         }, 1000);
                     }
                     for (var i=0; i < data.resources.length; i++ ) {
-                        setup_timer(data.resources[i])
+                        timers.push(setup_timer(data.resources[i]));
                     }
                 });
             }

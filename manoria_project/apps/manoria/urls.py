@@ -19,6 +19,7 @@ urlpatterns = patterns("",
     url(r"^ajax_resource_count/(\d+)/$", "manoria.views.ajax_resource_count", name="ajax_resource_count"),
     url(r"^fragment_resource_count/(\d+)/$", "manoria.views.fragment_resource_count", name="fragment_resource_count"),
     url(r"^fragment_build_queue/(\d+)/$", "manoria.views.fragment_build_queue", name="fragment_build_queue"),
+    url(r"^fragment_settlement_map/(\d+)/$", "manoria.views.fragment_settlement_map", name="fragment_settlement_map"),
     
     url(r"^help/$", "manoria.views.resource_kind_list", name="help_index"),
     url(r"^help/terrain/$", "manoria.views.terrain_kind_list", name="help_terrain"),
