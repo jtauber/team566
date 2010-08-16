@@ -13,6 +13,9 @@ from manoria.utils import weighted_choices
 
 
 class Player(models.Model):
+    """
+    A single player associated to a User
+    """
     
     user = models.OneToOneField(User)
     name = models.CharField(max_length=20, unique=True)
@@ -33,6 +36,10 @@ class Player(models.Model):
 
 
 class Continent(models.Model):
+    """
+    A single continent in the world. Currently there is only one continent
+    (Manoria).
+    """
     
     name = models.CharField(max_length=20)
     allocation = models.TextField()
@@ -42,14 +49,25 @@ class Continent(models.Model):
     
     @property
     def size(self):
+        """
+        The size of the continent (currently stored in settings).
+        """
         return settings.CONTINENT_SIZE
     
     def cells(self):
+        """
+        Method for yielding cells (settlements) used to render a map of the
+        continent. A cell is largely a mapable object (any model with x, y
+        fields)
+        """
         for cell in self.settlement_set.all():
             yield cell
 
 
 class BaseKind(models.Model):
+    """
+    An abstract base class for kinds of objects.
+    """
     
     name = models.CharField(max_length=50)
     slug = models.SlugField()
@@ -67,6 +85,10 @@ class BaseKind(models.Model):
 
 
 class Settlement(models.Model):
+    """
+    A single settlement which lives on a continent. A player has settlements,
+    but the UI only allows creation of a single settlement.
+    """
     
     name = models.CharField(max_length=20)
     kind = models.CharField(
@@ -112,6 +134,9 @@ class Settlement(models.Model):
     
     @transaction.commit_on_success
     def place(self):
+        """
+        Logic for determining how to place itself on the continent.
+        """
         CX, CY = settings.CONTINENT_SIZE
         SX, SY = settings.SETTLEMENT_SIZE
         # @@@ need to test if continent is full otherwise an infinite loop
@@ -130,6 +155,7 @@ class Settlement(models.Model):
         self.continent.allocation += "%s%d,%d" % (" ", x, y)
         self.continent.save()
         
+        # create the resource counts which are non-player for the settlement
         for resource_kind in ResourceKind.objects.filter(player=False):
             self.settlementresourcecount_set.create(
                 kind=resource_kind,
@@ -139,6 +165,13 @@ class Settlement(models.Model):
                 timestamp=datetime.datetime.now(),
                 limit=0,
             )
+        
+        # the following code is a fairly trivial clustering algorithm which
+        # checks neigbors for similar kinds and weights them in choosing what
+        # the terrain will be placed as.
+        #
+        # it is updating an allocation table which is a denormalized way for
+        # easily checking if a cell on the map is taken.
         
         def check_cell(settlement, x, y):
             if not 1 <= x <= SX or not 1 <= y <= SY:
@@ -197,6 +230,11 @@ class Settlement(models.Model):
         self.save()
     
     def cells(self):
+        """
+        Method for yielding cells (buildings and terrains) used to render a
+        map of the continent. A cell is largely a mapable object (any model
+        with x, y fields)
+        """
         cells = itertools.chain(
             self.build_queue(), self.buildings(), self.terrain.all()
         )
@@ -204,6 +242,10 @@ class Settlement(models.Model):
             yield cell
     
     def build_queue(self):
+        """
+        Method for getting buildings which are not yet finished building
+        (those which are construction_end in the future)
+        """
         queue = SettlementBuilding.objects.filter(
             settlement=self,
             construction_end__gt=datetime.datetime.now()
@@ -212,12 +254,20 @@ class Settlement(models.Model):
         return queue
     
     def buildings(self):
+        """
+        Method for getting buildings which have already been built (those which
+        have construction_end in the past or equal to now).
+        """
         return SettlementBuilding.objects.filter(
             settlement=self,
             construction_end__lte=datetime.datetime.now()
         )
     
     def resource_counts(self):
+        """
+        Obtains all the resource counts for the unique kinds asociated to a
+        settlement.
+        """
         # @@@ instance cache
         counts = []
         for row in self.settlementresourcecount_set.distinct().values("kind"):
@@ -228,6 +278,17 @@ class Settlement(models.Model):
 
 
 class ResourceKind(BaseKind):
+    """
+    As of DjangoDash 2010:
+    
+        * Wood
+        * Stone
+        * Iron
+        * Wheat
+        * Fish
+        * Labour
+        * Gold
+    """
     
     player = models.BooleanField()
 
@@ -245,6 +306,15 @@ def pairwise(iterable):
 
 
 class BaseResourceCount(models.Model):
+    """
+    BaseResourceCount represents the fact that at a given time, an object will
+    contain a certain amount of a certain resource and that amount is either
+    increasing or decreasing at a particular rate.
+    
+    From a sequence of BaseResourceCounts for a particular resource on a
+    particular object, the entire history and future of that resource count
+    can be calculated.
+    """
     
     count = models.IntegerField(default=0)
     timestamp = models.DateTimeField(default=datetime.datetime.now)
@@ -257,6 +327,11 @@ class BaseResourceCount(models.Model):
     
     @classmethod
     def current(cls, kind, **kwargs):
+        """
+        Get the most recent (or based on a given when) what the current
+        resource count object is for the resource of the given kind. Also,
+        takes additional resource specific data for lookup.
+        """
         when = kwargs.pop("when", datetime.datetime.now())
         lookup_params = {
             "kind": kind,
@@ -268,6 +343,10 @@ class BaseResourceCount(models.Model):
     
     @classmethod
     def calculate_extremum(cls, kind, **kwargs):
+        """
+        Find the next point in the future where the resources of the given
+        kind with either hit their limit or run out.
+        """
         current = cls.current(kind, **kwargs)
         del kwargs["when"]
         lookup_params = {
@@ -302,9 +381,17 @@ class BaseResourceCount(models.Model):
     
     @property
     def rate(self):
+        """
+        The current rate of which this count is growing or decreasing
+        """
         return self.natural_rate + self.rate_adjustment
     
     def amount(self, when=None):
+        """
+        At the given time or now, return the amount of which this resource
+        count is reporting. Normally called after getting the current resource
+        count.
+        """
         if when is None:
             when = datetime.datetime.now()
         change = when - self.timestamp
@@ -316,6 +403,10 @@ class BaseResourceCount(models.Model):
 
 
 class PlayerResourceCount(BaseResourceCount):
+    """
+    A player resource count represents how much of a resource is associated
+    to a player at any point in time.
+    """
     
     kind = models.ForeignKey(ResourceKind)
     player = models.ForeignKey(Player)
@@ -325,6 +416,10 @@ class PlayerResourceCount(BaseResourceCount):
 
 
 class SettlementResourceCount(BaseResourceCount):
+    """
+    A settlement resource count represents how much of a resource is associated
+    to a settlemnt at any point in time.
+    """
     
     kind = models.ForeignKey(ResourceKind)
     settlement = models.ForeignKey(Settlement)
@@ -334,11 +429,25 @@ class SettlementResourceCount(BaseResourceCount):
 
 
 class BuildingKind(BaseKind):
+    """
+    As of DjangoDash 2010:
+    
+        * Cottage
+        * Woodcutter's Hut
+        * Fishing Hut
+        * Iron Mine
+        * Quarry
+        * Farm
+        * Gold Mine
+    """
     
     build_time = models.IntegerField()
 
 
 class BuildingCost(models.Model):
+    """
+    The cost of building an instance of a building kind.
+    """
     
     building_kind = models.ForeignKey(BuildingKind)
     resource_kind = models.ForeignKey(ResourceKind)
@@ -349,6 +458,9 @@ class BuildingCost(models.Model):
 
 
 class BuildingRunningCost(models.Model):
+    """
+    A running cost to maintain an instance of a building kind.
+    """
     
     building_kind = models.ForeignKey(BuildingKind)
     resource_kind = models.ForeignKey(ResourceKind)
@@ -356,6 +468,9 @@ class BuildingRunningCost(models.Model):
 
 
 class BuildingKindProduct(models.Model):
+    """
+    The resources a building produces and where it gets it from at some rate.
+    """
     
     building_kind = models.ForeignKey(BuildingKind, related_name="products")
     resource_kind = models.ForeignKey(ResourceKind, related_name="produced_by")
@@ -372,6 +487,9 @@ class BuildingKindProduct(models.Model):
 
 
 class SettlementBuilding(models.Model):
+    """
+    A single building in a settlement.
+    """
     
     kind = models.ForeignKey(BuildingKind)
     settlement = models.ForeignKey(Settlement)
@@ -392,6 +510,9 @@ class SettlementBuilding(models.Model):
     
     @transaction.commit_on_success
     def queue(self):
+        """
+        Queues a building to be built.
+        """
         # look for most recently added building to queue (None if none)
         try:
             oldest = self.settlement.build_queue().reverse()[0]
@@ -427,6 +548,8 @@ class SettlementBuilding(models.Model):
                 id__in=[rc.id for rc in itertools.chain([current], future)]
             ).update(count=models.F("count") - cost.amount)
         
+        # handle the running costs of the building once it is finished
+        # being built.
         for running_cost in self.kind.buildingrunningcost_set.all():
             current = SettlementResourceCount.current(running_cost.resource_kind,
                 settlement=self.settlement, when=self.construction_end
@@ -564,17 +687,34 @@ class SettlementBuilding(models.Model):
 
 
 class SettlementBuildingResourceCount(BaseResourceCount):
+    """
+    A settlement building resource count represents how much of a resource
+    is associated to a settlemnt at any point in time (to be used for storage).
+    
+    Decided to punt on this to finish for the DjangoDash 2010.
+    """
     
     building = models.ForeignKey(SettlementBuilding)
 
 
 class SettlementTerrainKind(BaseKind):
+    """
+    As of DjangoDash 2010:
+    
+        * Forest
+        * Lake
+        * Hill
+        * Mountain
+    """
     
     buildable_on = models.BooleanField(default=True)
     produces = models.ManyToManyField(ResourceKind)
 
 
 class SettlementTerrain(models.Model):
+    """
+    An instance of a SettlementTerrainKind in a settlement.
+    """
     
     kind = models.ForeignKey(SettlementTerrainKind)
     settlement = models.ForeignKey(Settlement, related_name="terrain")
@@ -597,6 +737,12 @@ class SettlementTerrain(models.Model):
 
 
 class SettlementTerrainResourceCount(BaseResourceCount):
+    """
+    A settlement terrain resource count represents how much of a resource
+    is associated to a settlement terrain at any point in time. Used for
+    tracking what buildings have affect on terrain and how much they can
+    provide.
+    """
     
     kind = models.ForeignKey(ResourceKind)
     terrain = models.ForeignKey(SettlementTerrain)
