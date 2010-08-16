@@ -8,31 +8,28 @@
 
 {% block body %}
     
-    <p>
-        <a href="{% url home %}">{{ settlement.player.name }}</a>
-        &gt;
-        <a href="{% url settlement_detail settlement.pk %}">{{ settlement.name }}</a>
-    </p>
-    
     <h1>Create a building</h1>
+    
+    <p><b>Location</b>: {{ settlement.name }}</p>
     
     {{ form.non_field_errors }}
     {{ form.kind.errors }}
     
     {% for building in buildings %}
-        <div id="building-{{ building.building_kind.pk }}" class="resource-count">
-            <b>{{ building.building_kind }}</b>
-            <br />
-        {% for cost in building.costs %}
-            {% if cost.sufficient %}
-                <span class="cost-sufficient">
-            {% else %}
-                <span class="cost-insufficient">
-            {% endif %}
-                {{ cost.amount }}
-                {{ cost.resource_kind }}
+        <div id="building-{{ building.building_kind.pk }}" class="building-select {% if building.sufficient %}building-sufficient{% else %}building-insufficient{% endif %}">
+            <span class="building-kind">{{ building.building_kind }}</span>
+            <span class="costs">
+                {% for cost in building.costs %}
+                    {% if cost.sufficient %}
+                        <span class="cost-sufficient">
+                    {% else %}
+                        <span class="cost-insufficient">
+                    {% endif %}
+                            {{ cost.amount }}
+                            {{ cost.resource_kind }}
+                        </span>
+                {% endfor %}
             </span>
-        {% endfor %}
         </div>
     {% endfor %}
     
@@ -42,12 +39,15 @@
             {{ field }}
         {% endfor %}
     </form>
+    
+    <p><a href="{% url settlement_detail settlement.pk %}">CANCEL</a></p>
+    
 {% endblock %}
 
 {% block extra_body %}
     <script>
         $(function() {
-            $(".resource-count").click(function() {
+            $(".building-select.building-sufficient").click(function() {
                 kind_id = this.id.split("-")[1];
                 $("#id_kind").val(kind_id);
                 $("#building_form").submit();
