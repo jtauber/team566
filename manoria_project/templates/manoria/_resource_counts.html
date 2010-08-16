@@ -8,7 +8,7 @@
             <span class="rate">({{ resource_count.rate|format_rate }}/hr;
                 {% if resource_count.limit %}limit {{ resource_count.limit|intcomma }}{% else %}no limit{% endif %})
             </span>
-            <span class="count">{{ resource_count.amount|intcomma }}</span>
+            <span class="count" id="{{ resource_count.kind.slug }}-count">{{ resource_count.amount|intcomma }}</span>
         </div>
     {% endfor %}
 {% else %}

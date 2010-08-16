@@ -74,6 +74,25 @@
                     } else {
                         $("#debug").text("no more changes");
                     }
+                    var time_retrieved = new Date().getTime();
+                    for (var i=0; i < data.resources.length; i++ ) {
+                        var resource = data.resources[0];
+                        var slug = resource.slug;
+                        var limit = resource.limit;
+                        var rate = resource.rate;
+                        var amount = resource.amount;
+                        setInterval(function() {
+                            var time_now = new Date().getTime();
+                            var change = time_now - time_retrieved;
+                            var new_amount = amount + (rate * change / 3600000);
+                            // if (new_amount < 0) {
+                            //     new_amount = 0;
+                            // } else if (new_amount > limit) {
+                            //     new_amount = limit;
+                            // }
+                            $("#" + slug + "-count").text(Math.round(new_amount));
+                        }, 1000);
+                    }
                 });
             }
             update_resource_count();
