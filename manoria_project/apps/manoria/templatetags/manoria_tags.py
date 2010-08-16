@@ -22,7 +22,8 @@ class EmptyCell(object):
     
     def create_url(self):
         if isinstance(self.mapable, Continent):
-            return reverse("settlement_create")
+            # return reverse("settlement_create")
+            return None
         elif isinstance(self.mapable, Settlement):
             return reverse("building_create", args=(self.mapable.pk,))
 

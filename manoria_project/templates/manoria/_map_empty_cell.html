@@ -1,3 +1,5 @@
-<div class="empty-cell" style="top: {{ top }}px; left: {{ left }}px;">
-    <a href="{{ create_url }}?x={{ cell.x }}&amp;y={{ cell.y }}">&nbsp;</a>
-</div>
+{% if create_url %}
+    <div class="empty-cell" style="top: {{ top }}px; left: {{ left }}px;">
+        <a href="{{ create_url }}?x={{ cell.x }}&amp;y={{ cell.y }}">&nbsp;</a>
+    </div>
+{% endif %}
