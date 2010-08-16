@@ -18,21 +18,26 @@
             <h3>Cost to Build</h3>
             
             {% for cost in building_kind.buildingcost_set.all %}
-                {{ cost.amount }}
-                {{ cost.resource_kind.name }}
+                <div>{{ cost.amount }} {{ cost.resource_kind.name }}</div>
+            {% empty %}
+                <div>No build costs.</div>
+            {% endfor %}
+            
+            <h3>Cost to Run</h3>
+            
+            {% for cost in building_kind.buildingrunningcost_set.all %}
+                <div>{{ cost.rate }} {{ cost.resource_kind.name }}/hr</div>
+            {% empty %}
+                <div>No running costs.</div>
             {% endfor %}
             
             <h3>Products</h3>
             
-            {% if building_kind.products.count %}
-                <ul>
-                    {% for product in building_kind.products.all %}
-                        <li>{{ product }}</li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>No product.</p>
-            {% endif %}
+            {% for product in building_kind.products.all %}
+                <div>{{ product }}</div>
+            {% empty %}
+                <div>No products.</div>
+            {% endfor %}
             
         </div>
     {% endfor %}
