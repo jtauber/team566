@@ -1,13 +1,15 @@
 import datetime
 
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.template import RequestContext
 from django.shortcuts import get_object_or_404, render_to_response, redirect
+from django.utils import simplejson as json
 
 from django.contrib.auth.decorators import login_required
 
 from manoria.forms import PlayerCreateForm, SettlementCreateForm, BuildingCreateForm
 from manoria.models import Continent, Player, Settlement, SettlementBuilding, SettlementTerrain, ResourceKind, BuildingKind
+from manoria.models import SettlementResourceCount
 
 
 def homepage(request):
@@ -203,3 +205,30 @@ def terrain_kind_list(request):
     }
     ctx = RequestContext(request, ctx)
     return render_to_response("manoria/terrain_kind_list.html", ctx)
+
+
+def ajax_resource_count(request, settlement_pk):
+    settlement = get_object_or_404(Settlement, pk=settlement_pk)
+    
+    d = {}
+    
+    future = SettlementResourceCount.objects.filter(
+        settlement=settlement,
+        timestamp__gt=datetime.datetime.now()
+    ).order_by("timestamp")
+    try:
+        change = future[0].timestamp - datetime.datetime.now()
+        d["next_change"] = (change.days * 86400 + change.seconds) * 1000.0
+    except IndexError:
+        d["next_change"] = None
+    
+    d["resources"] = resources = []
+    for resource_count in settlement.resource_counts():
+        resources.append({
+            "slug": resource_count.kind.slug,
+            "amount": resource_count.amount(),
+            "limit": resource_count.limit,
+            "rate": resource_count.rate,
+        })
+    
+    return HttpResponse(json.dumps(d, use_decimal=True), mimetype="application/json")
