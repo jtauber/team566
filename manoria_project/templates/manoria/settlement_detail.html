@@ -21,19 +21,7 @@
         
         <h2>Resources</h2>
         
-        {% if settlement.resource_counts %}
-            {% for resource_count in settlement.resource_counts %}
-                <div class="resource-count">
-                    <span class="resource">{{ resource_count.kind.name }}</span>
-                    <span class="rate">({{ resource_count.rate|format_rate }}/hr;
-                        {% if resource_count.limit %}limit {{ resource_count.limit|intcomma }}{% else %}no limit{% endif %})
-                    </span>
-                    <span class="count">{{ resource_count.amount|intcomma }}</span>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>No resources in this settlement.</p>
-        {% endif %}
+        <div id="resources">loading...</div>
         
         <h2>Build Queue</h2>
         
@@ -78,14 +66,16 @@
             $(window).resize(resizeFrame);
             
             function update_resource_count() {
+                $("#resources").load("{% url fragment_resource_count settlement.pk %}");
                 $.get("{% url ajax_resource_count settlement.pk %}", function(data) {
                     if (data.next_change) {
-                        $("#debug").text(data.next_change);
+                        $("#debug").text("change in " + (data.next_change / 1000) + " second(s)");
                         setTimeout(update_resource_count, data.next_change);
+                    } else {
+                        $("#debug").text("no more changes");
                     }
                 });
             }
-            
             update_resource_count();
         });
     </script>
