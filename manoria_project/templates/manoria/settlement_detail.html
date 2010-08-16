@@ -11,6 +11,14 @@
     
     <div class="left-panel">
         
+        <p>
+            <a href="{% url home %}">Home</a>
+            |
+            <a href="{% url leaderboard %}">Leaderboard</a>
+            |
+            <a href="{% url help_index %}">Help</a>
+        </p>
+        
         <h1>{{ settlement.kind|title }} of {{ settlement.name }}</h1>
         
         <p>
