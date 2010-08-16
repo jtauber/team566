@@ -14,6 +14,8 @@ urlpatterns = patterns("",
     
     url(r"^terrain/terrain/(\d+)/$", "manoria.views.terrain_detail", name="terrain_detail"),
     
+    url(r"^leaderboard/$", "manoria.views.leaderboard", name="leaderboard"),
+    
     url(r"^ajax_resource_count/(\d+)/$", "manoria.views.ajax_resource_count", name="ajax_resource_count"),
     url(r"^fragment_resource_count/(\d+)/$", "manoria.views.fragment_resource_count", name="fragment_resource_count"),
     

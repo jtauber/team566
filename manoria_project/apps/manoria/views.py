@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 
 from manoria.forms import PlayerCreateForm, SettlementCreateForm, BuildingCreateForm
 from manoria.models import Continent, Player, Settlement, SettlementBuilding, SettlementTerrain, ResourceKind, BuildingKind
-from manoria.models import SettlementResourceCount
+from manoria.models import SettlementResourceCount, PlayerResourceCount
 
 
 def homepage(request):
@@ -205,6 +205,29 @@ def terrain_kind_list(request):
     }
     ctx = RequestContext(request, ctx)
     return render_to_response("manoria/terrain_kind_list.html", ctx)
+
+
+def leaderboard(request):
+    leaders_gold, leaders_building_count = [], []
+    gold = ResourceKind.objects.get(slug="gold")
+    
+    for player in Player.objects.all():
+        current = PlayerResourceCount.current(gold, player=player)
+        leaders_gold.append((current.amount(), player))
+    
+    for settlement in Settlement.objects.all():
+        total = settlement.build_queue().count() + settlement.buildings().count()
+        leaders_building_count.append((total, settlement))
+    
+    leaders_gold = sorted(leaders_gold, reverse=True)
+    leaders_building_count = sorted(leaders_building_count, reverse=True)
+    
+    ctx = {
+        "leaders_gold": leaders_gold,
+        "leaders_building_count": leaders_building_count,
+    }
+    ctx = RequestContext(request, ctx)
+    return render_to_response("manoria/leaderboard.html", ctx)
 
 
 def ajax_resource_count(request, settlement_pk):
