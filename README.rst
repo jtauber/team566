@@ -2,9 +2,10 @@
 Manoria by Team 566 at DjangoDash 2010
 ======================================
 
-Manoria is an MMO city-building and resource management game by Team 566 built
-for DjangoDash 2010. DjangoDash 2010 is a Django coding competition to build a
-website in 48 hours.
+Manoria is an MMO city-building and resource management game by Team 566
+(James Tauber and Brian Rosner) built for DjangoDash 2010.
+
+DjangoDash 2010 is a Django coding competition to build a website in 48 hours.
 
 Gameplay
 =========
@@ -13,6 +14,7 @@ Players are located on a single continent and build settlements that progress
 through homestead, hamlet, village and town. Settlers gather resources such as
 wood, stone, iron, fish, wheat and gold by constructing buildings adjacent to
 certain terrain types.
+
 
 Implementation
 ==============
@@ -24,6 +26,10 @@ can be developed and adjusted easily.
 The implementation features draggable maps and asynchronous updates of
 resource counts.
 
+It also features an unusual approach to tracking resource counts where instead
+of updating counts with some timer on the server, the actual resource counts
+are calculated only when needed. One interesting side-effect of this is that
+the growth of the "world" is uninterrupted by the server going down.
 
 
 Installation
