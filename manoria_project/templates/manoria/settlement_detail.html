@@ -53,6 +53,9 @@
         {% else %}
             <p>No buildings in the build queue for this settlement.</p>
         {% endif %}
+        
+        <div id="debug"></div>
+        
     </div>
     
     <div class="window">
@@ -73,6 +76,17 @@
             }
             $(window).load(resizeFrame);
             $(window).resize(resizeFrame);
+            
+            function update_resource_count() {
+                $.get("{% url ajax_resource_count settlement.pk %}", function(data) {
+                    if (data.next_change) {
+                        $("#debug").text(data.next_change);
+                        setTimeout(update_resource_count, data.next_change);
+                    }
+                });
+            }
+            
+            update_resource_count();
         });
     </script>
 {% endblock %}
