@@ -41,9 +41,6 @@
         {% else %}
             <p>No buildings in the build queue for this settlement.</p>
         {% endif %}
-        
-        <div id="debug"></div>
-        
     </div>
     
     <div class="window">
@@ -65,14 +62,24 @@
             $(window).load(resizeFrame);
             $(window).resize(resizeFrame);
             
+            function addCommas(nStr)
+            {
+                nStr += '';
+                x = nStr.split('.');
+                x1 = x[0];
+                x2 = x.length > 1 ? '.' + x[1] : '';
+                var rgx = /(\d+)(\d{3})/;
+                while (rgx.test(x1)) {
+                    x1 = x1.replace(rgx, '$1' + ',' + '$2');
+                }
+                return x1 + x2;
+            }
+            
             function update_resource_count() {
                 $("#resources").load("{% url fragment_resource_count settlement.pk %}");
                 $.get("{% url ajax_resource_count settlement.pk %}", function(data) {
                     if (data.next_change) {
-                        $("#debug").text("change in " + (data.next_change / 1000) + " second(s)");
                         setTimeout(update_resource_count, data.next_change);
-                    } else {
-                        $("#debug").text("no more changes");
                     }
                     var time_retrieved = new Date().getTime();
                     function setup_timer(resource) {
@@ -90,7 +97,7 @@
                             // } else if (new_amount > limit) {
                             //     new_amount = limit;
                             // }
-                            $("#" + slug + "-count").text(Math.round(new_amount));
+                            $("#" + slug + "-count").text(addCommas(Math.round(new_amount)));
                         }, 1000);
                     }
                     for (var i=0; i < data.resources.length; i++ ) {
