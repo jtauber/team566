@@ -140,6 +140,9 @@ h1 {
 h2 {
     text-shadow: 0px 0px 3px #321;
 }
+h3 {
+    margin-bottom: 0;
+}
 .left-panel {
     overflow-y: scroll;
     padding: 10px;
