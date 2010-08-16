@@ -16,8 +16,11 @@
     
     <h1>Create a building</h1>
     
+    {{ form.non_field_errors }}
+    {{ form.kind.errors }}
+    
     {% for building in buildings %}
-        <div class="resource-count">
+        <div id="building-{{ building.building_kind.pk }}" class="resource-count">
             <b>{{ building.building_kind }}</b>
             <br />
         {% for cost in building.costs %}
@@ -33,15 +36,22 @@
         </div>
     {% endfor %}
     
-    <form method="post" action="{% url building_create settlement.pk %}">
+    <form id="building_form" method="post" action="{% url building_create settlement.pk %}">
         {% csrf_token %}
-        {{ form }}
+        {% for field in form %}
+            {{ field }}
+        {% endfor %}
     </form>
 {% endblock %}
 
 {% block extra_body %}
     <script>
         $(function() {
+            $(".resource-count").click(function() {
+                kind_id = this.id.split("-")[1];
+                $("#id_kind").val(kind_id);
+                $("#building_form").submit();
+            });
         });
     </script>
 {% endblock %}
