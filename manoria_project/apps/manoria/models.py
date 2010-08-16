@@ -454,14 +454,14 @@ class SettlementBuilding(models.Model):
                 x, y = self.x, self.y
                 
                 neighbors = filter(bool, [
-                    check_cell(self.settlement, x+1, y, kind=product.resource_kind),
-                    check_cell(self.settlement, x-1, y, kind=product.resource_kind),
-                    check_cell(self.settlement, x, y+1, kind=product.resource_kind),
-                    check_cell(self.settlement, x, y-1, kind=product.resource_kind),
-                    check_cell(self.settlement, x+1, y+1, kind=product.resource_kind),
-                    check_cell(self.settlement, x-1, y-1, kind=product.resource_kind),
-                    check_cell(self.settlement, x+1, y-1, kind=product.resource_kind),
-                    check_cell(self.settlement, x-1, y+1, kind=product.resource_kind),
+                    check_cell(self.settlement, x+1, y, kind=product.source_terrain_kind),
+                    check_cell(self.settlement, x-1, y, kind=product.source_terrain_kind),
+                    check_cell(self.settlement, x, y+1, kind=product.source_terrain_kind),
+                    check_cell(self.settlement, x, y-1, kind=product.source_terrain_kind),
+                    check_cell(self.settlement, x+1, y+1, kind=product.source_terrain_kind),
+                    check_cell(self.settlement, x-1, y-1, kind=product.source_terrain_kind),
+                    check_cell(self.settlement, x+1, y-1, kind=product.source_terrain_kind),
+                    check_cell(self.settlement, x-1, y+1, kind=product.source_terrain_kind),
                 ])
                 
                 for neighbor in neighbors:
