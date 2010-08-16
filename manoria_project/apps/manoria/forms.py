@@ -61,7 +61,7 @@ class BuildingCreateForm(forms.ModelForm):
             resource_counts[resource_count.kind] = resource_count
         failed = []
         for cost in building_kind.buildingcost_set.all():
-            if resource_counts[cost.resource_kind].count < cost.amount:
+            if resource_counts[cost.resource_kind].amount() < cost.amount:
                 failed.append(cost.resource_kind)
         if failed:
             raise forms.ValidationError("Insufficient resources: %s" % ", ".join([k.name for k in failed]))

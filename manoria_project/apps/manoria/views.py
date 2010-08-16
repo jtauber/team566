@@ -131,7 +131,7 @@ def building_create(request, settlement_pk):
             fully_sufficient = []
             d = {"building_kind": building_kind, "costs": []}
             for cost in building_kind.buildingcost_set.all():
-                cost.sufficient = resource_counts[cost.resource_kind].count >= cost.amount
+                cost.sufficient = resource_counts[cost.resource_kind].amount() >= cost.amount
                 fully_sufficient.append(cost.sufficient)
                 d["costs"].append(cost)
             d["sufficient"] = all(fully_sufficient)
