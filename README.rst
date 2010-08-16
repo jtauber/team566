@@ -37,9 +37,11 @@ Setting up the database
 
 By default the project is set up to run on a SQLite database. Run::
 
-    (manoria)$ python manage.py syncdb
+    (manoria)$ python manage.py syncdb --noinput
 
 This will load the initial_data fixtures which will be the basis for game-play.
+Setup an account in-game (if you want to access the admin you can run
+createsuperuser if you like).
 
 Running a web server
 --------------------
