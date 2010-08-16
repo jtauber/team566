@@ -118,7 +118,8 @@
         "model": "manoria.buildingkind", 
         "fields": {
             "name": "Cottage", 
-            "slug": "cottage"
+            "slug": "cottage",
+            "build_time": 60
         }
     }, 
     {
