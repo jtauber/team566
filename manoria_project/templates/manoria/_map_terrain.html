@@ -1,7 +1,12 @@
 {% with cell as terrain %}
 <div class="terrain {{ terrain.kind.slug }}" style="top: {{ top }}px; left: {{ left }}px;">
     <a href="{% url terrain_detail terrain.pk %}">
-        {{ terrain.kind.name }}
+        {% if terrain.kind.tiles.all %}
+            <img style="position: relative; top: -3px; left: -3px;" src="{{ terrain.kind.tiles.get_random_tile }}" />
+        {% else %}
+            {{ terrain.kind.name }}
+        {% endif %}
+        
         {% comment %}
         <span class="details">
         <br />

@@ -7,6 +7,8 @@ from django.conf import settings
 from django.db import models, transaction
 
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes import generic
 
 from manoria.managers import KindManager
 from manoria.utils import weighted_choices
@@ -709,6 +711,7 @@ class SettlementTerrainKind(BaseKind):
     
     buildable_on = models.BooleanField(default=True)
     produces = models.ManyToManyField(ResourceKind)
+    tiles = generic.GenericRelation('Tile')
 
 
 class SettlementTerrain(models.Model):
@@ -746,3 +749,26 @@ class SettlementTerrainResourceCount(BaseResourceCount):
     
     kind = models.ForeignKey(ResourceKind)
     terrain = models.ForeignKey(SettlementTerrain)
+    
+    
+class TileManager(models.Manager):
+    def get_random_tile(self):
+        import os.path
+        from random import randint
+        
+        TILES_URL = os.path.join(settings.MEDIA_URL, 'img', 'tiles')
+        num_tiles = self.count()
+        return os.path.join(TILES_URL, self.all()[randint(0, num_tiles-1)].filename)
+  
+        
+class Tile(BaseKind):
+    continent = models.ForeignKey(Continent)
+    content_type = models.ForeignKey(ContentType, limit_choices_to = {"model__in": ("settlementterrainkind", "buildingkind")})
+    object_id = models.PositiveIntegerField()
+    content_object = generic.GenericForeignKey('content_type', 'object_id')
+    filename = models.CharField(max_length = 32)
+
+    objects = TileManager()
+
+    def __unicode__(self):
+        return self.slug

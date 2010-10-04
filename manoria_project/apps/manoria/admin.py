@@ -22,3 +22,6 @@ admin.site.register(models.SettlementTerrain)
 admin.site.register(models.SettlementTerrainResourceCount,
     list_display = ["pk", "kind", "terrain", "count", "timestamp", "natural_rate", "rate_adjustment", "rate"]
 )
+admin.site.register(models.Tile,
+    list_display = ['continent', 'content_object', 'slug']
+) 
