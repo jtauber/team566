@@ -1,10 +1,25 @@
 {% with cell as building %}
 <div class="building" style="top: {{ top }}px; left: {{ left }}px;">
-    <a href="{% url building_detail building.pk %}">{{ building.kind.name }}
+    <a href="{% url building_detail building.pk %}" title='{{ building.kind.name }}'>
+        {% if building.status == "built" %}
+            {% if building.kind.tiles.get_random_finished_tile %}
+                <img style="position: relative; top: -3px; left: -6px;" src="{{ building.kind.tiles.get_random_finished_tile }}" />
+            {% else %}
+                {{ building.kind.name }}
+            {% endif %}
+        {% else %}
+            {% if building.kind.tiles.get_random_under_construction_tile %}
+                <img style="position: relative; top: -3px; left: -6px;" src="{{ building.kind.tiles.get_random_under_construction_tile }}" />
+            {% else %}
+                {{ building.kind.name }}
+            {% endif %}
+        {% endif %}
+{% comment %}                
         {% if building.status != "built" %}
             <br />
             ({{ building.status}})
         {% endif %}
+{% endcomment %}        
     </a>
 </div>
 {% endwith %}
