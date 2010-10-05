@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 
-from manoria.managers import KindManager
+from manoria.managers import KindManager, TileManager
 from manoria.utils import weighted_choices
 
 
@@ -444,6 +444,7 @@ class BuildingKind(BaseKind):
     """
     
     build_time = models.IntegerField()
+    tiles = generic.GenericRelation('Tile')
 
 
 class BuildingCost(models.Model):
@@ -750,16 +751,11 @@ class SettlementTerrainResourceCount(BaseResourceCount):
     kind = models.ForeignKey(ResourceKind)
     terrain = models.ForeignKey(SettlementTerrain)
     
-    
-class TileManager(models.Manager):
-    def get_random_tile(self):
-        import os.path
-        from random import randint
-        
-        TILES_URL = os.path.join(settings.MEDIA_URL, 'img', 'tiles')
-        num_tiles = self.count()
-        return os.path.join(TILES_URL, self.all()[randint(0, num_tiles-1)].filename)
-  
+
+class TileClass(BaseKind):
+    def __unicode__(self):
+        return self.slug   
+       
         
 class Tile(BaseKind):
     continent = models.ForeignKey(Continent)
@@ -767,6 +763,7 @@ class Tile(BaseKind):
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey('content_type', 'object_id')
     filename = models.CharField(max_length = 32)
+    cls = models.ForeignKey(TileClass)
 
     objects = TileManager()
 
