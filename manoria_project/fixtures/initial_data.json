@@ -663,5 +663,304 @@
             "source_terrain_kind": null, 
             "base_rate": 500
         }
+    },
+
+    {
+        "pk": 1, 
+        "model": "manoria.tileclass", 
+        "fields": {
+            "name": "Finished", 
+            "slug": "finished"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "manoria.tileclass", 
+        "fields": {
+            "name": "Normal", 
+            "slug": "normal"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "manoria.tileclass", 
+        "fields": {
+            "name": "Under construction @ 10%", 
+            "slug": "under_construction_10_pct"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "manoria.tileclass", 
+        "fields": {
+            "name": "Under construction @ 50%", 
+            "slug": "under_construction_50_pct"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "manoria.tileclass", 
+        "fields": {
+            "name": "Under construction @ 80%", 
+            "slug": "under_construction_80_pct"
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "manoria.tileclass", 
+        "fields": {
+            "name": "Building destroyed", 
+            "slug": "destroyed"
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "manoria.tileclass", 
+        "fields": {
+            "name": "Dismantling", 
+            "slug": "dismantling"
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "manoria.tileclass", 
+        "fields": {
+            "name": "Under construction generic", 
+            "slug": "under_construction"
+        }
+    },
+    {
+        "pk": 1, 
+        "model": "manoria.tile", 
+        "fields": {
+            "slug": "lake", 
+            "name": "Lake", 
+            "object_id": 2, 
+            "filename": "water.png", 
+            "content_type": 31, 
+            "continent": 1, 
+            "cls": 2
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "manoria.tile", 
+        "fields": {
+            "slug": "mountain", 
+            "name": "Mountain", 
+            "object_id": 4, 
+            "filename": "mountain.png", 
+            "content_type": 31, 
+            "continent": 1, 
+            "cls": 2
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "manoria.tile", 
+        "fields": {
+            "slug": "fish_hut-default", 
+            "name": "Fish hut", 
+            "object_id": 3, 
+            "filename": "fish_hut.png", 
+            "content_type": 25, 
+            "continent": 1, 
+            "cls": 1
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "manoria.tile", 
+        "fields": {
+            "slug": "forest", 
+            "name": "Forest", 
+            "object_id": 1, 
+            "filename": "forest.png", 
+            "content_type": 31, 
+            "continent": 1, 
+            "cls": 2
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "manoria.tile", 
+        "fields": {
+            "slug": "hills", 
+            "name": "Hills", 
+            "object_id": 3, 
+            "filename": "hills.png", 
+            "content_type": 31, 
+            "continent": 1, 
+            "cls": 2
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "manoria.tile", 
+        "fields": {
+            "slug": "woodcutters_hut", 
+            "name": "Woodcutter's hut", 
+            "object_id": 2, 
+            "filename": "woodcutter.png", 
+            "content_type": 25, 
+            "continent": 1, 
+            "cls": 1
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "manoria.tile", 
+        "fields": {
+            "slug": "cottage", 
+            "name": "Cottage", 
+            "object_id": 1, 
+            "filename": "cottage.png", 
+            "content_type": 25, 
+            "continent": 1, 
+            "cls": 1
+        }
+    }, 
+    {
+        "pk": 9, 
+        "model": "manoria.tile", 
+        "fields": {
+            "slug": "farm", 
+            "name": "Farm", 
+            "object_id": 6, 
+            "filename": "farm.png", 
+            "content_type": 25, 
+            "continent": 1, 
+            "cls": 1
+        }
+    }, 
+    {
+        "pk": 10, 
+        "model": "manoria.tile", 
+        "fields": {
+            "slug": "iron_mine_finished", 
+            "name": "Iron mine", 
+            "object_id": 4, 
+            "filename": "iron_mine.png", 
+            "content_type": 25, 
+            "continent": 1, 
+            "cls": 1
+        }
+    }, 
+    {
+        "pk": 11, 
+        "model": "manoria.tile", 
+        "fields": {
+            "slug": "quarry", 
+            "name": "Quarry", 
+            "object_id": 5, 
+            "filename": "quarry.png", 
+            "content_type": 25, 
+            "continent": 1, 
+            "cls": 1
+        }
+    }, 
+    {
+        "pk": 12, 
+        "model": "manoria.tile", 
+        "fields": {
+            "slug": "cottage_under_construction", 
+            "name": "Cottage under construction", 
+            "object_id": 1, 
+            "filename": "cottage_building.png", 
+            "content_type": 25, 
+            "continent": 1, 
+            "cls": 8
+        }
+    }, 
+    {
+        "pk": 13, 
+        "model": "manoria.tile", 
+        "fields": {
+            "slug": "quarry_under_construction", 
+            "name": "Quarry under construction", 
+            "object_id": 5, 
+            "filename": "quarry_building.png", 
+            "content_type": 25, 
+            "continent": 1, 
+            "cls": 8
+        }
+    }, 
+    {
+        "pk": 14, 
+        "model": "manoria.tile", 
+        "fields": {
+            "slug": "iron_mine_under_constructoin", 
+            "name": "Iron mine under construction", 
+            "object_id": 4, 
+            "filename": "iron_mine_building.png", 
+            "content_type": 25, 
+            "continent": 1, 
+            "cls": 8
+        }
+    }, 
+    {
+        "pk": 15, 
+        "model": "manoria.tile", 
+        "fields": {
+            "slug": "farm_under_construction", 
+            "name": "Farm under construction", 
+            "object_id": 6, 
+            "filename": "farm_building.png", 
+            "content_type": 25, 
+            "continent": 1, 
+            "cls": 8
+        }
+    }, 
+    {
+        "pk": 16, 
+        "model": "manoria.tile", 
+        "fields": {
+            "slug": "fish_hut_building", 
+            "name": "Fish hut under construction", 
+            "object_id": 3, 
+            "filename": "fish_hut_building.png", 
+            "content_type": 25, 
+            "continent": 1, 
+            "cls": 8
+        }
+    }, 
+    {
+        "pk": 17, 
+        "model": "manoria.tile", 
+        "fields": {
+            "slug": "woodcutters_hut_building", 
+            "name": "Woodcutter's hut under construction", 
+            "object_id": 2, 
+            "filename": "woodcutter_building.png", 
+            "content_type": 25, 
+            "continent": 1, 
+            "cls": 8
+        }
+    }, 
+    {
+        "pk": 18, 
+        "model": "manoria.tile", 
+        "fields": {
+            "slug": "gold_mine", 
+            "name": "Gold mine", 
+            "object_id": 7, 
+            "filename": "gold_mine.png", 
+            "content_type": 25, 
+            "continent": 1, 
+            "cls": 1
+        }
+    }, 
+    {
+        "pk": 19, 
+        "model": "manoria.tile", 
+        "fields": {
+            "slug": "gold_mine_under_construction", 
+            "name": "Gold mine under construction", 
+            "object_id": 7, 
+            "filename": "gold_mine_building.png", 
+            "content_type": 25, 
+            "continent": 1, 
+            "cls": 8
+        }
     }
 ]

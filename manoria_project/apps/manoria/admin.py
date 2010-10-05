@@ -26,6 +26,7 @@ admin.site.register(models.TileClass,
     list_display = ['name', 'slug']
 ) 
 admin.site.register(models.Tile,
-    list_display = ['continent', 'content_object', 'slug', 'cls'],
-    list_display_links = ('content_object', 'slug', 'cls')
+    list_display = ['continent', 'content_type', 'content_object', 'name', 'cls'],
+    list_display_links = ('name', 'cls'),
+    ordering = ['content_type', 'name', 'cls']
 ) 
