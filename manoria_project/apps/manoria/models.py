@@ -13,7 +13,6 @@ from django.contrib.contenttypes import generic
 from manoria.managers import KindManager, TileManager
 from manoria.utils import weighted_choices
 
-
 class Player(models.Model):
     """
     A single player associated to a User
@@ -756,14 +755,15 @@ class TileClass(BaseKind):
     def __unicode__(self):
         return self.slug   
        
-        
+       
 class Tile(BaseKind):
+    
     continent = models.ForeignKey(Continent)
     content_type = models.ForeignKey(ContentType, limit_choices_to = {"model__in": ("settlementterrainkind", "buildingkind")})
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey('content_type', 'object_id')
     filename = models.CharField(max_length = 32)
-    cls = models.ForeignKey(TileClass)
+    cls = models.ForeignKey(TileClass, verbose_name = u'class')
 
     objects = TileManager()
 

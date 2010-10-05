@@ -28,10 +28,17 @@ class TileManager(models.Manager):
             return ''
  
     def add_accessor_methods(self, *args, **kwargs):
-        from models import TileClass
-        for cls in TileClass.objects.all():
-            if not hasattr(self, 'get_random_%s_tile' % cls):
-                setattr(self, 'get_random_%s_tile' % cls, curry(self._get_random_CLASS_tile, tile_class=cls))
+        #The import is here to avoid a circular dependency
+        #The try: except: block is to avoid error when the TileClass model doesn't exits
+        #such as when doing the initial syncdb
+        try:
+            from models import TileClass
+            for cls in TileClass.objects.all():
+                if not hasattr(self, 'get_random_%s_tile' % cls):
+                    setattr(self, 'get_random_%s_tile' % cls, curry(self._get_random_CLASS_tile, tile_class=cls))
+        except:
+            pass
+       
     
     def __init__(self, *args, **kwargs):
         self.add_accessor_methods()
